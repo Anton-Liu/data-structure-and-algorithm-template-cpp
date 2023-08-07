@@ -6,7 +6,6 @@
 #define ALGORITHM_TEMPLATE_CPP_INSERTION_SORT_H
 
 #include <vector>
-#include <iostream>
 
 template <typename T>
 class InsertionSort {
