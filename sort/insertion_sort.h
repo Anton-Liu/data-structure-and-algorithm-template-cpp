@@ -6,6 +6,7 @@
 #define ALGORITHM_TEMPLATE_CPP_INSERTION_SORT_H
 
 #include <vector>
+#include <iostream>
 
 template <typename T>
 class InsertionSort {
@@ -19,7 +20,7 @@ void InsertionSort<T>::sort(std::vector<T> &arr) {
     for (int i = 1; i < arr.size(); i++) {
         T e = arr[i];
         int j;
-        for (j = i - 1; arr[j] > e; j--)
+        for (j = i - 1; j >= 0 && arr[j] > e; j--)
             arr[j + 1] = arr[j];
         arr[j + 1] = e;
     }
