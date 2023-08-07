@@ -8,6 +8,7 @@
 #include <vector>
 #include <string>
 #include "../sort/insertion_sort.h"
+#include "../sort/selection_sort.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -32,6 +33,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
     clock_t startTime = clock();
     if (sortName == "InsertionSort")
         InsertionSort<T>::sort(arr);
+    else if (sortName == "SelectionSort")
+        SelectionSort<T>::sort(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
