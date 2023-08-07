@@ -1,7 +1,3 @@
-//
-// Created by Anton Liu on 2023/8/7.
-//
-
 #include "array_helper.h"
 #include <random>
 using std::vector, std::default_random_engine, std::uniform_real_distribution, std::uniform_int_distribution;

@@ -1,7 +1,3 @@
-//
-// Created by Anton Liu on 2023/8/7.
-//
-
 #ifndef ALGORITHM_TEMPLATE_CPP_INSERTION_SORT_H
 #define ALGORITHM_TEMPLATE_CPP_INSERTION_SORT_H
 
