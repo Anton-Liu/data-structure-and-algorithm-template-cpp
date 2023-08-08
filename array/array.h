@@ -5,7 +5,6 @@
  * 不支持扩容的普通数组，内部使用vector实现
  */
 
-#include <memory>
 #include <iostream>
 
 template <typename T> class Array;
