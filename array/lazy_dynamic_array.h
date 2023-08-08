@@ -27,6 +27,8 @@ public:
     bool contains(const T &e);  // 判断数组中是否有元素e
     int getIndex(const T &e);  // 获取元素e的下标，不存在返回-1
     T get(const size_t &idx);  // 返回下标idx的元素
+    T getFirst() { return get(0); }  // 获取第一个位置的元素
+    T getLast() { return get(size - 1); };  // 获取最后一个位置的元素
     void set(const size_t &idx, const T &e);  // 修改下标idx处元素的值为e
     void add(const size_t &idx, const T &e);  // 在数组下标idx处插入一个新元素e
     void addFirst(const T &e) { add(0, e); }  // 在数组所有元素前添加一个新元素e
