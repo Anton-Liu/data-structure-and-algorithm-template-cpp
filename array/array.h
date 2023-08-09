@@ -24,29 +24,31 @@ public:
     bool isEmpty() const { return size == 0; }  // 判断数组是否为空
     bool contains(const T &e) const;  // 判断数组中是否有元素e
     int getIndex(const T &e) const;  // 获取元素e的下标，不存在返回-1
-    T get(const size_t &idx) const;  // 返回下标idx的元素
+    T get(const int &idx) const;  // 返回下标idx的元素
     T getFirst() const { return get(0); }  // 获取第一个位置的元素
     T getLast() const { return get(size - 1); };  // 获取最后一个位置的元素
 
-    void set(const size_t &idx, const T &e);  // 修改下标idx处元素的值为e
-    void add(const size_t &idx, const T &e);  // 在数组下标idx处插入一个新元素e
+    void set(const int &idx, const T &e);  // 修改下标idx处元素的值为e
+    virtual void add(const int &idx, const T &e);  // 在数组下标idx处插入一个新元素e
     void addFirst(const T &e) { add(0, e); }  // 在数组所有元素前添加一个新元素e
     void addLast(const T &e) { add(size, e); }  // 在数组所有元素后添加一个新元素e
-    T remove(const size_t &idx);  //  删除数组idx位置的元素，返回被删除的元素
+    virtual T remove(const int &idx);  //  删除数组idx位置的元素，返回被删除的元素
     T removeFirst() { return remove(0); }  // 删除数组第一个元素并返回
     T removeLast() { return remove(size - 1); }  // 删除数组最后一个元素并返回
 
-    T &operator[](size_t idx) {
+    virtual ~Array() = default;
+
+    T &operator[](int idx) {
         if (idx >= size)
             throw std::runtime_error("访问索引超过当前数组范围！");
         return data[idx];
     }
-    const T &operator[](size_t idx) const {
+    const T &operator[](int idx) const {
         if (idx >= size)
             throw std::runtime_error("访问索引超过当前数组范围！");
         return data[idx];
     }
-private:
+protected:
     std::vector<T> data;
     int size;  // 数组的长度(也可以理解为指向尾后的位置)
 };
@@ -96,21 +98,21 @@ int Array<T>::getIndex(const T &e) const {
 }
 
 template<typename T>
-T Array<T>::get(const size_t &idx) const {
+T Array<T>::get(const int &idx) const {
     if (idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
     return data[idx];
 }
 
 template<typename T>
-void Array<T>::set(const size_t &idx, const T &e) {
+void Array<T>::set(const int &idx, const T &e) {
     if (idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
     data[idx] = e;
 }
 
 template<typename T>
-void Array<T>::add(const size_t &idx, const T &e) {
+void Array<T>::add(const int &idx, const T &e) {
     if (idx >= data.size())
         throw std::runtime_error("访问索引超过当前数组容量！");
     if (idx > size)
@@ -122,7 +124,7 @@ void Array<T>::add(const size_t &idx, const T &e) {
 }
 
 template<typename T>
-T Array<T>::remove(const size_t &idx) {
+T Array<T>::remove(const int &idx) {
     if (idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
     T ret = data[idx];

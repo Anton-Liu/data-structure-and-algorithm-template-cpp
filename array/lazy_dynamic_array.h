@@ -8,49 +8,22 @@
  */
 
 #include <iostream>
+#include "array.h"
 
 template <typename T> class LasyDynamicArray;
 template <typename T> std::ostream &operator<<(std::ostream &os, const LasyDynamicArray<T> &arr);
 
 template <typename T>
-class LasyDynamicArray {
+class LasyDynamicArray : public Array<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const LasyDynamicArray<T> &arr);
 public:
     LasyDynamicArray():
-            data(std::vector<T>(10)), size(0) { }  // 默认构造函数，默认容量为10
+            Array<T>() { }  // 默认构造函数，默认容量为10
     LasyDynamicArray(int capacity):
-            data(std::vector<T>(capacity)), size(0) { }  // 用户指定容量的构造函数
-
-    int getSize() const { return size; }  // 获取数组大小
-    int getCapacity() const { return data.size(); }  // 获取数组容量
-    bool isEmpty() const { return size == 0; }  // 判断数组是否为空
-    bool contains(const T &e) const;  // 判断数组中是否有元素e
-    int getIndex(const T &e) const;  // 获取元素e的下标，不存在返回-1
-    T get(const size_t &idx) const;  // 返回下标idx的元素
-    T getFirst() const { return get(0); }  // 获取第一个位置的元素
-    T getLast() const { return get(size - 1); };  // 获取最后一个位置的元素
-
-    void set(const size_t &idx, const T &e);  // 修改下标idx处元素的值为e
-    void add(const size_t &idx, const T &e);  // 在数组下标idx处插入一个新元素e
-    void addFirst(const T &e) { add(0, e); }  // 在数组所有元素前添加一个新元素e
-    void addLast(const T &e) { add(size, e); }  // 在数组所有元素后添加一个新元素e
-    T remove(const size_t &idx);  //  删除数组idx位置的元素，返回被删除的元素
-    T removeFirst() { return remove(0); }  // 删除数组第一个元素并返回
-    T removeLast() { return remove(size - 1); }  // 删除数组最后一个元素并返回
-
-    T &operator[](size_t idx) {
-        if (idx >= size)
-            throw std::runtime_error("访问索引超过当前数组范围！");
-        return data[idx];
-    }
-    const T &operator[](size_t idx) const {
-        if (idx >= size)
-            throw std::runtime_error("访问索引超过当前数组范围！");
-        return data[idx];
-    }
-private:
-    std::vector<T> data;
-    int size;  // 数组的长度(也可以理解为指向尾后的位置)
+            Array<T>(capacity) { }  // 用户指定容量的构造函数
+            
+    void add(const int &idx, const T &e) override;  // 在数组下标idx处插入一个新元素e
+    T remove(const int &idx) override;  //  删除数组idx位置的元素，返回被删除的元素
 };
 
 template <typename T>
@@ -82,58 +55,28 @@ std::ostream &operator<<(std::ostream &os, const LasyDynamicArray<T> &arr) {
 }
 
 template<typename T>
-bool LasyDynamicArray<T>::contains(const T &e) const {
-    for (const auto &d : data)
-        if (d == e)
-            return true;
-    return false;
-}
-
-template<typename T>
-int LasyDynamicArray<T>::getIndex(const T &e) const {
-    for (int i = 0; i < size; i++)
-        if (data[i] == e)
-            return i;
-    return -1;
-}
-
-template<typename T>
-T LasyDynamicArray<T>::get(const size_t &idx) const {
-    if (idx >= size)
-        throw std::runtime_error("访问索引超过当前数组范围！");
-    return data[idx];
-}
-
-template<typename T>
-void LasyDynamicArray<T>::set(const size_t &idx, const T &e) {
-    if (idx >= size)
-        throw std::runtime_error("访问索引超过当前数组范围！");
-    data[idx] = e;
-}
-
-template<typename T>
-void LasyDynamicArray<T>::add(const size_t &idx, const T &e) {
-    if (idx > size)
+void LasyDynamicArray<T>::add(const int &idx, const T &e) {
+    if (idx > Array<T>::size)
         throw std::runtime_error("访问索引超过当前数组可插入范围！");
-    if (idx >= data.size())
-        data.resize(2 * data.size());  // 元素满，则扩容两倍
-    for (int i = size; i > idx; i--)
-        data[i] = data[i - 1];
-    data[idx] = e;
-    size++;
+    if (idx >= Array<T>::data.size())
+        Array<T>::data.resize(2 * Array<T>::data.size());  // 元素满，则扩容两倍
+    for (int i = Array<T>::size; i > idx; i--)
+        Array<T>::data[i] = Array<T>::data[i - 1];
+    Array<T>::data[idx] = e;
+    Array<T>::size++;
 }
 
 template<typename T>
-T LasyDynamicArray<T>::remove(const size_t &idx) {
-    if (idx >= size)
+T LasyDynamicArray<T>::remove(const int &idx) {
+    if (idx >= Array<T>::size)
         throw std::runtime_error("访问索引超过当前数组范围！");
-    T ret = data[idx];
-    for (int i = idx; i < size - 1; i++)
-        data[i] = data[i + 1];
-    size--;
+    T ret = Array<T>::data[idx];
+    for (int i = idx; i < Array<T>::size - 1; i++)
+        Array<T>::data[i] = Array<T>::data[i + 1];
+    Array<T>::size--;
 
-    if (size == data.size() / 4 && data.size() / 2 != 0)  // 缩容(lazy)，注意数组不能缩容0
-        data.resize(data.size() / 2);
+    if (Array<T>::size == Array<T>::data.size() / 4 && Array<T>::data.size() / 2 != 0)  // 缩容(lazy)，注意数组不能缩容0
+        Array<T>::data.resize(Array<T>::data.size() / 2);
     return ret;
 }
 
