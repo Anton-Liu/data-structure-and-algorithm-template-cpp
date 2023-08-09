@@ -40,7 +40,7 @@ std::ostream &operator<<(std::ostream &os, const ArrayStack<T> &arrayStack) {
         os << "---";
     os << '\n';
 
-    // 数组信息
+    // 栈的信息
     os << "栈的长度：" << size << "，"
        << "栈的容量：" << arrayStack.getCapacity() << '\n'
        << "栈的内容：" << "stack[";
