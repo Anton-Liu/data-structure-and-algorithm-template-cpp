@@ -23,7 +23,7 @@ public:
     bool isEmpty() const { return arr -> isEmpty(); }
     int getSize() const { return arr -> getSize(); }
     int getCapacity() const { return arr -> getCapacity(); }
-    T peek() const { return arr -> getLast(); }
+    T top() const { return arr -> getLast(); }
 
     void push(const T &e) { arr -> addLast(e); };
     void pop() { arr -> removeLast(); }
