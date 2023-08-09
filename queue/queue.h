@@ -4,7 +4,7 @@
 template <typename T>
 class Queue {
     virtual bool isEmpty() const = 0;
-    virtual int getsize() const = 0;
+    virtual int getSize() const = 0;
     virtual int getCapacity() const = 0;
     virtual T getFront() const = 0;
     virtual void enqueue(const T &e) = 0;

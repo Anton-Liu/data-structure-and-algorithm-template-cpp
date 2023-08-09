@@ -21,7 +21,7 @@ public:
     ArrayQueue(int capacity):
         arr(new LasyDynamicArray<T>(capacity)) { }
     bool isEmpty() const override { return arr -> isEmpty(); }
-    int getsize() const override { return arr -> getSize(); }
+    int getSize() const override { return arr -> getSize(); }
     int getCapacity() const override { return arr -> getCapacity(); }
     T getFront() const override { return arr -> getFirst(); }
     void enqueue(const T &e) override { arr -> addLast(e); };
