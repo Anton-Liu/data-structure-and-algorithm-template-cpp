@@ -21,7 +21,7 @@ public:
             Array<T>() { }  // 默认构造函数，默认容量为10
     LasyDynamicArray(int capacity):
             Array<T>(capacity) { }  // 用户指定容量的构造函数
-            
+
     void add(const int &idx, const T &e) override;  // 在数组下标idx处插入一个新元素e
     T remove(const int &idx) override;  //  删除数组idx位置的元素，返回被删除的元素
 };
