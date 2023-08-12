@@ -2,6 +2,7 @@
 #define ALGORITHM_TEMPLATE_CPP_ARRAY_STACK_H
 
 #include "../array/lazy_dynamic_array.h"
+#include "stack.h"
 #include <memory>
 #include <iostream>
 
@@ -12,7 +13,7 @@ template <typename T>
 std::ostream &operator<<(std::ostream &, const ArrayStack<T> &);
 
 template <typename T>
-class ArrayStack {
+class ArrayStack : public Stack<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const ArrayStack<T> &arrayStack);
 public:
     ArrayStack():
@@ -20,13 +21,13 @@ public:
     ArrayStack(int capacity):
             arr(new LasyDynamicArray<T>(capacity)) { }
 
-    bool isEmpty() const { return arr -> isEmpty(); }
-    int getSize() const { return arr -> getSize(); }
-    int getCapacity() const { return arr -> getCapacity(); }
-    T top() const { return arr -> getLast(); }
+    bool isEmpty() const override { return arr -> isEmpty(); }
+    int getSize() const override { return arr -> getSize(); }
+    int getCapacity() const override { return arr -> getCapacity(); }
+    T top() const override { return arr -> getLast(); }
 
-    void push(const T &e) { arr -> addLast(e); };
-    void pop() { arr -> removeLast(); }
+    void push(const T &e) override { arr -> addLast(e); };
+    void pop() override { arr -> removeLast(); }
 private:
     std::unique_ptr<LasyDynamicArray<T>> arr;
 };
