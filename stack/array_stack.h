@@ -17,24 +17,24 @@ class ArrayStack : public Stack<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const ArrayStack<T> &arrayStack);
 public:
     ArrayStack():
-            arr(new LasyDynamicArray<T>()) { }
+            data(LasyDynamicArray<T>()) { }
     ArrayStack(int capacity):
-            arr(new LasyDynamicArray<T>(capacity)) { }
+            data(LasyDynamicArray<T>(capacity)) { }
 
-    bool isEmpty() const override { return arr -> isEmpty(); }
-    int getSize() const override { return arr -> getSize(); }
-    int getCapacity() const override { return arr -> getCapacity(); }
-    T top() const override { return arr -> getLast(); }
+    bool isEmpty() const override { return data.isEmpty(); }
+    int getSize() const override { return data.getSize(); }
+    int getCapacity() const override { return data.getCapacity(); }
+    T top() const override { return data.getLast(); }
 
-    void push(const T &e) override { arr -> addLast(e); };
-    void pop() override { arr -> removeLast(); }
+    void push(const T &e) override { data.addLast(e); };
+    void pop() override { data.removeLast(); }
 private:
-    std::unique_ptr<LasyDynamicArray<T>> arr;
+    LasyDynamicArray<T> data;
 };
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayStack<T> &arrayStack) {
-    int size = arrayStack.arr -> getSize();
+    int size = arrayStack.data.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
@@ -46,7 +46,7 @@ std::ostream &operator<<(std::ostream &os, const ArrayStack<T> &arrayStack) {
        << "栈的容量：" << arrayStack.getCapacity() << '\n'
        << "栈的内容：" << "stack[";
     for (int i = 0; i < size; i++) {
-        os << (*arrayStack.arr)[i];
+        os << (arrayStack.data)[i];
         if (i != size - 1)
             os << ", ";
     }
