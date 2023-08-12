@@ -10,7 +10,7 @@ public:
     virtual T getFront() const = 0;
     virtual void enqueue(const T &e) = 0;
     virtual void dequeue() = 0;
-    virtual ~Queue() { };
+    virtual ~Queue() = default;
 };
 
 #endif //ALGORITHM_TEMPLATE_CPP_QUEUE_H
