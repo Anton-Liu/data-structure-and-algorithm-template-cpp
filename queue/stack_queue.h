@@ -11,69 +11,58 @@ template <typename T>
 std::ostream &operator<<(std::ostream &, const StackQueue<T> &);
 
 template <typename T>
-class StackQueue {
+class StackQueue : public Queue<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const StackQueue<T> &arrayQueue);
 public:
     StackQueue():
-            stackIn{}, stackOut{} { }
+            stack{} { }
     StackQueue(int capacity):
-            stackIn{capacity}, stackOut{capacity} { }
+            stack{capacity} { }
 
     StackQueue(const StackQueue<T> &rhs):
-            stackIn(rhs.stackIn), stackOut(rhs.stackOut) { };
+            stack(rhs.stack) { };
     StackQueue<T> &operator=(const StackQueue<T> &rhs);
 
-    bool isEmpty() const { return stackIn.isEmpty() && stackOut.isEmpty(); }
-    int getSize() const { return stackIn.getSize() + stackOut.getSize(); }
-    int getCapacity() const { return stackIn.getCapacity() + stackOut.getCapacity(); }
+    bool isEmpty() const { return stack.isEmpty(); }
+    int getSize() const { return stack.getSize(); }
+    int getCapacity() const { return stack.getCapacity(); }
+    T getFront() const { return stack.top(); };
 
-    T getFront();  // getFront操作需要改变数据成员，因此是非const
     void enqueue(const T &e);
     void dequeue();
 
 private:
-    ArrayStack<T> stackIn;
-    ArrayStack<T> stackOut;
-    T front;  // 记录StackOut为空时的队首元素
+    ArrayStack<T> stack;
 };
 
 template<typename T>
 StackQueue<T> &StackQueue<T>::operator=(const StackQueue<T> &rhs) {
-    stackIn = rhs.stackIn;
-    stackOut = rhs.stackOut;
+    stack = rhs.stack;
     return *this;
 }
 
 template<typename T>
-T StackQueue<T>::getFront() {
-    if (!stackOut.isEmpty())
-        return stackOut.top();
-    return front;
-}
-
-template<typename T>
 void StackQueue<T>::enqueue(const T &e) {
-    if (stackIn.isEmpty())
-        front = e;
-    stackIn.push(e);
+    ArrayStack<T> stack2;
+    while (!stack.isEmpty()) {
+        stack2.push(stack.top());
+        stack.pop();
+    }
+    stack.push(e);
+    while (!stack2.isEmpty()) {
+        stack.push(stack2.top());
+        stack2.pop();
+    }
 }
 
 template<typename T>
 void StackQueue<T>::dequeue() {
-    if (!stackOut.isEmpty()) {
-        stackOut.pop();
-        return;
-    }
-    while (stackIn.getSize() > 1) {
-        stackOut.push(stackIn.top());
-        stackIn.pop();
-    }
-    stackIn.pop();
+    stack.pop();
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const StackQueue<T> &que) {
-    int size = que.getSize();
+std::ostream &operator<<(std::ostream &os, const StackQueue<T> &rhs) {
+    int size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
@@ -82,30 +71,23 @@ std::ostream &operator<<(std::ostream &os, const StackQueue<T> &que) {
 
     // 队列信息
     os << "队列的长度：" << size << "，"
-       << "队列的容量：" << que.getCapacity() << '\n'
+       << "队列的容量：" << rhs.getCapacity() << '\n'
        << "队列的内容：" << "queue front[";
-    ArrayStack<T> tmpIn, tmpOut;
-    tmpIn = que.stackIn;
-    tmpOut = que.stackOut;
-    while (!tmpOut.isEmpty()) {
-        os << tmpOut.top() << ", ";
-        tmpOut.pop();
-    }
-    while (!tmpIn.isEmpty()) {
-        tmpOut.push(tmpIn.top());
-        tmpIn.pop();
-    }
-    while (!tmpOut.isEmpty()) {
-        os << tmpOut.top()  << ", ";
-        tmpOut.pop();
-    }
-    os << "]tail\n";
 
+    ArrayStack<T> tmp(rhs.stack);
+    while (tmp.getSize() > 1) {
+        os << tmp.top() << ", ";
+        tmp.pop();
+    }
+    if (!tmp.isEmpty())
+        os << tmp.top();
+    os << "]tail\n";
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
         os << "---";
     return os;
 }
+
 
 #endif //ALGORITHM_TEMPLATE_CPP_STACK_QUEUE_H
