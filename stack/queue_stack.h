@@ -49,7 +49,7 @@ private:
 
 template<typename T>
 void QueueStack<T>::push(const T &e) {
-    // 辅助栈写法
+    // 辅助队列写法
 //    ArrayQueue<T> que2;
 //    while (!que.isEmpty()) {
 //        que2.enqueue(que.getFront());
