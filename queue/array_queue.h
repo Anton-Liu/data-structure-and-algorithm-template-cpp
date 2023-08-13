@@ -21,6 +21,10 @@ public:
     ArrayQueue(int capacity):
             data(LazyDynamicArray<T>(capacity)) { }
 
+    ArrayQueue(const ArrayQueue<T> &rhs):
+            data(rhs.data) { }
+    ArrayQueue<T> &operator=(const ArrayQueue &rhs);
+
     bool isEmpty() const override { return data.isEmpty(); }
     int getSize() const override { return data.getSize(); }
     int getCapacity() const override { return data.getCapacity(); }
@@ -31,6 +35,12 @@ public:
 protected:
     LazyDynamicArray<T> data;
 };
+
+template<typename T>
+ArrayQueue<T> &ArrayQueue<T>::operator=(const ArrayQueue &rhs) {
+    data = rhs.data;
+    return *this;
+}
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayQueue<T> &arrayQueue) {
