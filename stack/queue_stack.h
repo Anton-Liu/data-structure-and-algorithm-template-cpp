@@ -54,15 +54,12 @@ template<typename T>
 void QueueStack<T>::pop() {
     ArrayQueue<T> que2;
     while (que.getSize() > 1) {
-        que2.enqueue(que.getFront());
+        curTop = que.getFront();
         que.dequeue();
+        que2.enqueue(curTop);
     }
     que.dequeue();
-    while (!que2.isEmpty()) {
-        curTop = que2.getFront();
-        que.enqueue(curTop);
-        que2.dequeue();
-    }
+    que = que2;
 }
 
 template <typename T>
