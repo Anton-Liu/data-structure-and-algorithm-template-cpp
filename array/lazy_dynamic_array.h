@@ -8,26 +8,52 @@
  */
 
 #include <iostream>
-#include "array.h"
+#include "dynamic_array.h"
 
-template <typename T> class LasyDynamicArray;
-template <typename T> std::ostream &operator<<(std::ostream &os, const LasyDynamicArray<T> &arr);
+template <typename T> class LazyDynamicArray;
+template <typename T> std::ostream &operator<<(std::ostream &os, const LazyDynamicArray<T> &arr);
 
 template <typename T>
-class LasyDynamicArray : public Array<T> {
-    friend std::ostream &operator<<<T>(std::ostream &os, const LasyDynamicArray<T> &arr);
+class LazyDynamicArray : public DynamicArray<T> {
+    friend std::ostream &operator<<<T>(std::ostream &os, const LazyDynamicArray<T> &arr);
 public:
-    LasyDynamicArray():
-            Array<T>() { }  // 默认构造函数，默认容量为10
-    LasyDynamicArray(int capacity):
-            Array<T>(capacity) { }  // 用户指定容量的构造函数
+    LazyDynamicArray():
+            DynamicArray<T>() { }  // 默认构造函数，默认容量为10
+    LazyDynamicArray(int capacity):
+            DynamicArray<T>(capacity) { }  // 用户指定容量的构造函数
 
-    void add(const int &idx, const T &e) override;  // 在数组下标idx处插入一个新元素e
-    T remove(const int &idx) override;  //  删除数组idx位置的元素，返回被删除的元素
+    LazyDynamicArray(const LazyDynamicArray<T> &rhs):
+            DynamicArray<T>(rhs) { }
+    LazyDynamicArray<T> &operator=(const LazyDynamicArray<T> &rhs);
+
+    T remove(const int &idx) override;  //  删除数组idx位置的元素，返回被删除的元素(支持lazy缩容)
+
+    ~LazyDynamicArray() = default;
 };
 
+template<typename T>
+LazyDynamicArray<T> &LazyDynamicArray<T>::operator=(const LazyDynamicArray<T> &rhs) {
+    DynamicArray<T>::operator=(rhs);
+    return *this;
+}
+
+template<typename T>
+T LazyDynamicArray<T>::remove(const int &idx) {
+    if (idx < 0 || idx >= DynamicArray<T>::size)
+        throw std::runtime_error("访问索引超过当前数组范围！");
+
+    T ret = DynamicArray<T>::data[idx];
+    for (int i = idx; i < DynamicArray<T>::size - 1; i++)
+        DynamicArray<T>::data[i] = DynamicArray<T>::data[i + 1];
+    DynamicArray<T>::size--;
+
+    if (DynamicArray<T>::size == DynamicArray<T>::data.size() / 4 && DynamicArray<T>::data.size() / 2 != 0)  // 缩容(lazy)，注意数组不能缩容0
+        DynamicArray<T>::data.resize(DynamicArray<T>::data.size() / 2);
+    return ret;
+}
+
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const LasyDynamicArray<T> &arr) {
+std::ostream &operator<<(std::ostream &os, const LazyDynamicArray<T> &arr) {
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < arr.size; i++)
@@ -52,32 +78,6 @@ std::ostream &operator<<(std::ostream &os, const LasyDynamicArray<T> &arr) {
     for (int i = 0; i < arr.size; i++)
         os << "---";
     return os;
-}
-
-template<typename T>
-void LasyDynamicArray<T>::add(const int &idx, const T &e) {
-    if (idx > Array<T>::size)
-        throw std::runtime_error("访问索引超过当前数组可插入范围！");
-    if (idx >= Array<T>::data.size())
-        Array<T>::data.resize(2 * Array<T>::data.size());  // 元素满，则扩容两倍
-    for (int i = Array<T>::size; i > idx; i--)
-        Array<T>::data[i] = Array<T>::data[i - 1];
-    Array<T>::data[idx] = e;
-    Array<T>::size++;
-}
-
-template<typename T>
-T LasyDynamicArray<T>::remove(const int &idx) {
-    if (idx >= Array<T>::size)
-        throw std::runtime_error("访问索引超过当前数组范围！");
-    T ret = Array<T>::data[idx];
-    for (int i = idx; i < Array<T>::size - 1; i++)
-        Array<T>::data[i] = Array<T>::data[i + 1];
-    Array<T>::size--;
-
-    if (Array<T>::size == Array<T>::data.size() / 4 && Array<T>::data.size() / 2 != 0)  // 缩容(lazy)，注意数组不能缩容0
-        Array<T>::data.resize(Array<T>::data.size() / 2);
-    return ret;
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_LAZY_DYNAMIC_ARRAY_H

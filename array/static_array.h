@@ -1,29 +1,28 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_DYNAMIC_ARRAY_H
-#define ALGORITHM_TEMPLATE_CPP_DYNAMIC_ARRAY_H
+#ifndef ALGORITHM_TEMPLATE_CPP_STATIC_ARRAY_H
+#define ALGORITHM_TEMPLATE_CPP_STATIC_ARRAY_H
 
 /**
- * 支持扩容的动态数组，内部使用vector实现
- * 扩容策略：元素满则扩容两倍
+ * 不支持扩容的普通数组，内部使用vector实现
  */
 
 #include <iostream>
-#include "static_array.h"
+#include "array.h"
 
-template <typename T> class DynamicArray;
-template <typename T> std::ostream &operator<<(std::ostream &os, const DynamicArray<T> &arr);
+template <typename T> class StaticArray;
+template <typename T> std::ostream &operator<<(std::ostream &os, const StaticArray<T> &arr);
 
 template <typename T>
-class DynamicArray : public Array<T> {
-    friend std::ostream &operator<<<T>(std::ostream &os, const DynamicArray<T> &arr);
+class StaticArray : public Array<T> {
+    friend std::ostream &operator<<<T>(std::ostream &os, const StaticArray<T> &arr);
 public:
-    DynamicArray():
+    StaticArray():
             data(std::vector<T>(10)), size(0) { }  // 默认构造函数，默认容量为10
-    DynamicArray(int capacity):
+    StaticArray(int capacity):
             data(std::vector<T>(capacity)), size(0) { }  // 用户指定容量的构造函数
 
-    DynamicArray(const DynamicArray<T> &rhs):
+    StaticArray(const StaticArray<T> &rhs):
             data(rhs.data), size(rhs.size) { }
-    DynamicArray<T> &operator=(const DynamicArray<T> &rhs);
+    StaticArray<T> &operator=(const StaticArray<T> &rhs);
 
     int getSize() const override { return size; }  // 获取数组大小
     int getCapacity() const override { return data.size(); }  // 获取数组容量
@@ -42,7 +41,7 @@ public:
     T removeFirst() override { return remove(0); }  // 删除数组第一个元素并返回
     T removeLast() override { return remove(size - 1); }  // 删除数组最后一个元素并返回
 
-    ~DynamicArray() = default;
+    ~StaticArray() = default;
 
     T &operator[](int idx) override {
         if (idx >= size)
@@ -55,20 +54,20 @@ public:
         return data[idx];
     }
 
-protected:
+private:
     std::vector<T> data;
     int size;  // 数组的长度(也可以理解为指向尾后的位置)
 };
 
 template<typename T>
-DynamicArray<T> &DynamicArray<T>::operator=(const DynamicArray<T> &rhs) {
+StaticArray<T> &StaticArray<T>::operator=(const StaticArray<T> &rhs) {
     data = rhs.data;
     size = rhs.size;
     return *this;
 }
 
 template<typename T>
-bool DynamicArray<T>::contains(const T &e) const {
+bool StaticArray<T>::contains(const T &e) const {
     for (const auto &d : data)
         if (d == e)
             return true;
@@ -76,7 +75,7 @@ bool DynamicArray<T>::contains(const T &e) const {
 }
 
 template<typename T>
-int DynamicArray<T>::getIndex(const T &e) const {
+int StaticArray<T>::getIndex(const T &e) const {
     for (int i = 0; i < size; i++)
         if (data[i] == e)
             return i;
@@ -84,25 +83,25 @@ int DynamicArray<T>::getIndex(const T &e) const {
 }
 
 template<typename T>
-T DynamicArray<T>::get(const int &idx) const {
+T StaticArray<T>::get(const int &idx) const {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
     return data[idx];
 }
 
 template<typename T>
-void DynamicArray<T>::set(const int &idx, const T &e) {
+void StaticArray<T>::set(const int &idx, const T &e) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
     data[idx] = e;
 }
 
 template<typename T>
-void DynamicArray<T>::add(const int &idx, const T &e) {
+void StaticArray<T>::add(const int &idx, const T &e) {
+    if (size == data.size())
+        throw std::runtime_error("当前数组已满！");
     if (idx < 0 || idx > size)
         throw std::runtime_error("访问索引超过当前数组可插入范围！");
-    if (size == data.size())
-        data.resize(2 * data.size());  // 元素满，则扩容两倍
 
     for (int i = size; i > idx; i--)
         data[i] = data[i - 1];
@@ -111,10 +110,9 @@ void DynamicArray<T>::add(const int &idx, const T &e) {
 }
 
 template<typename T>
-T DynamicArray<T>::remove(const int &idx) {
+T StaticArray<T>::remove(const int &idx) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
-
     T ret = data[idx];
     for (int i = idx; i < size - 1; i++)
         data[i] = data[i + 1];
@@ -123,7 +121,7 @@ T DynamicArray<T>::remove(const int &idx) {
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const DynamicArray<T> &arr) {
+std::ostream &operator<<(std::ostream &os, const StaticArray<T> &arr) {
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < arr.size; i++)
@@ -150,5 +148,4 @@ std::ostream &operator<<(std::ostream &os, const DynamicArray<T> &arr) {
     return os;
 }
 
-
-#endif //ALGORITHM_TEMPLATE_CPP_DYNAMIC_ARRAY_H
+#endif //ALGORITHM_TEMPLATE_CPP_STATIC_ARRAY_H
