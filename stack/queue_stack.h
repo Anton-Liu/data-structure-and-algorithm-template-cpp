@@ -49,15 +49,23 @@ private:
 
 template<typename T>
 void QueueStack<T>::push(const T &e) {
-    ArrayQueue<T> que2;
-    while (!que.isEmpty()) {
-        que2.enqueue(que.getFront());
-        que.dequeue();
-    }
+    // 辅助栈写法
+//    ArrayQueue<T> que2;
+//    while (!que.isEmpty()) {
+//        que2.enqueue(que.getFront());
+//        que.dequeue();
+//    }
+//    que.enqueue(e);
+//    while (!que2.isEmpty()) {
+//        que.enqueue(que2.getFront());
+//        que2.dequeue();
+//    }
+
+    // 原地调整
     que.enqueue(e);
-    while (!que2.isEmpty()) {
-        que.enqueue(que2.getFront());
-        que2.dequeue();
+    for (int i = 0; i < que.getSize() - 1; i++) {
+        que.enqueue(que.getFront());
+        que.dequeue();
     }
 }
 
