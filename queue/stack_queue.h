@@ -34,6 +34,7 @@ public:
 private:
     ArrayStack<T> stackIn;
     ArrayStack<T> stackOut;
+    T front;  // 记录StackOut为空时的队首元素
 };
 
 template<typename T>
@@ -47,15 +48,13 @@ template<typename T>
 T StackQueue<T>::getFront() {
     if (!stackOut.isEmpty())
         return stackOut.top();
-    while (!stackIn.isEmpty()) {
-        stackOut.push(stackIn.top());
-        stackIn.pop();
-    }
-    return stackOut.top();
+    return front;
 }
 
 template<typename T>
 void StackQueue<T>::enqueue(const T &e) {
+    if (stackIn.isEmpty())
+        front = e;
     stackIn.push(e);
 }
 
@@ -65,11 +64,11 @@ void StackQueue<T>::dequeue() {
         stackOut.pop();
         return;
     }
-    while (!stackIn.isEmpty()) {
+    while (stackIn.getSize() > 1) {
         stackOut.push(stackIn.top());
         stackIn.pop();
     }
-    stackOut.pop();
+    stackIn.pop();
 }
 
 template <typename T>
