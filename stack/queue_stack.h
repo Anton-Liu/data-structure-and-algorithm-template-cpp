@@ -1,12 +1,17 @@
+//
+// Created by Anton Liu on 2023/8/13.
+//
+
 #ifndef ALGORITHM_TEMPLATE_CPP_QUEUE_STACK_H
 #define ALGORITHM_TEMPLATE_CPP_QUEUE_STACK_H
 
+/**
+ * 思路：出队位置为栈顶
+ */
+
 #include "stack.h"
 #include "../queue/array_queue.h"
-
-/**
- * 思路：入队位置为栈顶
- */
+#include "array_stack.h"
 
 template <typename T>
 class QueueStack;
@@ -19,12 +24,12 @@ class QueueStack : public Stack<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const QueueStack<T> &rhs);
 public:
     QueueStack():
-        que(ArrayQueue<T>()) { }
+            que(ArrayQueue<T>()) { }
     QueueStack(int capacity):
-        que(ArrayQueue<T>(capacity)) { }
+            que(ArrayQueue<T>(capacity)) { }
 
     QueueStack(const QueueStack<T> &rhs):
-        que(rhs.que), curTop(rhs.curTop) { }
+            que(rhs.que) { }
     QueueStack<T> &operator=(const QueueStack<T> &rhs);
 
     bool isEmpty() const override { return que.isEmpty(); }
@@ -33,33 +38,33 @@ public:
 
     int getCapacity() const override { return que.getCapacity(); }
 
-    T top() const override { return curTop; };  // O(1)
+    T top() const override { return que.getFront(); };  // O(1)
 
-    void push(const T &e) override { que.enqueue(e); curTop = e; }  // O(1)
+    void push(const T &e) override;  // O(n)
 
-    void pop() override;  // O(n)
+    void pop() override { que.dequeue(); };  // O(1)
 private:
     ArrayQueue<T> que;
-    T curTop;  // 记录当前栈顶元素
 };
+
+template<typename T>
+void QueueStack<T>::push(const T &e) {
+    ArrayQueue<T> que2;
+    while (!que.isEmpty()) {
+        que2.enqueue(que.getFront());
+        que.dequeue();
+    }
+    que.enqueue(e);
+    while (!que2.isEmpty()) {
+        que.enqueue(que2.getFront());
+        que2.dequeue();
+    }
+}
 
 template<typename T>
 QueueStack<T> &QueueStack<T>::operator=(const QueueStack<T> &rhs) {
     que = rhs.que;
-    curTop = rhs.curTop;
     return *this;
-}
-
-template<typename T>
-void QueueStack<T>::pop() {
-    ArrayQueue<T> que2;
-    while (que.getSize() > 1) {
-        curTop = que.getFront();
-        que.dequeue();
-        que2.enqueue(curTop);
-    }
-    que.dequeue();
-    que = que2;
 }
 
 template <typename T>
@@ -77,13 +82,17 @@ std::ostream &operator<<(std::ostream &os, const QueueStack<T> &rhs) {
        << "栈的内容：" << "stack[";
 
     ArrayQueue<T> tmp = rhs.que;
-    while (tmp.getSize() > 1) {
-        os << tmp.getFront() << ", ";
+    ArrayStack<T> ans;
+    while (!tmp.isEmpty()) {
+        ans.push(tmp.getFront());
         tmp.dequeue();
     }
-    if (!tmp.isEmpty())
-        os << tmp.getFront();
-
+    while (ans.getSize() > 1) {
+        os << ans.top() << ", ";
+        ans.pop();
+    }
+    if (!ans.isEmpty())
+        os << ans.top();
     os << "] top\n";
 
     // 自适应边框
