@@ -17,9 +17,13 @@ class ArrayStack : public Stack<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const ArrayStack<T> &arrayStack);
 public:
     ArrayStack():
-            data(LasyDynamicArray<T>()) { }
+            data(LazyDynamicArray<T>()) { }
     ArrayStack(int capacity):
-            data(LasyDynamicArray<T>(capacity)) { }
+            data(LazyDynamicArray<T>(capacity)) { }
+
+    ArrayStack(const ArrayStack<T> &rhs):
+            data(rhs.data) { }
+    ArrayStack<T> &operator=(const ArrayStack<T> &rhs);
 
     bool isEmpty() const override { return data.isEmpty(); }
     int getSize() const override { return data.getSize(); }
@@ -29,8 +33,14 @@ public:
     void push(const T &e) override { data.addLast(e); };
     void pop() override { data.removeLast(); }
 private:
-    LasyDynamicArray<T> data;
+    LazyDynamicArray<T> data;
 };
+
+template<typename T>
+ArrayStack<T> &ArrayStack<T>::operator=(const ArrayStack<T> &rhs) {
+    data = rhs.data;
+    return *this;
+}
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayStack<T> &arrayStack) {
