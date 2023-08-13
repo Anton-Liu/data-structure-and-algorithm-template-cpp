@@ -1,0 +1,112 @@
+#ifndef ALGORITHM_TEMPLATE_CPP_STACK_QUEUE_H
+#define ALGORITHM_TEMPLATE_CPP_STACK_QUEUE_H
+
+#include "queue.h"
+#include "../stack/array_stack.h"
+
+template <typename T>
+class StackQueue;
+
+template <typename T>
+std::ostream &operator<<(std::ostream &, const StackQueue<T> &);
+
+template <typename T>
+class StackQueue {
+    friend std::ostream &operator<<<T>(std::ostream &os, const StackQueue<T> &arrayQueue);
+public:
+    StackQueue():
+            stackIn{}, stackOut{} { }
+    StackQueue(int capacity):
+            stackIn{capacity}, stackOut{capacity} { }
+
+    StackQueue(const StackQueue<T> &rhs):
+            stackIn(rhs.stackIn), stackOut(rhs.stackOut) { };
+    StackQueue<T> &operator=(const StackQueue<T> &rhs);
+
+    bool isEmpty() const { return stackIn.isEmpty() && stackOut.isEmpty(); }
+    int getSize() const { return stackIn.getSize() + stackOut.getSize(); }
+    int getCapacity() const { return stackIn.getCapacity() + stackOut.getCapacity(); }
+
+    T getFront();  // getFront操作需要改变数据成员，因此是非const
+    void enqueue(const T &e);
+    void dequeue();
+
+private:
+    ArrayStack<T> stackIn;
+    ArrayStack<T> stackOut;
+};
+
+template<typename T>
+StackQueue<T> &StackQueue<T>::operator=(const StackQueue<T> &rhs) {
+    stackIn = rhs.stackIn;
+    stackOut = rhs.stackOut;
+    return *this;
+}
+
+template<typename T>
+T StackQueue<T>::getFront() {
+    if (!stackOut.isEmpty())
+        return stackOut.top();
+    while (!stackIn.isEmpty()) {
+        stackOut.push(stackIn.top());
+        stackIn.pop();
+    }
+    return stackOut.top();
+}
+
+template<typename T>
+void StackQueue<T>::enqueue(const T &e) {
+    stackIn.push(e);
+}
+
+template<typename T>
+void StackQueue<T>::dequeue() {
+    if (!stackOut.isEmpty()) {
+        stackOut.pop();
+        return;
+    }
+    while (!stackIn.isEmpty()) {
+        stackOut.push(stackIn.top());
+        stackIn.pop();
+    }
+    stackOut.pop();
+}
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const StackQueue<T> &que) {
+    int size = que.getSize();
+    // 自适应边框
+    os << "-----------------";
+    for (int i = 0; i < size; i++)
+        os << "---";
+    os << '\n';
+
+    // 队列信息
+    os << "队列的长度：" << size << "，"
+       << "队列的容量：" << que.getCapacity() << '\n'
+       << "队列的内容：" << "queue front[";
+    ArrayStack<T> tmpIn, tmpOut;
+    tmpIn = que.stackIn;
+    tmpOut = que.stackOut;
+    while (!tmpOut.isEmpty()) {
+        os << tmpOut.top() << ", ";
+        tmpOut.pop();
+    }
+    while (!tmpIn.isEmpty()) {
+        tmpOut.push(tmpIn.top());
+        tmpIn.pop();
+    }
+    while (!tmpOut.isEmpty()) {
+        os << tmpOut.top()  << ", ";
+        tmpOut.pop();
+    }
+    os << "]tail\n";
+
+    // 自适应边框
+    os << "-----------------";
+    for (int i = 0; i < size; i++)
+        os << "---";
+    return os;
+}
+
+#endif //ALGORITHM_TEMPLATE_CPP_STACK_QUEUE_H

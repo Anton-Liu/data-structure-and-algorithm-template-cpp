@@ -17,9 +17,9 @@ class ArrayQueue : public Queue<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const ArrayQueue<T> &arrayQueue);
 public:
     ArrayQueue():
-        arr(new LasyDynamicArray<T>()) { }
+        arr(new LazyDynamicArray<T>()) { }
     ArrayQueue(int capacity):
-        arr(new LasyDynamicArray<T>(capacity)) { }
+        arr(new LazyDynamicArray<T>(capacity)) { }
     bool isEmpty() const override { return arr -> isEmpty(); }
     int getSize() const override { return arr -> getSize(); }
     int getCapacity() const override { return arr -> getCapacity(); }
@@ -27,7 +27,7 @@ public:
     void enqueue(const T &e) override { arr -> addLast(e); };
     void dequeue() override { arr -> removeFirst(); };
 protected:
-    std::unique_ptr<LasyDynamicArray<T>> arr;
+    std::unique_ptr<LazyDynamicArray<T>> arr;
 };
 
 template <typename T>
