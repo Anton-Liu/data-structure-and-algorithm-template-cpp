@@ -17,22 +17,24 @@ class ArrayQueue : public Queue<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const ArrayQueue<T> &arrayQueue);
 public:
     ArrayQueue():
-        arr(new LazyDynamicArray<T>()) { }
+            data(LazyDynamicArray<T>()) { }
     ArrayQueue(int capacity):
-        arr(new LazyDynamicArray<T>(capacity)) { }
-    bool isEmpty() const override { return arr -> isEmpty(); }
-    int getSize() const override { return arr -> getSize(); }
-    int getCapacity() const override { return arr -> getCapacity(); }
-    T getFront() const override { return arr -> getFirst(); }
-    void enqueue(const T &e) override { arr -> addLast(e); };
-    void dequeue() override { arr -> removeFirst(); };
+            data(LazyDynamicArray<T>(capacity)) { }
+
+    bool isEmpty() const override { return data.isEmpty(); }
+    int getSize() const override { return data.getSize(); }
+    int getCapacity() const override { return data.getCapacity(); }
+    T getFront() const override { return data.getFirst(); }
+
+    void enqueue(const T &e) override { data.addLast(e); };
+    void dequeue() override { data.removeFirst(); };
 protected:
-    std::unique_ptr<LazyDynamicArray<T>> arr;
+    LazyDynamicArray<T> data;
 };
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayQueue<T> &arrayQueue) {
-    int size = arrayQueue.arr -> getSize();
+    int size = arrayQueue.data.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
@@ -44,7 +46,7 @@ std::ostream &operator<<(std::ostream &os, const ArrayQueue<T> &arrayQueue) {
        << "队列的容量：" << arrayQueue.getCapacity() << '\n'
        << "队列的内容：" << "queue front[";
     for (int i = 0; i < size; i++) {
-        os << (*arrayQueue.arr)[i];
+        os << (arrayQueue.data)[i];
         if (i != size - 1)
             os << ", ";
     }
