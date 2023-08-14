@@ -19,7 +19,7 @@ class LazyDynamicArray : public DynamicArray<T> {
 public:
     LazyDynamicArray():
             DynamicArray<T>() { }  // 默认构造函数，默认容量为10
-    LazyDynamicArray(int capacity):
+    explicit LazyDynamicArray(int capacity):
             DynamicArray<T>(capacity) { }  // 用户指定容量的构造函数
 
     LazyDynamicArray(const LazyDynamicArray<T> &rhs):

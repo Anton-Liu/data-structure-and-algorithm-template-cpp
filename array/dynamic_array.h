@@ -18,7 +18,7 @@ class DynamicArray : public Array<T> {
 public:
     DynamicArray():
             data(std::vector<T>(10)), size(0) { }  // 默认构造函数，默认容量为10
-    DynamicArray(int capacity):
+    explicit DynamicArray(int capacity):
             data(std::vector<T>(capacity)), size(0) { }  // 用户指定容量的构造函数
 
     DynamicArray(const DynamicArray<T> &rhs):

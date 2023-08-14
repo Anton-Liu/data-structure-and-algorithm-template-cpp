@@ -17,7 +17,7 @@ class StaticArray : public Array<T> {
 public:
     StaticArray():
             data(std::vector<T>(10)), size(0) { }  // 默认构造函数，默认容量为10
-    StaticArray(int capacity):
+    explicit StaticArray(int capacity):
             data(std::vector<T>(capacity)), size(0) { }  // 用户指定容量的构造函数
 
     StaticArray(const StaticArray<T> &rhs):
