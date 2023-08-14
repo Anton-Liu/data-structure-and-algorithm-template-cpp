@@ -16,7 +16,7 @@ class StackQueue : public Queue<T> {
 public:
     StackQueue():
             stack{} { }
-    StackQueue(int capacity):
+    explicit StackQueue(int capacity):
             stack{capacity} { }
 
     StackQueue(const StackQueue<T> &rhs):

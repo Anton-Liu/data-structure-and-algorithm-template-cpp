@@ -16,7 +16,7 @@ class LoopArrayQueue : public Queue<T> {
 public:
     LoopArrayQueue():
             data(std::make_shared<std::vector<T>>(10 + 1)), front(0), tail(0) { }
-    LoopArrayQueue(int capacity):
+    explicit LoopArrayQueue(int capacity):
             data(std::make_shared<std::vector<T>>(capacity + 1)), front(0), tail(0) { }
 
     bool isEmpty() const override { return front == tail; };

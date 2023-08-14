@@ -19,7 +19,7 @@ public:
         data(std::make_shared<std::vector<T>>(10)),
         front(0), tail(0), size(0) { }
 
-    ArrayDeque(int capacity):
+    explicit ArrayDeque(int capacity):
         data(std::make_shared<std::vector<T>>(capacity)),
         front(0), tail(0), size(0) { }
 

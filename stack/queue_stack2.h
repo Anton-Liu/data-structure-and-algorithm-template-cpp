@@ -20,7 +20,7 @@ class QueueStack2 : public Stack<T> {
 public:
     QueueStack2():
         que(ArrayQueue<T>()) { }
-    QueueStack2(int capacity):
+    explicit QueueStack2(int capacity):
         que(ArrayQueue<T>(capacity)) { }
 
     QueueStack2(const QueueStack2<T> &rhs):

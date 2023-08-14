@@ -18,7 +18,7 @@ class ArrayStack : public Stack<T> {
 public:
     ArrayStack():
             data(LazyDynamicArray<T>()) { }
-    ArrayStack(int capacity):
+    explicit ArrayStack(int capacity):
             data(LazyDynamicArray<T>(capacity)) { }
 
     ArrayStack(const ArrayStack<T> &rhs):

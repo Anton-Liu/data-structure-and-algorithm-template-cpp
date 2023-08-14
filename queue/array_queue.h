@@ -18,7 +18,7 @@ class ArrayQueue : public Queue<T> {
 public:
     ArrayQueue():
             data(LazyDynamicArray<T>()) { }
-    ArrayQueue(int capacity):
+    explicit ArrayQueue(int capacity):
             data(LazyDynamicArray<T>(capacity)) { }
 
     ArrayQueue(const ArrayQueue<T> &rhs):
