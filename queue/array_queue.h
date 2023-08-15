@@ -22,7 +22,7 @@ public:
 
     ArrayQueue(const ArrayQueue<T> &rhs):
             data(rhs.data) { }
-    ArrayQueue<T> &operator=(const ArrayQueue &rhs);
+    ArrayQueue<T> &operator=(const ArrayQueue<T> &rhs);
 
     bool isEmpty() const override { return data.isEmpty(); }
     int getSize() const override { return data.getSize(); }
