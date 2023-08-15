@@ -26,7 +26,7 @@ public:
 
     bool isEmpty() const override { return data.isEmpty(); }
     int getSize() const override { return data.getSize(); }
-    int getCapacity() const override { return data.getCapacity(); }
+    int getCapacity() const { return data.getCapacity(); }
     T getFront() const override { return data.getFirst(); }
 
     void enqueue(const T &e) override { data.addLast(e); };

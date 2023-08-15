@@ -21,7 +21,7 @@ public:
 
     bool isEmpty() const override { return front == tail; };
     int getSize() const override { return (tail - front + data -> size()) % data -> size(); };
-    int getCapacity() const override { return data -> size() - 1; };
+    int getCapacity() const { return data -> size() - 1; };
     T getFront() const override {
         if (isEmpty())
             throw std::runtime_error("当前队列为空！");
