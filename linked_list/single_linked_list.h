@@ -23,13 +23,13 @@ public:
     int getSize() const override { return size; }
     bool isEmpty() const override { return size == 0; }
     bool contains(const T &e) const override;
-    T getFirst() const override { return get(0); };
-    T getLast() const override { return get(size - 1); };
+    T getFirst() const override;
+    T getLast() const override;
 
     void addFirst(const T &e) override { add(0, e); };
     void addLast(const T &e) override { add(size, e); };
-    void removeFirst() override { remove(0); }
-    void removeLast() override { remove(size - 1); }
+    void removeFirst() override;
+    void removeLast() override;
 
     ~SingleLinkedList() override;
 private:
@@ -51,6 +51,34 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void SingleLinkedList<T>::removeLast() {
+    if (size == 0)
+        throw std::runtime_error("链表为空！");
+    remove(size - 1);
+}
+
+template<typename T>
+void SingleLinkedList<T>::removeFirst() {
+    if (size == 0)
+        throw std::runtime_error("链表为空！");
+    remove(0);
+}
+
+template<typename T>
+T SingleLinkedList<T>::getLast() const {
+    if (size == 0)
+        throw std::runtime_error("链表为空！");
+    return get(size - 1);
+}
+
+template<typename T>
+T SingleLinkedList<T>::getFirst() const {
+    if (size == 0)
+        throw std::runtime_error("链表为空！");
+    return get(0);
+}
 
 template<typename T>
 void SingleLinkedList<T>::add(int idx, const T &e) {
@@ -132,8 +160,8 @@ SingleLinkedList<T> &SingleLinkedList<T>::operator=(const SingleLinkedList<T> &r
         cur -> next = new Node(rhsCur -> val);
         cur = cur -> next;
         rhsCur = rhsCur -> next;
-        cur -> next = nullptr;
     }
+    cur -> next = nullptr;
     size = tmp.size;
 
     return *this;
