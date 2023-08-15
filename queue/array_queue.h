@@ -36,7 +36,7 @@ protected:
 };
 
 template<typename T>
-ArrayQueue<T> &ArrayQueue<T>::operator=(const ArrayQueue &rhs) {
+ArrayQueue<T> &ArrayQueue<T>::operator=(const ArrayQueue<T> &rhs) {
     data = rhs.data;
     return *this;
 }
