@@ -3,7 +3,6 @@
 
 #include "../array/lazy_dynamic_array.h"
 #include "queue.h"
-#include <memory>
 #include <iostream>
 
 template <typename T>
