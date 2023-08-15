@@ -23,13 +23,13 @@ public:
             stack(rhs.stack) { };
     StackQueue<T> &operator=(const StackQueue<T> &rhs);
 
-    bool isEmpty() const { return stack.isEmpty(); }
-    int getSize() const { return stack.getSize(); }
+    bool isEmpty() const override { return stack.isEmpty(); }
+    int getSize() const override { return stack.getSize(); }
     int getCapacity() const { return stack.getCapacity(); }
-    T getFront() const { return stack.top(); };
+    T getFront() const override { return stack.top(); };
 
-    void enqueue(const T &e);
-    void dequeue();
+    void enqueue(const T &e) override;
+    void dequeue() override;
 
 private:
     ArrayStack<T> stack;
