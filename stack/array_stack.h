@@ -27,7 +27,7 @@ public:
 
     bool isEmpty() const override { return data.isEmpty(); }
     int getSize() const override { return data.getSize(); }
-    int getCapacity() const override { return data.getCapacity(); }
+    int getCapacity() const { return data.getCapacity(); }
     T top() const override { return data.getLast(); }
 
     void push(const T &e) override { data.addLast(e); };

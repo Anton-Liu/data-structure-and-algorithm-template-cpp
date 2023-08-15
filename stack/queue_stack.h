@@ -36,7 +36,7 @@ public:
 
     int getSize() const override { return que.getSize(); }
 
-    int getCapacity() const override { return que.getCapacity(); }
+    int getCapacity() const { return que.getCapacity(); }
 
     T top() const override { return que.getFront(); };  // O(1)
 
