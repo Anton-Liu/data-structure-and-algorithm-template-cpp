@@ -31,6 +31,8 @@ public:
     void removeFirst() override;
     void removeLast() override;
 
+    void swap(SingleLinkedList<T> &rhs);
+
     ~SingleLinkedList() override;
 private:
     class Node {
@@ -47,10 +49,18 @@ private:
     };
     Node *dummyHead;
     int size;
+
     void add(int idx, const T &e);
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void SingleLinkedList<T>::swap(SingleLinkedList<T> &rhs) {
+    using std::swap;
+    swap(dummyHead, rhs.dummyHead);
+    swap(size, rhs.size);
+}
 
 template<typename T>
 void SingleLinkedList<T>::removeLast() {
@@ -144,26 +154,7 @@ SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T> &rhs):
 
 template<typename T>
 SingleLinkedList<T> &SingleLinkedList<T>::operator=(const SingleLinkedList<T> &rhs) {
-    auto tmp = SingleLinkedList<T>(rhs);
-
-    auto delNode = dummyHead;
-    while (dummyHead != nullptr) {
-        dummyHead = dummyHead -> next;
-        delete delNode;
-        delNode = dummyHead;
-    }
-
-    dummyHead = new Node();
-    auto cur = dummyHead;
-    auto rhsCur = tmp.dummyHead -> next;
-    while (rhsCur != nullptr) {
-        cur -> next = new Node(rhsCur -> val);
-        cur = cur -> next;
-        rhsCur = rhsCur -> next;
-    }
-    cur -> next = nullptr;
-    size = tmp.size;
-
+    SingleLinkedList<T>(rhs).swap(*this);
     return *this;
 }
 
