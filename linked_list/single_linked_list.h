@@ -30,6 +30,7 @@ public:
     void addLast(const T &e) override { add(size, e); };
     void removeFirst() override;
     void removeLast() override;
+    void removeElements(const T &e);
 
     void swap(SingleLinkedList<T> &rhs);
 
@@ -54,6 +55,21 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void SingleLinkedList<T>::removeElements(const T &e) {
+    auto pre = dummyHead;
+    while (pre -> next) {
+        if (pre -> next -> val == e) {
+            auto delNode = pre -> next;
+            pre -> next = delNode -> next;
+            delete delNode;
+            size--;
+        }
+        else
+            pre = pre -> next;
+    }
+}
 
 template<typename T>
 void SingleLinkedList<T>::swap(SingleLinkedList<T> &rhs) {

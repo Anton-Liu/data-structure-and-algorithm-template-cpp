@@ -30,6 +30,7 @@ public:
     void addLast(const T &e) override;
     void removeFirst() override;
     void removeLast() override;
+    void removeElements(const T &e);
 
     void swap(SingleLinkedListWithTailPointer<T> &rhs);
 
@@ -55,6 +56,23 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void SingleLinkedListWithTailPointer<T>::removeElements(const T &e) {
+    auto pre = dummyHead;
+    while (pre -> next) {
+        if (pre -> next -> val == e) {
+            auto delNode = pre -> next;
+            if (!delNode -> next)  // 删除最后一个元素需要维护尾指针
+                tail = pre;
+            pre -> next = delNode -> next;
+            delete delNode;
+            size--;
+        }
+        else
+            pre = pre -> next;
+    }
+}
 
 template<typename T>
 void SingleLinkedListWithTailPointer<T>::swap(SingleLinkedListWithTailPointer<T> &rhs) {
