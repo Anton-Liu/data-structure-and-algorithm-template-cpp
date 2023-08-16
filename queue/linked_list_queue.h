@@ -5,6 +5,10 @@
 #include "queue.h"
 #include <iostream>
 
+/**
+ * 使用带尾指针的单链表实现
+ */
+
 template <typename T>
 class LinkedListQueue;
 
