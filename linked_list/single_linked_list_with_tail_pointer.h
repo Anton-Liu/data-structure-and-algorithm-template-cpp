@@ -31,6 +31,8 @@ public:
     void removeFirst() override;
     void removeLast() override;
 
+    void swap(SingleLinkedListWithTailPointer<T> &rhs);
+
     ~SingleLinkedListWithTailPointer() override;
 private:
     class Node {
@@ -55,6 +57,14 @@ private:
 };
 
 template<typename T>
+void SingleLinkedListWithTailPointer<T>::swap(SingleLinkedListWithTailPointer<T> &rhs) {
+    using std::swap;
+    swap(dummyHead, rhs.dummyHead);
+    swap(tail, rhs.tail);
+    swap(size, rhs.size);
+}
+
+template<typename T>
 SingleLinkedListWithTailPointer<T>::~SingleLinkedListWithTailPointer() {
     auto delNode = dummyHead;
     while (dummyHead != nullptr) {
@@ -69,32 +79,8 @@ template<typename T>
 SingleLinkedListWithTailPointer<T>::SingleLinkedListWithTailPointer(const SingleLinkedListWithTailPointer<T> &rhs):
         dummyHead(new Node()), size(rhs.size) {
     tail = dummyHead;
-    auto cur = dummyHead;
-    auto rhsCur = rhs.dummyHead -> next;
-    while (rhsCur != nullptr) {
-        cur -> next = new Node(rhsCur -> val);
-        cur = cur -> next;
-        rhsCur = rhsCur -> next;
-    }
-    cur -> next = nullptr;
-}
-
-template<typename T>
-SingleLinkedListWithTailPointer<T> &
-SingleLinkedListWithTailPointer<T>::operator=(const SingleLinkedListWithTailPointer<T> &rhs) {
-    auto tmp = SingleLinkedListWithTailPointer<T>(rhs);
-
-    auto delNode = dummyHead;
-    while (dummyHead != nullptr) {
-        dummyHead = dummyHead -> next;
-        delete delNode;
-        delNode = dummyHead;
-    }
-
-    dummyHead = new Node();
     auto pre = dummyHead;
-    tail = dummyHead;
-    auto rhsCur = tmp.dummyHead -> next;
+    auto rhsCur = rhs.dummyHead -> next;
     while (rhsCur != nullptr) {
         pre -> next = new Node(rhsCur -> val);
         pre = pre -> next;
@@ -102,8 +88,12 @@ SingleLinkedListWithTailPointer<T>::operator=(const SingleLinkedListWithTailPoin
         rhsCur = rhsCur -> next;
     }
     pre -> next = nullptr;
-    size = tmp.size;
+}
 
+template<typename T>
+SingleLinkedListWithTailPointer<T> &
+SingleLinkedListWithTailPointer<T>::operator=(const SingleLinkedListWithTailPointer<T> &rhs) {
+    SingleLinkedListWithTailPointer<T>(rhs).swap(*this);
     return *this;
 }
 
