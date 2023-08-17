@@ -1,24 +1,24 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_H
-#define ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_H
+#ifndef ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_H
+#define ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_H
 
 #include "linked_list.h"
 #include <iostream>
 
 template <typename T>
-class SingleLinkedList;
+class SinglyLinkedList;
 
 template <typename T>
-std::ostream &operator<<(std::ostream &, const SingleLinkedList<T> &);
+std::ostream &operator<<(std::ostream &, const SinglyLinkedList<T> &);
 
 template <typename T>
-class SingleLinkedList : public LinkedList<T> {
-    friend std::ostream &operator<<<T>(std::ostream &os, const SingleLinkedList<T> &rhs);
+class SinglyLinkedList : public LinkedList<T> {
+    friend std::ostream &operator<<<T>(std::ostream &os, const SinglyLinkedList<T> &rhs);
 public:
-    SingleLinkedList():
+    SinglyLinkedList():
         dummyHead(new Node()), size(0) { }
 
-    SingleLinkedList(const SingleLinkedList<T> &rhs);
-    SingleLinkedList<T> &operator=(const SingleLinkedList<T> &rhs);
+    SinglyLinkedList(const SinglyLinkedList<T> &rhs);
+    SinglyLinkedList<T> &operator=(const SinglyLinkedList<T> &rhs);
 
     int getSize() const override { return size; }
     bool isEmpty() const override { return size == 0; }
@@ -32,9 +32,9 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
 
-    void swap(SingleLinkedList<T> &rhs);
+    void swap(SinglyLinkedList<T> &rhs);
 
-    ~SingleLinkedList() override;
+    ~SinglyLinkedList() override;
 private:
     class Node {
     public:
@@ -57,7 +57,7 @@ private:
 };
 
 template<typename T>
-void SingleLinkedList<T>::removeElements(const T &e) {
+void SinglyLinkedList<T>::removeElements(const T &e) {
     auto pre = dummyHead;
     while (pre -> next) {
         if (pre -> next -> val == e) {
@@ -72,42 +72,42 @@ void SingleLinkedList<T>::removeElements(const T &e) {
 }
 
 template<typename T>
-void SingleLinkedList<T>::swap(SingleLinkedList<T> &rhs) {
+void SinglyLinkedList<T>::swap(SinglyLinkedList<T> &rhs) {
     using std::swap;
     swap(dummyHead, rhs.dummyHead);
     swap(size, rhs.size);
 }
 
 template<typename T>
-void SingleLinkedList<T>::removeLast() {
+void SinglyLinkedList<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     remove(size - 1);
 }
 
 template<typename T>
-void SingleLinkedList<T>::removeFirst() {
+void SinglyLinkedList<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     remove(0);
 }
 
 template<typename T>
-T SingleLinkedList<T>::getLast() const {
+T SinglyLinkedList<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     return get(size - 1);
 }
 
 template<typename T>
-T SingleLinkedList<T>::getFirst() const {
+T SinglyLinkedList<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     return get(0);
 }
 
 template<typename T>
-void SingleLinkedList<T>::add(int idx, const T &e) {
+void SinglyLinkedList<T>::add(int idx, const T &e) {
     if (idx < 0 || idx > size)
         throw std::runtime_error("超过链表可插入范围！");
 
@@ -120,7 +120,7 @@ void SingleLinkedList<T>::add(int idx, const T &e) {
 }
 
 template<typename T>
-T SingleLinkedList<T>::get(int idx) const {
+T SinglyLinkedList<T>::get(int idx) const {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("超过链表范围！");
 
@@ -131,7 +131,7 @@ T SingleLinkedList<T>::get(int idx) const {
 }
 
 template<typename T>
-void SingleLinkedList<T>::remove(int idx) {
+void SinglyLinkedList<T>::remove(int idx) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("超过链表范围！");
 
@@ -146,7 +146,7 @@ void SingleLinkedList<T>::remove(int idx) {
 }
 
 template<typename T>
-SingleLinkedList<T>::~SingleLinkedList() {
+SinglyLinkedList<T>::~SinglyLinkedList() {
     auto delNode = dummyHead;
     while (dummyHead != nullptr) {
         dummyHead = dummyHead -> next;
@@ -156,7 +156,7 @@ SingleLinkedList<T>::~SingleLinkedList() {
 }
 
 template<typename T>
-SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T> &rhs):
+SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &rhs):
         dummyHead(new Node()), size(rhs.size) {
     auto cur = dummyHead;
     auto rhsCur = rhs.dummyHead -> next;
@@ -169,13 +169,13 @@ SingleLinkedList<T>::SingleLinkedList(const SingleLinkedList<T> &rhs):
 }
 
 template<typename T>
-SingleLinkedList<T> &SingleLinkedList<T>::operator=(const SingleLinkedList<T> &rhs) {
-    SingleLinkedList<T>(rhs).swap(*this);
+SinglyLinkedList<T> &SinglyLinkedList<T>::operator=(const SinglyLinkedList<T> &rhs) {
+    SinglyLinkedList<T>(rhs).swap(*this);
     return *this;
 }
 
 template<typename T>
-bool SingleLinkedList<T>::contains(const T &e) const {
+bool SinglyLinkedList<T>::contains(const T &e) const {
     auto cur = dummyHead -> next;
     while (cur) {
         if (cur -> val == e)
@@ -186,7 +186,7 @@ bool SingleLinkedList<T>::contains(const T &e) const {
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const SingleLinkedList<T> &rhs) {
+std::ostream &operator<<(std::ostream &os, const SinglyLinkedList<T> &rhs) {
     int size = rhs.getSize();
 
     // 自适应边框
@@ -210,4 +210,4 @@ std::ostream &operator<<(std::ostream &os, const SingleLinkedList<T> &rhs) {
     return os;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_H
+#endif //ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_H

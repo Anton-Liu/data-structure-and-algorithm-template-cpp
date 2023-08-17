@@ -1,24 +1,24 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_WITH_TAIL_POINTER_H
-#define ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_WITH_TAIL_POINTER_H
+#ifndef ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_WITH_TAIL_POINTER_H
+#define ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_WITH_TAIL_POINTER_H
 
 #include "linked_list.h"
 #include <iostream>
 
 template <typename T>
-class SingleLinkedListWithTailPointer;
+class SinglyLinkedListWithTailPointer;
 
 template <typename T>
-std::ostream &operator<<(std::ostream &, const SingleLinkedListWithTailPointer<T> &);
+std::ostream &operator<<(std::ostream &, const SinglyLinkedListWithTailPointer<T> &);
 
 template <typename T>
-class SingleLinkedListWithTailPointer : public LinkedList<T> {
-    friend std::ostream &operator<<<T>(std::ostream &os, const SingleLinkedListWithTailPointer<T> &rhs);
+class SinglyLinkedListWithTailPointer : public LinkedList<T> {
+    friend std::ostream &operator<<<T>(std::ostream &os, const SinglyLinkedListWithTailPointer<T> &rhs);
 public:
-    SingleLinkedListWithTailPointer():
+    SinglyLinkedListWithTailPointer():
             dummyHead(new Node()), size(0) { tail = dummyHead; }
 
-    SingleLinkedListWithTailPointer(const SingleLinkedListWithTailPointer<T> &rhs);
-    SingleLinkedListWithTailPointer<T> &operator=(const SingleLinkedListWithTailPointer<T> &rhs);
+    SinglyLinkedListWithTailPointer(const SinglyLinkedListWithTailPointer<T> &rhs);
+    SinglyLinkedListWithTailPointer<T> &operator=(const SinglyLinkedListWithTailPointer<T> &rhs);
 
     int getSize() const override { return size; }
     bool isEmpty() const override { return size == 0; }
@@ -32,9 +32,9 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
 
-    void swap(SingleLinkedListWithTailPointer<T> &rhs);
+    void swap(SinglyLinkedListWithTailPointer<T> &rhs);
 
-    ~SingleLinkedListWithTailPointer() override;
+    ~SinglyLinkedListWithTailPointer() override;
 private:
     class Node {
     public:
@@ -58,7 +58,7 @@ private:
 };
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::removeElements(const T &e) {
+void SinglyLinkedListWithTailPointer<T>::removeElements(const T &e) {
     auto pre = dummyHead;
     while (pre -> next) {
         if (pre -> next -> val == e) {
@@ -75,7 +75,7 @@ void SingleLinkedListWithTailPointer<T>::removeElements(const T &e) {
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::swap(SingleLinkedListWithTailPointer<T> &rhs) {
+void SinglyLinkedListWithTailPointer<T>::swap(SinglyLinkedListWithTailPointer<T> &rhs) {
     using std::swap;
     swap(dummyHead, rhs.dummyHead);
     swap(tail, rhs.tail);
@@ -83,7 +83,7 @@ void SingleLinkedListWithTailPointer<T>::swap(SingleLinkedListWithTailPointer<T>
 }
 
 template<typename T>
-SingleLinkedListWithTailPointer<T>::~SingleLinkedListWithTailPointer() {
+SinglyLinkedListWithTailPointer<T>::~SinglyLinkedListWithTailPointer() {
     auto delNode = dummyHead;
     while (dummyHead != nullptr) {
         dummyHead = dummyHead -> next;
@@ -94,7 +94,7 @@ SingleLinkedListWithTailPointer<T>::~SingleLinkedListWithTailPointer() {
 }
 
 template<typename T>
-SingleLinkedListWithTailPointer<T>::SingleLinkedListWithTailPointer(const SingleLinkedListWithTailPointer<T> &rhs):
+SinglyLinkedListWithTailPointer<T>::SinglyLinkedListWithTailPointer(const SinglyLinkedListWithTailPointer<T> &rhs):
         dummyHead(new Node()), size(rhs.size) {
     tail = dummyHead;
     auto pre = dummyHead;
@@ -109,21 +109,21 @@ SingleLinkedListWithTailPointer<T>::SingleLinkedListWithTailPointer(const Single
 }
 
 template<typename T>
-SingleLinkedListWithTailPointer<T> &
-SingleLinkedListWithTailPointer<T>::operator=(const SingleLinkedListWithTailPointer<T> &rhs) {
-    SingleLinkedListWithTailPointer<T>(rhs).swap(*this);
+SinglyLinkedListWithTailPointer<T> &
+SinglyLinkedListWithTailPointer<T>::operator=(const SinglyLinkedListWithTailPointer<T> &rhs) {
+    SinglyLinkedListWithTailPointer<T>(rhs).swap(*this);
     return *this;
 }
 
 template<typename T>
-T SingleLinkedListWithTailPointer<T>::getFirst() const {
+T SinglyLinkedListWithTailPointer<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     return get(0);
 }
 
 template<typename T>
-T SingleLinkedListWithTailPointer<T>::getLast() const {
+T SinglyLinkedListWithTailPointer<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
 
@@ -131,28 +131,28 @@ T SingleLinkedListWithTailPointer<T>::getLast() const {
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::addLast(const T &e) {
+void SinglyLinkedListWithTailPointer<T>::addLast(const T &e) {
     tail -> next = new Node(e);
     tail = tail -> next;
     size++;
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::removeFirst() {
+void SinglyLinkedListWithTailPointer<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     remove(0);
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::removeLast() {
+void SinglyLinkedListWithTailPointer<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
     remove(size - 1);
 }
 
 template<typename T>
-bool SingleLinkedListWithTailPointer<T>::contains(const T &e) const  {
+bool SinglyLinkedListWithTailPointer<T>::contains(const T &e) const  {
     auto cur = dummyHead -> next;
     while (cur) {
         if (cur -> val == e)
@@ -163,7 +163,7 @@ bool SingleLinkedListWithTailPointer<T>::contains(const T &e) const  {
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::add(int idx, const T &e) {
+void SinglyLinkedListWithTailPointer<T>::add(int idx, const T &e) {
     if (idx < 0 || idx > size)
         throw std::runtime_error("超过链表可插入范围！");
 
@@ -178,7 +178,7 @@ void SingleLinkedListWithTailPointer<T>::add(int idx, const T &e) {
 }
 
 template<typename T>
-T SingleLinkedListWithTailPointer<T>::get(int idx) const {
+T SinglyLinkedListWithTailPointer<T>::get(int idx) const {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("超过链表范围！");
 
@@ -189,7 +189,7 @@ T SingleLinkedListWithTailPointer<T>::get(int idx) const {
 }
 
 template<typename T>
-void SingleLinkedListWithTailPointer<T>::remove(int idx) {
+void SinglyLinkedListWithTailPointer<T>::remove(int idx) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("超过链表范围！");
 
@@ -208,7 +208,7 @@ void SingleLinkedListWithTailPointer<T>::remove(int idx) {
 }
 
 template <typename T>
-std::ostream &operator<<(std::ostream &os, const SingleLinkedListWithTailPointer<T> &rhs) {
+std::ostream &operator<<(std::ostream &os, const SinglyLinkedListWithTailPointer<T> &rhs) {
     int size = rhs.getSize();
 
     // 自适应边框
@@ -232,4 +232,4 @@ std::ostream &operator<<(std::ostream &os, const SingleLinkedListWithTailPointer
     return os;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_WITH_TAIL_POINTER_H
+#endif //ALGORITHM_TEMPLATE_CPP_SINGLY_LINKED_LIST_WITH_TAIL_POINTER_H
