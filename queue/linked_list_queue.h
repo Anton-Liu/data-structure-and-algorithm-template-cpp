@@ -1,7 +1,7 @@
 #ifndef ALGORITHM_TEMPLATE_CPP_LINKED_LIST_QUEUE_H
 #define ALGORITHM_TEMPLATE_CPP_LINKED_LIST_QUEUE_H
 
-#include "../linked_list/single_linked_list_with_tail_pointer.h"
+#include "../linked_list/singly_linked_list_with_tail_pointer.h"
 #include "queue.h"
 #include <iostream>
 
@@ -20,10 +20,10 @@ class LinkedListQueue : public Queue<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const LinkedListQueue<T> &arrayQueue);
 public:
     LinkedListQueue():
-            data(new SingleLinkedListWithTailPointer<T>()) { }
+            data(new SinglyLinkedListWithTailPointer<T>()) { }
 
     LinkedListQueue(const LinkedListQueue<T> &rhs):
-            data(new SingleLinkedListWithTailPointer<T>(*rhs.data)) { }
+            data(new SinglyLinkedListWithTailPointer<T>(*rhs.data)) { }
     LinkedListQueue<T> &operator=(const LinkedListQueue &rhs);
 
     int getSize() const override { return data -> getSize(); }
@@ -37,7 +37,7 @@ public:
 
     virtual ~LinkedListQueue() { delete data; };
 private:
-    SingleLinkedListWithTailPointer<T> *data;
+    SinglyLinkedListWithTailPointer<T> *data;
 };
 
 template<typename T>

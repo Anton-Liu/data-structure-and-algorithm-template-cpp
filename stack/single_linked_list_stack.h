@@ -2,7 +2,7 @@
 #define ALGORITHM_TEMPLATE_CPP_SINGLE_LINKED_LIST_STACK_H
 
 #include "stack.h"
-#include "../linked_list/single_linked_list.h"
+#include "../linked_list/singly_linked_list.h"
 #include <iostream>
 
 template <typename T>
@@ -16,7 +16,7 @@ class SingleLinkedListStack : public Stack<T> {
     friend std::ostream &operator<<<T>(std::ostream &, const SingleLinkedListStack<T> &rhs);
 public:
     SingleLinkedListStack():
-        list(new SingleLinkedList<T>()) { }
+        list(new SinglyLinkedList<T>()) { }
 
     bool isEmpty() const override { return list -> isEmpty(); }
     int getSize() const override { return list -> getSize(); }
@@ -28,7 +28,7 @@ public:
     ~SingleLinkedListStack() { delete list; }
 
 private:
-    SingleLinkedList<T> *list;
+    SinglyLinkedList<T> *list;
 };
 
 
@@ -46,7 +46,7 @@ std::ostream &operator<<(std::ostream &os, const SingleLinkedListStack<T> &rhs) 
        << "栈的容量：∞" << '\n'
        << "栈的内容：" << "stack top[";
 
-    SingleLinkedList<T> tmp = *rhs.list;
+    SinglyLinkedList<T> tmp = *rhs.list;
     while (tmp.getSize() > 1) {
         os << tmp.getFirst() << ", ";
         tmp.removeFirst();
