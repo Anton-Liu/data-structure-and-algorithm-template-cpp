@@ -96,15 +96,14 @@ SinglyLinkedListWithTailPointer<T>::~SinglyLinkedListWithTailPointer() {
 template<typename T>
 SinglyLinkedListWithTailPointer<T>::SinglyLinkedListWithTailPointer(const SinglyLinkedListWithTailPointer<T> &rhs):
         dummyHead(new Node()), size(rhs.size) {
-    tail = dummyHead;
     auto pre = dummyHead;
     auto rhsCur = rhs.dummyHead -> next;
     while (rhsCur != nullptr) {
         pre -> next = new Node(rhsCur -> val);
         pre = pre -> next;
-        tail = pre;
         rhsCur = rhsCur -> next;
     }
+    tail = pre;
 }
 
 template<typename T>
