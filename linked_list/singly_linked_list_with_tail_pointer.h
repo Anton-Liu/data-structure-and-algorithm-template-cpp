@@ -105,7 +105,6 @@ SinglyLinkedListWithTailPointer<T>::SinglyLinkedListWithTailPointer(const Singly
         tail = pre;
         rhsCur = rhsCur -> next;
     }
-    pre -> next = nullptr;
 }
 
 template<typename T>

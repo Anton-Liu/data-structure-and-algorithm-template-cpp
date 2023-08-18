@@ -158,14 +158,13 @@ SinglyLinkedList<T>::~SinglyLinkedList() {
 template<typename T>
 SinglyLinkedList<T>::SinglyLinkedList(const SinglyLinkedList<T> &rhs):
         dummyHead(new Node()), size(rhs.size) {
-    auto cur = dummyHead;
+    auto pre = dummyHead;
     auto rhsCur = rhs.dummyHead -> next;
     while (rhsCur != nullptr) {
-        cur -> next = new Node(rhsCur -> val);
-        cur = cur -> next;
+        pre -> next = new Node(rhsCur -> val);
+        pre = pre -> next;
         rhsCur = rhsCur -> next;
     }
-    cur -> next = nullptr;
 }
 
 template<typename T>
