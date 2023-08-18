@@ -227,6 +227,4 @@ std::ostream &operator<<(std::ostream &os, const DoublyLinkedList<T> &rhs) {
     return os;
 }
 
-
-
 #endif //ALGORITHM_TEMPLATE_CPP_DOUBLY_LINKED_LIST_H
