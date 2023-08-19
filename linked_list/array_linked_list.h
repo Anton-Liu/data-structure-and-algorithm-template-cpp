@@ -33,7 +33,7 @@ public:
     void addLast(const T &e) override { add(size, e); };
     void removeFirst() override;
     void removeLast() override;
-   // void removeElements(const T &e);
+    void removeElements(const T &e);
 
     void swap(ArrayLinkedList<T> &rhs);
 
@@ -52,6 +52,30 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void ArrayLinkedList<T>::removeElements(const T &e) {
+    while (headIdx >= 0 && (*data)[headIdx].first == e && (*data)[headIdx].second != DELETED) {
+        int delIdx = headIdx;
+        headIdx = (*data)[headIdx].second;
+        (*data)[delIdx].second = DELETED;
+        delSet -> insert(delIdx);
+        size--;
+    }
+
+    int preIdx = headIdx;
+    while (preIdx >= 0 && (*data)[preIdx].second != END) {
+        if ((*data)[(*data)[preIdx].second].first == e) {
+            int delIdx = (*data)[preIdx].second;
+            (*data)[preIdx].second = (*data)[delIdx].second;
+            (*data)[delIdx].second = DELETED;
+            delSet -> insert(delIdx);
+            size--;
+        }
+        else
+            preIdx = (*data)[preIdx].second;
+    }
+}
 
 template<typename T>
 ArrayLinkedList<T>::ArrayLinkedList(const ArrayLinkedList<T> &rhs) {
