@@ -6,6 +6,7 @@
 #include <iostream>
 #include <utility>
 #include <set>
+#include <stack>
 
 template <typename T>
 class ArrayLinkedList;
@@ -34,6 +35,7 @@ public:
     void removeFirst() override;
     void removeLast() override;
     void removeElements(const T &e);
+    void reverseList();
 
     void swap(ArrayLinkedList<T> &rhs);
 
@@ -52,6 +54,30 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void ArrayLinkedList<T>::reverseList() {
+    if (size <= 1)
+        return;
+
+    std::stack<int> s;
+    int curIdx = headIdx;
+    while (curIdx != END) {
+        s.push(curIdx);
+        curIdx = (*data)[curIdx].second;
+    }
+
+    headIdx = curIdx = s.top();
+
+    s.pop();
+    while (!s.empty()) {
+        int nextIdx = s.top();
+        s.pop();
+        (*data)[curIdx].second = nextIdx;
+        curIdx = nextIdx;
+    }
+    (*data)[curIdx].second = END;
+}
 
 template<typename T>
 void ArrayLinkedList<T>::removeElements(const T &e) {

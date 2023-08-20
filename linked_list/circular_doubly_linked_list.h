@@ -31,6 +31,7 @@ public:
     void removeFirst() override;
     void removeLast() override;
     void removeElements(const T &e);
+    void reverseList();
 
     void swap(CircularDoublyLinkedList<T> &rhs);
 
@@ -57,6 +58,20 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void CircularDoublyLinkedList<T>::reverseList() {
+    if (size == 0)
+        return;
+
+    using std::swap;
+    auto cur = dummyHead -> next;
+    while (cur != dummyHead) {
+        swap(cur -> next, cur -> prev);
+        cur = cur -> prev;
+    }
+    swap(dummyHead -> next, dummyHead -> prev);
+}
 
 template<typename T>
 void CircularDoublyLinkedList<T>::addLast(const T &e) {

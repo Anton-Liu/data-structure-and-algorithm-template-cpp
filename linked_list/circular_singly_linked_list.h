@@ -31,6 +31,7 @@ public:
     void removeFirst() override;
     void removeLast() override;
     void removeElements(const T &e);
+    void reverseList();
 
     void swap(CircularSinglyLinkedList<T> &rhs);
 
@@ -56,6 +57,20 @@ private:
     T get(int idx) const;
     void remove(int idx);
 };
+
+template<typename T>
+void CircularSinglyLinkedList<T>::reverseList() {
+    Node *pre = dummyHead;
+    Node *cur = dummyHead -> next;
+
+    while (cur != dummyHead) {
+        Node *r = cur -> next;  // 防断链
+        cur -> next = pre;
+        pre = cur;
+        cur = r;
+    }
+    dummyHead -> next = pre;
+}
 
 
 template<typename T>
