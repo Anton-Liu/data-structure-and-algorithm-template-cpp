@@ -31,6 +31,7 @@ public:
     void removeFirst() override;
     void removeLast() override;
     void removeElements(const T &e);
+    void reverseList();
 
     void swap(SinglyLinkedListRecursion<T> &rhs);
 
@@ -60,8 +61,26 @@ private:
     void remove(int idx);
     void removeRecursion(Node *pre, int idx);
     Node* removeElementsRecursion(Node *node, const T &e);
+    Node* reverseListRecursion(Node *node);
 };
 
+template<typename T>
+void SinglyLinkedListRecursion<T>::reverseList() {
+    if (size <= 1)
+        return;
+    reverseListRecursion(dummyHead -> next);
+}
+
+template<typename T>
+typename SinglyLinkedListRecursion<T>::Node* SinglyLinkedListRecursion<T>::reverseListRecursion(SinglyLinkedListRecursion::Node *node) {
+    if (node -> next == nullptr) {
+        dummyHead -> next -> next = nullptr;
+        dummyHead -> next = node;
+        return node;
+    }
+    reverseListRecursion(node -> next) -> next = node;
+    return node;
+}
 
 template<typename T>
 void SinglyLinkedListRecursion<T>::add(int idx, const T &e) {
