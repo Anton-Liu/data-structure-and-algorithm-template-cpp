@@ -43,9 +43,8 @@ public:
     void add(int idx, const T &e);
 
 private:
-    const int END = -1;
-    const int DELETED = -2;
-
+    static const int END = -1;
+    static const int DELETED = -2;
     std::vector<std::pair<T, int>> *data;
     int size;
     int headIdx;  // 记录头结点位置，空表为-1
@@ -301,7 +300,6 @@ std::ostream &operator<<(std::ostream &os, const ArrayLinkedList<T> &rhs) {
                 os << (*rhs.data)[i].second << "\n";
         }
     }
-    os << "\n";
 
     // 自适应边框
     os << "--------------------------";
