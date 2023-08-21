@@ -3,6 +3,16 @@
 
 #include <vector>
 
+/**
+ * 最基本的快速排序
+ * partition过程：
+ *      每次都选第一个元素作为pivot，分割小于和大于等于两个两个区域
+ * 存在问题：
+ *      每次选第一个元素，划分极端不平均
+ *      导致时间复杂度退化为O(n^2)
+ *      递归深度O(n)，可能造成栈溢出
+ */
+
 template <typename T>
 class QuickSort {
 public:
