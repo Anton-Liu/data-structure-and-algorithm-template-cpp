@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_QUICK_SORT_H
-#define ALGORITHM_TEMPLATE_CPP_QUICK_SORT_H
+#ifndef ALGORITHM_TEMPLATE_CPP_QUICKSORT_H
+#define ALGORITHM_TEMPLATE_CPP_QUICKSORT_H
 
 #include <vector>
 
@@ -14,9 +14,9 @@
  */
 
 template <typename T>
-class QuickSort {
+class Quicksort {
 public:
-    QuickSort() = delete;
+    Quicksort() = delete;
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
 private:
@@ -34,12 +34,12 @@ private:
 };
 
 template<typename T>
-void QuickSort<T>::sort(std::vector<T> &arr) {
+void Quicksort<T>::sort(std::vector<T> &arr) {
     sort(arr, 0, arr.size() - 1);
 }
 
 template<typename T>
-void QuickSort<T>::sort(std::vector<T> &arr, int l, int r) {
+void Quicksort<T>::sort(std::vector<T> &arr, int l, int r) {
     if (l >= r)
         return;
 
@@ -49,7 +49,7 @@ void QuickSort<T>::sort(std::vector<T> &arr, int l, int r) {
 }
 
 template<typename T>
-int QuickSort<T>::partition(std::vector<T> &arr, int l, int r) {
+int Quicksort<T>::partition(std::vector<T> &arr, int l, int r) {
     int j = l;
     for (int i = l + 1; i <= r; i++) {
         if (arr[i] < arr[l]) {
@@ -61,4 +61,4 @@ int QuickSort<T>::partition(std::vector<T> &arr, int l, int r) {
     return j;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_QUICK_SORT_H
+#endif //ALGORITHM_TEMPLATE_CPP_QUICKSORT_H

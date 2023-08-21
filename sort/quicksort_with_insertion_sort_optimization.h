@@ -1,13 +1,13 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_QUICK_SORT_WITH_INSERTION_SORT_OPTIMIZATION_H
-#define ALGORITHM_TEMPLATE_CPP_QUICK_SORT_WITH_INSERTION_SORT_OPTIMIZATION_H
+#ifndef ALGORITHM_TEMPLATE_CPP_QUICKSORT_WITH_INSERTION_SORT_OPTIMIZATION_H
+#define ALGORITHM_TEMPLATE_CPP_QUICKSORT_WITH_INSERTION_SORT_OPTIMIZATION_H
 
 #include <vector>
 #include "insertion_sort.h"
 
 template <typename T>
-class QuickSortWithInsertionSortOptimization {
+class QuicksortWithInsertionSortOptimization {
 public:
-    QuickSortWithInsertionSortOptimization() = delete;
+    QuicksortWithInsertionSortOptimization() = delete;
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
 private:
@@ -25,12 +25,12 @@ private:
 };
 
 template<typename T>
-void QuickSortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr) {
+void QuicksortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr) {
     sort(arr, 0, arr.size() - 1);
 }
 
 template<typename T>
-void QuickSortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr, int l, int r) {
+void QuicksortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr, int l, int r) {
     if (r - l <= 15) {
         InsertionSort<T>::sort(arr, l, r);
         return;
@@ -42,7 +42,7 @@ void QuickSortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr, int l,
 }
 
 template<typename T>
-int QuickSortWithInsertionSortOptimization<T>::partition(std::vector<T> &arr, int l, int r) {
+int QuicksortWithInsertionSortOptimization<T>::partition(std::vector<T> &arr, int l, int r) {
     int j = l;
     for (int i = l + 1; i <= r; i++) {
         if (arr[i] < arr[l]) {
@@ -54,4 +54,4 @@ int QuickSortWithInsertionSortOptimization<T>::partition(std::vector<T> &arr, in
     return j;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_QUICK_SORT_WITH_INSERTION_SORT_OPTIMIZATION_H
+#endif //ALGORITHM_TEMPLATE_CPP_QUICKSORT_WITH_INSERTION_SORT_OPTIMIZATION_H

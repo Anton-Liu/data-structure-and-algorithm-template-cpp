@@ -7,8 +7,8 @@
 #include "../sort/selection_sort.h"
 #include "../sort/merge_sort.h"
 #include "../sort/merge_sort_with_insertion_sort_optimization.h"
-#include "../sort/quick_sort.h"
-#include "../sort/quick_sort_with_insertion_sort_optimization.h"
+#include "../sort/quicksort.h"
+#include "../sort/quicksort_with_insertion_sort_optimization.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -39,10 +39,10 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         MergeSort<T>::sort(arr);
     else if (sortName == "MergeSortWithInsertionSortOptimization")
         MergeSortWithInsertionSortOptimization<T>::sort(arr);
-    else if (sortName == "QuickSort")
-        QuickSort<T>::sort(arr);
-    else if (sortName == "QuickSortWithInsertionSortOptimization")
-        QuickSortWithInsertionSortOptimization<T>::sort(arr);
+    else if (sortName == "Quicksort")
+        Quicksort<T>::sort(arr);
+    else if (sortName == "QuicksortWithInsertionSortOptimization")
+        QuicksortWithInsertionSortOptimization<T>::sort(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
