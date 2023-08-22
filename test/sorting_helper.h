@@ -9,7 +9,7 @@
 #include "../sort/merge_sort_with_insertion_sort_optimization.h"
 #include "../sort/quicksort.h"
 #include "../sort/quicksort_with_insertion_sort_optimization.h"
-#include "../sort/randomizedQuicksort.h"
+#include "../sort/randomized_quicksort.h"
 #include "../sort/two_way_randomized_quicksort.h"
 #include <stdexcept>
 #include <iostream>
