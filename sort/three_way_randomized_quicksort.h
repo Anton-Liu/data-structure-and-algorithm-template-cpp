@@ -4,7 +4,6 @@
 #include <vector>
 #include <random>
 #include <utility>
-using std::default_random_engine, std::uniform_real_distribution, std::uniform_int_distribution;
 
 /**
  * 随机化的三路快速排序
@@ -21,7 +20,7 @@ public:
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
 private:
-    static void sort(std::vector<T> &arr, int l, int r, default_random_engine &e);
+    static void sort(std::vector<T> &arr, int l, int r, std::default_random_engine &e);
 
     /*
      * 随机化的partition，pivot: [l, r]上的随机位置
@@ -34,17 +33,17 @@ private:
      * 大于arr[l]的区域: arr[gt, r]
      * 返回小于arr[l]的最右侧的位置和大于arr[l]的最左侧的位置
      */
-    static std::pair<int, int> partition(std::vector<T> &arr, int l, int r, default_random_engine &e);
+    static std::pair<int, int> partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e);
 };
 
 template<typename T>
 void ThreeWayRandomizedQuicksort<T>::sort(std::vector<T> &arr) {
-    default_random_engine e;
+    std::default_random_engine e;
     sort(arr, 0, arr.size() - 1, e);
 }
 
 template<typename T>
-void ThreeWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, default_random_engine &e) {
+void ThreeWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     if (l >= r)
         return;
 
@@ -55,8 +54,8 @@ void ThreeWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, def
 
 template<typename T>
 std::pair<int, int>
-ThreeWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, default_random_engine &e) {
-    uniform_int_distribution<int> u(l, r);
+ThreeWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
+    std::uniform_int_distribution<int> u(l, r);
     int p = u(e);
     std::swap(arr[p], arr[l]);
 

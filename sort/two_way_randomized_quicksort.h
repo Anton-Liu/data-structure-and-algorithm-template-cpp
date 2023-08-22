@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <random>
-using std::default_random_engine, std::uniform_real_distribution, std::uniform_int_distribution;
 
 /**
  * 随机化的双路快速排序
@@ -18,7 +17,7 @@ public:
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
 private:
-    static void sort(std::vector<T> &arr, int l, int r, default_random_engine &e);
+    static void sort(std::vector<T> &arr, int l, int r, std::default_random_engine &e);
 
     /*
      * 随机化的partition，pivot: [l, r]上的随机位置
@@ -28,17 +27,17 @@ private:
      * 小于等于arr[l]的区域: arr[l + 1, i - 1]
      * 大于等于arr[l]的区域: arr[j + 1, r]
      */
-    static int partition(std::vector<T> &arr, int l, int r, default_random_engine &e);
+    static int partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e);
 };
 
 template<typename T>
 void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr) {
-    default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
+    std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
     sort(arr, 0, arr.size() - 1, e);
 }
 
 template<typename T>
-void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, default_random_engine &e) {
+void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     if (l >= r)
         return;
 
@@ -48,8 +47,8 @@ void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, defau
 }
 
 template<typename T>
-int TwoWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, default_random_engine &e) {
-    uniform_int_distribution<int> u(l, r);
+int TwoWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
+    std::uniform_int_distribution<int> u(l, r);
     int p = u(e);
     std::swap(arr[p], arr[l]);
 
