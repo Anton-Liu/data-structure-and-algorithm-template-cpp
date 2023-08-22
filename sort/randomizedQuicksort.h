@@ -9,6 +9,10 @@ using std::default_random_engine, std::uniform_real_distribution, std::uniform_i
  * 随机化的快速排序
  * partition过程：
  *      每次都随机选一个区间内的元素作为pivot，分割小于和大于等于两个两个区域
+ * 存在问题：
+ *      对于元素全都相同的数组，划分极端不平均
+ *      导致时间复杂度退化为O(n^2)
+ *      递归深度O(n)，可能造成栈溢出
  */
 
 template <typename T>
