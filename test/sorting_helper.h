@@ -10,6 +10,7 @@
 #include "../sort/quicksort.h"
 #include "../sort/quicksort_with_insertion_sort_optimization.h"
 #include "../sort/randomizedQuicksort.h"
+#include "../sort/two_way_randomized_quicksort.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -46,6 +47,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         QuicksortWithInsertionSortOptimization<T>::sort(arr);
     else if (sortName == "RandomizedQuicksort")
         RandomizedQuicksort<T>::sort(arr);
+    else if (sortName == "TwoWayRandomizedQuicksort")
+        TwoWayRandomizedQuicksort<T>::sort(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
