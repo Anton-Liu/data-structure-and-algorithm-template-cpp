@@ -14,6 +14,10 @@ public:
     template <typename T>
     static int search2(const std::vector<T> &data, const T &target);  // 二分查找值为target的元素对应下标，不存在返回-1
 
+    // >=target的最小值实现
+    template <typename T>
+    static int search3(const std::vector<T> &data, const T &target);  // 二分查找值为target的元素对应下标，不存在返回-1
+
     // upper，返回大于target值的最小值的索引
     // 若target值大于等于最后一个元素，则upper结果返回最后一个元素之后的索引(越界)
     // 因此结果的范围是：[0, data.size()]
@@ -83,6 +87,22 @@ int BinarySearch::search2(const std::vector<T> &data, const T &target) {
             r = mid;  // 继续在[l, mid)内寻找解
     }
     return -1;
+}
+
+
+template<typename T>
+int BinarySearch::search3(const std::vector<T> &data, const T &target) {
+    // 在[l, r]范围内查找target
+    int l = 0;
+    int r = data.size();
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (data[mid] >= target)
+            r = mid;
+        else
+            l = mid + 1;
+    }
+    return (l < data.size() && data[l] == target) ? l : -1;  // l和r必定相等，也可以返回r
 }
 
 
