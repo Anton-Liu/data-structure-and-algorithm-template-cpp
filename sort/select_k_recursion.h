@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_K_H
-#define ALGORITHM_TEMPLATE_CPP_SELECT_K_H
+#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
+#define ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
 
 #include <vector>
 #include <random>
@@ -10,9 +10,9 @@
  */
 
 template <typename T>
-class SelectK {
+class SelectKRecursion {
 public:
-    SelectK() = delete;
+    SelectKRecursion() = delete;
 
     static T getKthNum(std::vector<T> &arr, int k);  // 获取第k小的元素
 private:
@@ -22,13 +22,13 @@ private:
 };
 
 template<typename T>
-T SelectK<T>::getKthNum(std::vector<T> &arr, int k) {
+T SelectKRecursion<T>::getKthNum(std::vector<T> &arr, int k) {
     std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
     return sort(arr, 0, arr.size() - 1, k, e);
 }
 
 template<typename T>
-T SelectK<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random_engine &e) {
+T SelectKRecursion<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random_engine &e) {
     int pivot = partition(arr, l, r, e);
     if (pivot == k)
         return arr[k];
@@ -39,7 +39,7 @@ T SelectK<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random
 }
 
 template<typename T>
-int SelectK<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
+int SelectKRecursion<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
     int p = u(e);
     std::swap(arr[p], arr[l]);
@@ -63,4 +63,4 @@ int SelectK<T>::partition(std::vector<T> &arr, int l, int r, std::default_random
     return j;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_SELECT_K_H
+#endif //ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
