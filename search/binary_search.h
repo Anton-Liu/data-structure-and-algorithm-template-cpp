@@ -105,9 +105,7 @@ int BinarySearch::upper(const std::vector<T> &data, const T &target) {
 template<typename T>
 int BinarySearch::upperCeil(const std::vector<T> &data, const T &target) {
     int u = upper(data, target);
-    if (u - 1 >= 0 && data[u - 1] == target)
-        return u - 1;
-    return u;
+    return (u - 1 >= 0 && data[u - 1] == target) ? u - 1 : u;
 }
 
 template<typename T>
@@ -159,9 +157,7 @@ int BinarySearch::upperFloor(const std::vector<T> &data, const T &target) {
 template<typename T>
 int BinarySearch::lowerFloor(const std::vector<T> &data, const T &target) {
     int l = lower(data, target);
-    if (l + 1 < data.size() && data[l + 1] == target)
-        return l + 1;
-    return l;
+    return (l + 1 < data.size() && data[l + 1] == target) ? l + 1 : l;
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_H
