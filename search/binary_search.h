@@ -20,9 +20,9 @@ public:
     template <typename T>
     static int upper(const std::vector<T> &data, const T &target);
 
-    // ceil
-    // 1 数组中存在等于target的元素，返回最大索引
-    // 2 数组中不存在等于target元素，返回upper
+    // ceil，在可能含有重复的数组中
+    // 1 若存在等于target的若干元素，返回最大的索引
+    // 2 若不存在等于target元素，返回upper
     template <typename T>
     static int ceil(const std::vector<T> &data, const T &target);
 };
