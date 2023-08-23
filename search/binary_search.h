@@ -20,11 +20,17 @@ public:
     template <typename T>
     static int upper(const std::vector<T> &data, const T &target);
 
-    // ceil，在可能含有重复的数组中
-    // 1 若存在等于target的若干元素，返回最大的索引
+    // upperCeil，在可能含有重复的数组中
+    // 1 若存在等于target的若干元素，返回最大(右)的索引
     // 2 若不存在等于target元素，返回upper
     template <typename T>
-    static int ceil(const std::vector<T> &data, const T &target);
+    static int upperCeil(const std::vector<T> &data, const T &target);
+
+    // lowerCeil，在可能含有重复的数组中
+    // 1 若存在等于target的若干元素，返回最小(左)的索引
+    // 2 若不存在等于target元素，返回upper
+    template <typename T>
+    static int lowerCeil(const std::vector<T> &data, const T &target);
 };
 
 template<typename T>
@@ -79,12 +85,25 @@ int BinarySearch::upper(const std::vector<T> &data, const T &target) {
 }
 
 template<typename T>
-int BinarySearch::ceil(const std::vector<T> &data, const T &target) {
+int BinarySearch::upperCeil(const std::vector<T> &data, const T &target) {
     int u = upper(data, target);
     if (u - 1 >= 0 && data[u - 1] == target)
         return u - 1;
     return u;
 }
 
+template<typename T>
+int BinarySearch::lowerCeil(const std::vector<T> &data, const T &target) {
+    int l = 0;
+    int r = data.size();
+    while (l < r) {
+        int mid = l + (r - l) / 2;
+        if (data[mid] < target)
+            l = mid + 1;
+        else
+            r = mid;
+    }
+    return l;  // l和r必定相等，也可以返回r
+}
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_H
