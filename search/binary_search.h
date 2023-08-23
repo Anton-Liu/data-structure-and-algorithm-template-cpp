@@ -31,6 +31,24 @@ public:
     // 2 若不存在等于target元素，返回upper
     template <typename T>
     static int lowerCeil(const std::vector<T> &data, const T &target);
+
+    // lower，返回小于target值的最大值的索引
+    // 若target值小于等于第一个元素，则lower结果返回第一个元素之前的索引-1(越界)
+    // 因此结果的范围是：[-1, data.size() - 1]
+    template <typename T>
+    static int lower(const std::vector<T> &data, const T &target);
+
+    // upperFloor，在可能含有重复的数组中
+    // 1 若存在等于target的若干元素，返回最大(右)的索引
+    // 2 若不存在等于target元素，返回lower
+    template <typename T>
+    static int upperFloor(const std::vector<T> &data, const T &target);
+
+    // lowerFloor，在可能含有重复的数组中
+    // 1 若存在等于target的若干元素，返回最小(左)的索引
+    // 2 若不存在等于target元素，返回lower
+    template <typename T>
+    static int lowerFloor(const std::vector<T> &data, const T &target);
 };
 
 template<typename T>
@@ -104,6 +122,46 @@ int BinarySearch::lowerCeil(const std::vector<T> &data, const T &target) {
             r = mid;
     }
     return l;  // l和r必定相等，也可以返回r
+}
+
+template<typename T>
+int BinarySearch::lower(const std::vector<T> &data, const T &target) {
+    int l = -1;
+    int r = data.size() - 1;
+    while (l < r) {
+        int mid = l + (r - l + 1) / 2;  // 大坑！要保证l和r相邻时，
+                                        // 计算得到的mid == r(上取整)
+                                        // 这样才能保证每次查找过程的搜索空间在缩小
+        if (data[mid] < target)
+            l = mid;
+        else  // data[mid] >= target
+            r = mid - 1;
+    }
+    return l;  // l和r必定相等，也可以返回r
+}
+
+template<typename T>
+int BinarySearch::upperFloor(const std::vector<T> &data, const T &target) {
+    int l = -1;
+    int r = data.size() - 1;
+    while (l < r) {
+        int mid = l + (r - l + 1) / 2;  // 大坑！要保证l和r相邻时，
+                                    // 计算得到的mid == r(上取整)
+                                    // 这样才能保证每次查找过程的搜索空间在缩小
+        if (data[mid] <= target)
+            l = mid;
+        else  // data[mid] > target
+            r = mid - 1;
+    }
+    return l;  // l和r必定相等，也可以返回r
+}
+
+template<typename T>
+int BinarySearch::lowerFloor(const std::vector<T> &data, const T &target) {
+    int l = lower(data, target);
+    if (l + 1 < data.size() && data[l + 1] == target)
+        return l + 1;
+    return l;
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_H
