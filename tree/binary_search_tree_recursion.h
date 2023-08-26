@@ -2,6 +2,7 @@
 #define ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_TREE_RECURSION_H
 
 #include <iostream>
+#include <queue>
 
 template <typename T>
 class BinarySearchTreeRecursion {
@@ -24,6 +25,8 @@ public:
     void removeMin();
     void removeMax();
     void remove(const T &e);
+
+    ~BinarySearchTreeRecursion();
 
 private:
     class Node {
@@ -51,6 +54,26 @@ private:
     Node *removeMax(Node *node);
     Node *remove(Node *node, const T &e);
 };
+
+template<typename T>
+BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
+    if (!root)
+        return;
+
+    std::queue<Node *> que;
+    que.push(root);
+    while (!que.empty()) {
+        auto cur = que.front();
+        que.pop();
+
+        if (cur -> left)
+            que.push(cur -> left);
+        if (cur -> right)
+            que.push(cur -> right);
+
+        delete cur;
+    }
+}
 
 template<typename T>
 BinarySearchTreeRecursion<T>::BinarySearchTreeRecursion(const BinarySearchTreeRecursion<T> &rhs) {
