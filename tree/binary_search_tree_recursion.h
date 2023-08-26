@@ -6,6 +6,12 @@
 #include <functional>
 
 template <typename T>
+class BinarySearchTreeRecursion;
+
+template <typename T>
+std::ostream &operator<<(std::ostream &, const BinarySearchTreeRecursion<T> &);
+
+template <typename T>
 class BinarySearchTreeRecursion {
 public:
     BinarySearchTreeRecursion():
@@ -19,6 +25,7 @@ public:
     void preOrder() const;
     void inOrder() const;
     void postOrder() const;
+    void levelOrder() const;  // 非递归实现！
     T minimum() const;
     T maximum() const;
 
@@ -46,6 +53,7 @@ private:
     void preOrder(const Node *node, std::function<void(Node *node)> visit) const;
     void inOrder(const Node *node, std::function<void(Node *node)> visit) const;
     void postOrder(const Node *node, std::function<void(Node *node)> visit) const;
+    void levelOrder(const Node *node, std::function<void(Node *node)> visit) const;  // 非递归实现！
     bool contains(const Node *node, const T &e) const;
     Node *minimum(const Node *node) const;
     Node *maximum(const Node *node) const;
@@ -112,7 +120,7 @@ bool BinarySearchTreeRecursion<T>::contains(const BinarySearchTreeRecursion:: No
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::preOrder() const {
-    preOrder(root, [](Node *node){ std::cout << "当前访问结点" << node -> val << std::endl; });
+    preOrder(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
@@ -127,7 +135,7 @@ void BinarySearchTreeRecursion<T>::preOrder(const BinarySearchTreeRecursion::Nod
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::inOrder() const {
-    inOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点" << node -> val << std::endl; });
+    inOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
@@ -142,7 +150,7 @@ void BinarySearchTreeRecursion<T>::inOrder(const BinarySearchTreeRecursion::Node
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::postOrder() const {
-    postOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点" << node -> val << std::endl; });
+    postOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
@@ -153,6 +161,30 @@ void BinarySearchTreeRecursion<T>::postOrder(const BinarySearchTreeRecursion::No
     postOrderRecursion(node -> left);
     postOrderRecursion(node -> right);
     visit(node);
+}
+
+template<typename T>
+void BinarySearchTreeRecursion<T>::levelOrder() const {
+    levelOrder(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+}
+
+template<typename T>
+void BinarySearchTreeRecursion<T>::levelOrder(const BinarySearchTreeRecursion::Node *node,
+                                              std::function<void(Node *)> visit) const {
+    if (!root)
+        return;
+
+    std::queue<Node *> que;
+    que.push(root);
+    while (!que.empty()) {
+        auto cur = que.front();
+        if (cur -> left)
+            que.push(cur -> left);
+        if (cur -> right)
+            que.push(cur -> right);
+        visit(cur);
+        que.pop();
+    }
 }
 
 template<typename T>
@@ -277,6 +309,38 @@ BinarySearchTreeRecursion<T>::remove(BinarySearchTreeRecursion::Node *node, cons
     successor -> right = removeMin(node -> right);  // removeMin已经size--
     delete node;
     return successor;
+}
+
+
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const BinarySearchTreeRecursion<T> &rhs) {
+    int size = rhs.getSize();
+
+    // 自适应边框
+    os << "--------------------------";
+    for (int i = 0; i < size; i++)
+        os << "----";
+    os << '\n';
+
+    // 链表的信息
+    os << "BST的长度：" << size << "\n"
+       << "BST的内容(层序遍历)：\n";
+
+    std::queue<typename BinarySearchTreeRecursion<T>::Node *> que;
+    que.push(rhs.root);
+    while (!que.empty()) {
+
+    }
+
+    for (int i = 0; i < size; i++)
+        os << "(" << rhs.get(i) << ")->";
+    os << "NULL\n";
+
+    // 自适应边框
+    os << "--------------------------";
+    for (int i = 0; i < size; i++)
+        os << "----";
+    return os;
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_TREE_RECURSION_H
