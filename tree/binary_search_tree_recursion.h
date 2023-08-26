@@ -26,6 +26,7 @@ public:
     void removeMin();
     void removeMax();
     void remove(const T &e);
+    void swap(BinarySearchTreeRecursion<T> &rhs);
 
     ~BinarySearchTreeRecursion();
 
@@ -53,7 +54,15 @@ private:
     Node *removeMin(Node *node);
     Node *removeMax(Node *node);
     Node *remove(Node *node, const T &e);
+    Node *copyTree(const Node *rhsNode);
 };
+
+template<typename T>
+void BinarySearchTreeRecursion<T>::swap(BinarySearchTreeRecursion<T> &rhs) {
+    using std::swap;
+    swap(root, rhs.root);
+    swap(size, rhs.size);
+}
 
 template<typename T>
 BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
@@ -62,13 +71,25 @@ BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
 
 template<typename T>
 BinarySearchTreeRecursion<T>::BinarySearchTreeRecursion(const BinarySearchTreeRecursion<T> &rhs) {
-
+    root = copyTree(rhs.root);
 }
 
+template<typename T>
+typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::copyTree(const BinarySearchTreeRecursion::Node *rhsNode) {
+    if (!rhsNode)
+        return nullptr;
+
+    auto newNode = new Node(rhsNode -> val);
+    newNode -> left = copyTree(rhsNode -> left);
+    newNode -> right = copyTree(rhsNode -> right);
+
+    return newNode;
+}
 
 template<typename T>
 BinarySearchTreeRecursion<T> &BinarySearchTreeRecursion<T>::operator=(const BinarySearchTreeRecursion<T> &rhs) {
-
+    BinarySearchTreeRecursion<T>(rhs).swap(*this);
+    return *this;
 }
 
 template<typename T>
