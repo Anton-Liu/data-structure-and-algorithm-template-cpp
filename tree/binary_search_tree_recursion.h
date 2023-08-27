@@ -47,6 +47,8 @@ private:
 
         explicit Node(T val):
                 val(val), left(nullptr), right(nullptr) { }
+        Node(T val, Node *left, Node *right):
+                val(val), left(left), right(right) { }
     };
     Node *root;
     int size;
@@ -56,9 +58,9 @@ private:
     void postOrder(const Node *node, std::function<void(const Node *)> visit) const;
     void levelOrder(const Node *node, std::function<void(const Node *)> visit) const;  // 非递归实现！
     bool contains(const Node *node, const T &e) const;
-    Node *minimum(const Node *node) const;
-    Node *maximum(const Node *node) const;
 
+    Node *minimum(Node *node) const;
+    Node *maximum(Node *node) const;
     Node *add(Node *node, const T &e);
     Node *removeMin(Node *node);
     Node *removeMax(Node *node);
@@ -80,6 +82,7 @@ BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
 
 template<typename T>
 BinarySearchTreeRecursion<T>::BinarySearchTreeRecursion(const BinarySearchTreeRecursion<T> &rhs) {
+    size = 0;
     root = copyTree(rhs.root);
 }
 
@@ -89,6 +92,7 @@ typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::copyT
         return nullptr;
 
     auto newNode = new Node(rhsNode -> val);
+    size++;
     newNode -> left = copyTree(rhsNode -> left);
     newNode -> right = copyTree(rhsNode -> right);
 
@@ -103,7 +107,7 @@ BinarySearchTreeRecursion<T> &BinarySearchTreeRecursion<T>::operator=(const Bina
 
 template<typename T>
 bool BinarySearchTreeRecursion<T>::contains(const T &e) const {
-    return containsRecursion(root, e);
+    return contains(root, e);
 }
 
 template<typename T>
@@ -114,9 +118,9 @@ bool BinarySearchTreeRecursion<T>::contains(const BinarySearchTreeRecursion:: No
         return true;
 
     if (e < node -> val)
-        return containsRecursion(node -> left, e);
+        return contains(node -> left, e);
     // e > node -> val
-    return containsRecursion(node -> right, e);
+    return contains(node -> right, e);
 }
 
 template<typename T>
@@ -212,7 +216,7 @@ T BinarySearchTreeRecursion<T>::minimum() const {
 }
 
 template<typename T>
-typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::minimum(const BinarySearchTreeRecursion::Node *node) const {
+typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::minimum(BinarySearchTreeRecursion::Node *node) const {
     if (!node -> left)
         return node;
 
@@ -228,7 +232,7 @@ T BinarySearchTreeRecursion<T>::maximum() const {
 }
 
 template<typename T>
-typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::maximum(const BinarySearchTreeRecursion::Node *node) const {
+typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::maximum(BinarySearchTreeRecursion::Node *node) const {
     if (!node -> right)
         return node;
 
@@ -237,6 +241,9 @@ typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::maxim
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::removeMin() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
     root = removeMin(root);
 }
 
@@ -255,6 +262,9 @@ typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::remov
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::removeMax() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
     root = removeMax(root);
 }
 
@@ -280,14 +290,14 @@ template<typename T>
 typename BinarySearchTreeRecursion<T>::Node *
 BinarySearchTreeRecursion<T>::remove(BinarySearchTreeRecursion::Node *node, const T &e) {
     if (!node)
-        return;
+        return nullptr;
 
     if (e < node -> val) {
         node -> left = remove(node -> left, e);
         return node;
     }
     if (e > node -> val) {
-        node -> right = remove(node -> right);
+        node -> right = remove(node -> right, e);
         return node;
     }
 
@@ -305,9 +315,10 @@ BinarySearchTreeRecursion<T>::remove(BinarySearchTreeRecursion::Node *node, cons
         return leftNode;
     }
 
-    auto successor = minimum(node -> right);  // 后继结点
+    auto successor = new Node(minimum(node -> right) -> val);  // 后继结点
     successor -> left = node -> left;
     successor -> right = removeMin(node -> right);  // removeMin已经size--
+
     delete node;
     return successor;
 }
