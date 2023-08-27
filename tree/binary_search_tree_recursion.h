@@ -151,7 +151,7 @@ void BinarySearchTreeRecursion<T>::inOrder(const BinarySearchTreeRecursion::Node
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::postOrder() const {
-    postOrderRecursion(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+    postOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
