@@ -56,6 +56,7 @@ private:
     void preOrder(const Node *node, std::function<void(const Node *)> visit) const;
     void inOrder(const Node *node, std::function<void(const Node *)> visit) const;
     void postOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void postOrder(Node *node, std::function<void(Node *)> visit);
     void levelOrder(const Node *node, std::function<void(const Node *)> visit) const;  // 非递归实现！
     bool contains(const Node *node, const T &e) const;
 
@@ -77,7 +78,7 @@ void BinarySearchTreeRecursion<T>::swap(BinarySearchTreeRecursion<T> &rhs) {
 
 template<typename T>
 BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
-    postOrder(root, [](const Node *node){ delete node; });  // 后序遍历删除整棵二叉树
+    postOrder(root, [](Node *node){ delete node; });  // 后序遍历删除整棵二叉树
 }
 
 template<typename T>
@@ -160,6 +161,16 @@ void BinarySearchTreeRecursion<T>::postOrder() const {
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::postOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(const Node *)> visit) const {
+    if (!node)
+        return;
+
+    postOrder(node -> left, visit);
+    postOrder(node -> right, visit);
+    visit(node);
+}
+
+template<typename T>
+void BinarySearchTreeRecursion<T>::postOrder(BinarySearchTreeRecursion::Node *node, std::function<void(Node *)> visit) {
     if (!node)
         return;
 
