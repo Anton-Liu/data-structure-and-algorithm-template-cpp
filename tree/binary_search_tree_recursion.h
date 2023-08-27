@@ -13,6 +13,7 @@ std::ostream &operator<<(std::ostream &, const BinarySearchTreeRecursion<T> &);
 
 template <typename T>
 class BinarySearchTreeRecursion {
+    friend std::ostream &operator<<<T>(std::ostream &, const BinarySearchTreeRecursion<T> &);
 public:
     BinarySearchTreeRecursion():
             root(nullptr), size(0) { }
@@ -29,7 +30,7 @@ public:
     T minimum() const;
     T maximum() const;
 
-    void add(const T &e) { root = addRecursion(root, e); }
+    void add(const T &e) { root = add(root, e); }
     void removeMin();
     void removeMax();
     void remove(const T &e);
@@ -50,10 +51,10 @@ private:
     Node *root;
     int size;
 
-    void preOrder(const Node *node, std::function<void(Node *node)> visit) const;
-    void inOrder(const Node *node, std::function<void(Node *node)> visit) const;
-    void postOrder(const Node *node, std::function<void(Node *node)> visit) const;
-    void levelOrder(const Node *node, std::function<void(Node *node)> visit) const;  // 非递归实现！
+    void preOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void inOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void postOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void levelOrder(const Node *node, std::function<void(const Node *)> visit) const;  // 非递归实现！
     bool contains(const Node *node, const T &e) const;
     Node *minimum(const Node *node) const;
     Node *maximum(const Node *node) const;
@@ -74,7 +75,7 @@ void BinarySearchTreeRecursion<T>::swap(BinarySearchTreeRecursion<T> &rhs) {
 
 template<typename T>
 BinarySearchTreeRecursion<T>::~BinarySearchTreeRecursion() {
-    postOrder(root, [](Node *node){ delete node; });  // 后序遍历删除整棵二叉树
+    postOrder(root, [](const Node *node){ delete node; });  // 后序遍历删除整棵二叉树
 }
 
 template<typename T>
@@ -120,57 +121,57 @@ bool BinarySearchTreeRecursion<T>::contains(const BinarySearchTreeRecursion:: No
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::preOrder() const {
-    preOrder(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+    preOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
-void BinarySearchTreeRecursion<T>::preOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(Node *node)> visit) const {
+void BinarySearchTreeRecursion<T>::preOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(const Node *)> visit) const {
     if (!node)
         return;
 
     visit(node);
-    preOrderRecursion(node -> left, visit);
-    preOrderRecursion(node -> right, visit);
+    preOrder(node -> left, visit);
+    preOrder(node -> right, visit);
 }
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::inOrder() const {
-    inOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+    inOrderRecursion(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
-void BinarySearchTreeRecursion<T>::inOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(Node *node)> visit) const {
+void BinarySearchTreeRecursion<T>::inOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(const Node *)> visit) const {
     if (!node)
         return;
 
-    inOrderRecursion(node -> left);
+    inOrder(node -> left, visit);
     visit(node);
-    inOrderRecursion(node -> right);
+    inOrder(node -> right, visit);
 }
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::postOrder() const {
-    postOrderRecursion(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+    postOrderRecursion(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
-void BinarySearchTreeRecursion<T>::postOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(Node *node)> visit) const {
+void BinarySearchTreeRecursion<T>::postOrder(const BinarySearchTreeRecursion::Node *node, std::function<void(const Node *)> visit) const {
     if (!node)
         return;
 
-    postOrderRecursion(node -> left);
-    postOrderRecursion(node -> right);
+    postOrder(node -> left, visit);
+    postOrder(node -> right, visit);
     visit(node);
 }
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::levelOrder() const {
-    levelOrder(root, [](Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+    levelOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::levelOrder(const BinarySearchTreeRecursion::Node *node,
-                                              std::function<void(Node *)> visit) const {
+                                              std::function<void(const Node *)> visit) const {
     if (!root)
         return;
 
@@ -326,15 +327,23 @@ std::ostream &operator<<(std::ostream &os, const BinarySearchTreeRecursion<T> &r
     os << "BST的长度：" << size << "\n"
        << "BST的内容(层序遍历)：\n";
 
-    std::queue<typename BinarySearchTreeRecursion<T>::Node *> que;
-    que.push(rhs.root);
-    while (!que.empty()) {
-
+    if (rhs.root == nullptr)
+        os << "NULL\n";
+    else {
+        std::queue<std::pair<typename BinarySearchTreeRecursion<T>::Node *, int>> que;
+        que.push({rhs.root, 0});
+        while (!que.empty()) {
+            auto cur = que.front();
+            que.pop();
+            for (int i = 0; i < cur.second; i++)
+                os << "-";
+            os << cur.first -> val << "\n";
+            if (cur.first -> left)
+                que.push({cur.first -> left, cur.second + 1});
+            if (cur.first -> right)
+                que.push({cur.first -> right, cur.second + 1});
+        }
     }
-
-    for (int i = 0; i < size; i++)
-        os << "(" << rhs.get(i) << ")->";
-    os << "NULL\n";
 
     // 自适应边框
     os << "--------------------------";
