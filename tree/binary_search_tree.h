@@ -115,6 +115,18 @@ BinarySearchTree<T> &BinarySearchTree<T>::operator=(const BinarySearchTree<T> &r
 
 template<typename T>
 bool BinarySearchTree<T>::contains(const T &e) const {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    auto cur = root;
+    while (cur) {
+        if (e == cur -> val)
+            return true;
+        if (e < cur -> val)
+            cur = cur -> left;
+        else // e > cur -> val
+            cur = cur -> right;
+    }
     return false;
 }
 
