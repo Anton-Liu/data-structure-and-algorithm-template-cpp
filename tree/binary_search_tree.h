@@ -37,6 +37,8 @@ private:
         Node *left;
         Node *right;
 
+        Node():
+                val(T()), left(nullptr), right(nullptr){}
         explicit Node(T val):
                 val(val), left(nullptr), right(nullptr) { }
         Node(T val, Node *left, Node *right):
@@ -68,12 +70,39 @@ BinarySearchTree<T>::~BinarySearchTree() {
 
 template<typename T>
 BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T> &rhs) {
+    if (!rhs.root) {
+        root = nullptr;
+        size = 0;
+        return;
+    }
 
+    size = rhs.size;
+    std::queue<Node *> queL, queR;
+    root = new Node();
+    queL.push(root);
+    queR.push(rhs.root);
+    while (!queR.empty()) {
+        auto curR = queR.front();
+        queR.pop();
+        auto curL = queL.front();
+        queL.pop();
+        curL -> val = curR -> val;
+        if (curR -> left) {
+            queR.push(curR -> left);
+            curL -> left = new Node();
+            queL.push(curL -> left);
+        }
+        if (curR -> right) {
+            queR.push(curR -> right);
+            curL -> right = new Node();
+            queL.push(curL -> right);
+        }
+    }
 }
 
 template<typename T>
 BinarySearchTree<T> &BinarySearchTree<T>::operator=(const BinarySearchTree<T> &rhs) {
-    
+
 }
 
 template<typename T>
