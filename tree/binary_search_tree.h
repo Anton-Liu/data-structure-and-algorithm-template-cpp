@@ -5,7 +5,14 @@
 #include <queue>
 
 template <typename T>
+class BinarySearchTree;
+
+template <typename T>
+std::ostream &operator<<(std::ostream &, const BinarySearchTree<T> &);
+
+template <typename T>
 class BinarySearchTree {
+    friend std::ostream &operator<<<T>(std::ostream &os, const BinarySearchTree<T> &rhs);
 public:
     BinarySearchTree():
             root(nullptr), size(0) { }
@@ -22,7 +29,7 @@ public:
     T minimum() const;
     T maximum() const;
 
-    void add(const T &e) { root = add(root, e); }
+    void add(const T &e);
     void removeMin();
     void removeMax();
     void remove(const T &e);
@@ -131,6 +138,37 @@ bool BinarySearchTree<T>::contains(const T &e) const {
 }
 
 template<typename T>
+void BinarySearchTree<T>::add(const T &e) {
+    if (size == 0) {
+        root = new Node(e);
+        size++;
+        return;
+    }
+
+    auto cur = root;
+    while (true) {
+        if (e < cur -> val) {
+            if (!cur -> left) {
+                cur -> left = new Node(e);
+                size++;
+                return;
+            }
+            cur = cur -> left;
+        }
+        else if (e > cur -> val) {
+            if (!cur -> right) {
+                cur -> right = new Node(e);
+                size++;
+                return;
+            }
+            cur = cur -> right;
+        }
+        else
+            return;  // e == cur -> val
+    }
+}
+
+template<typename T>
 void BinarySearchTree<T>::preOrder() const {
 
 }
@@ -174,5 +212,46 @@ template<typename T>
 void BinarySearchTree<T>::remove(const T &e) {
 
 }
+
+
+template<typename T>
+std::ostream &operator<<(std::ostream &os, const BinarySearchTree<T> &rhs) {
+    int size = rhs.getSize();
+
+    // 自适应边框
+    os << "--------------------------";
+    for (int i = 0; i < size; i++)
+        os << "----";
+    os << '\n';
+
+    // 链表的信息
+    os << "BST的长度：" << size << "\n"
+       << "BST的内容(层序遍历)：\n";
+
+    if (rhs.root == nullptr)
+        os << "NULL\n";
+    else {
+        std::queue<std::pair<typename BinarySearchTree<T>::Node *, int>> que;
+        que.push({rhs.root, 0});
+        while (!que.empty()) {
+            auto cur = que.front();
+            que.pop();
+            for (int i = 0; i < cur.second; i++)
+                os << "-";
+            os << cur.first -> val << "\n";
+            if (cur.first -> left)
+                que.push({cur.first -> left, cur.second + 1});
+            if (cur.first -> right)
+                que.push({cur.first -> right, cur.second + 1});
+        }
+    }
+
+    // 自适应边框
+    os << "--------------------------";
+    for (int i = 0; i < size; i++)
+        os << "----";
+    return os;
+}
+
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_TREE_H
