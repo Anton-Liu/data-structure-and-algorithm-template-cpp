@@ -101,8 +101,16 @@ BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T> &rhs) {
 }
 
 template<typename T>
-BinarySearchTree<T> &BinarySearchTree<T>::operator=(const BinarySearchTree<T> &rhs) {
+void BinarySearchTree<T>::swap(BinarySearchTree<T> &rhs) {
+    using std::swap;
+    swap(root, rhs.root);
+    swap(size, rhs.size);
+}
 
+template<typename T>
+BinarySearchTree<T> &BinarySearchTree<T>::operator=(const BinarySearchTree<T> &rhs) {
+    BinarySearchTree<T>(rhs).swap(*this);
+    return *this;
 }
 
 template<typename T>
@@ -152,11 +160,6 @@ void BinarySearchTree<T>::removeMax() {
 
 template<typename T>
 void BinarySearchTree<T>::remove(const T &e) {
-
-}
-
-template<typename T>
-void BinarySearchTree<T>::swap(BinarySearchTree<T> &rhs) {
 
 }
 
