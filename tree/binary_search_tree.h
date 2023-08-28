@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <queue>
+#include <stack>
 
 template <typename T>
 class BinarySearchTree;
@@ -53,6 +54,12 @@ private:
     };
     Node *root;
     int size;
+
+    void preOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void inOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void postOrder(const Node *node, std::function<void(const Node *)> visit) const;
+    void levelOrder(const Node *node, std::function<void(const Node *)> visit) const;
+
 };
 
 template<typename T>
@@ -170,21 +177,55 @@ void BinarySearchTree<T>::add(const T &e) {
 
 template<typename T>
 void BinarySearchTree<T>::preOrder() const {
-
+    preOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
 void BinarySearchTree<T>::inOrder() const {
-
+    inOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
 void BinarySearchTree<T>::postOrder() const {
-
+    postOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
 }
 
 template<typename T>
 void BinarySearchTree<T>::levelOrder() const {
+    levelOrder(root, [](const Node *node){ std::cout << "当前访问结点：" << node -> val << std::endl; });
+}
+
+template<typename T>
+void BinarySearchTree<T>::preOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+    if (size == 0)
+        return;
+
+    std::stack<Node *> s;
+    s.push(root);
+    while (!s.empty()) {
+        auto cur = s.top();
+        s.pop();
+        visit(cur);
+        if (cur -> right)
+            s.push(cur -> right);
+        if (cur -> left)
+            s.push(cur -> left);
+    }
+}
+
+template<typename T>
+void BinarySearchTree<T>::inOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::postOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+
+}
+
+template<typename T>
+void
+BinarySearchTree<T>::levelOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
 
 }
 
