@@ -18,13 +18,15 @@ public:
     void preOrder() const;
     void inOrder() const;
     void postOrder() const;
+    void levelOrder() const;  // 非递归实现！
     T minimum() const;
     T maximum() const;
 
-    void add(const T &e) { root = addRecursion(root, e); }
+    void add(const T &e) { root = add(root, e); }
     void removeMin();
     void removeMax();
     void remove(const T &e);
+    void swap(BinarySearchTree<T> &rhs);
 
     ~BinarySearchTree();
 
@@ -37,11 +39,11 @@ private:
 
         explicit Node(T val):
                 val(val), left(nullptr), right(nullptr) { }
+        Node(T val, Node *left, Node *right):
+                val(val), left(left), right(right) { }
     };
     Node *root;
     int size;
-
-    void visit(const Node *node) const;
 };
 
 template<typename T>
@@ -62,6 +64,71 @@ BinarySearchTree<T>::~BinarySearchTree() {
 
         delete cur;
     }
+}
+
+template<typename T>
+BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T> &rhs) {
+
+}
+
+template<typename T>
+BinarySearchTree<T> &BinarySearchTree<T>::operator=(const BinarySearchTree<T> &rhs) {
+    
+}
+
+template<typename T>
+bool BinarySearchTree<T>::contains(const T &e) const {
+    return false;
+}
+
+template<typename T>
+void BinarySearchTree<T>::preOrder() const {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::inOrder() const {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::postOrder() const {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::levelOrder() const {
+
+}
+
+template<typename T>
+T BinarySearchTree<T>::minimum() const {
+    return nullptr;
+}
+
+template<typename T>
+T BinarySearchTree<T>::maximum() const {
+    return nullptr;
+}
+
+template<typename T>
+void BinarySearchTree<T>::removeMin() {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::removeMax() {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::remove(const T &e) {
+
+}
+
+template<typename T>
+void BinarySearchTree<T>::swap(BinarySearchTree<T> &rhs) {
+
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_TREE_H
