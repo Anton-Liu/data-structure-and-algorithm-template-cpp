@@ -215,12 +215,50 @@ void BinarySearchTree<T>::preOrder(const BinarySearchTree::Node *node, std::func
 
 template<typename T>
 void BinarySearchTree<T>::inOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+    if (size == 0)
+        return;
 
+    std::stack<Node *> s;
+    s.push(root);
+    auto cur = root;
+    while (cur || !s.empty()) {  // 即使栈空，cur也可能指向待处理右孩子结点
+        if (cur) {
+            s.push(cur);
+            cur = cur -> left;
+        }
+        else {  // cur == nullptr
+            cur = s.top();
+            s.pop();
+            visit(cur);
+            cur = cur -> right;
+        }
+    }
 }
 
 template<typename T>
 void BinarySearchTree<T>::postOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+    if (size == 0)
+        return;
 
+    std::stack<Node *> s, s2;
+    s.push(root);
+    while (!s.empty()) {
+        auto cur = s.top();
+        s.pop();
+        s2.push(cur);
+
+        // 中左右(先序) -> 中右左
+        if (cur -> left)
+            s.push(cur -> left);
+        if (cur -> right)
+            s.push(cur -> right);
+    }
+
+    // 中右左 -> 左右中(后序)
+    while (!s2.empty()) {
+        visit(s2.top());
+        s2.pop();
+    }
 }
 
 template<typename T>
