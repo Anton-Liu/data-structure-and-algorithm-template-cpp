@@ -331,7 +331,29 @@ void BinarySearchTree<T>::removeMin() {
 
 template<typename T>
 void BinarySearchTree<T>::removeMax() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
 
+    if (!root -> right) {
+        auto leftNode = root -> left;
+        delete root;
+        size--;
+        root = leftNode;
+    }
+    else {  // root -> right != nullptr
+        auto pre = root;
+        auto cur = root -> right;
+        while (cur -> right) {
+            pre = pre -> right;
+            cur = cur -> right;
+        }
+        if (cur -> left)
+            pre -> right = cur -> left;
+        else
+            pre -> right = nullptr;
+        delete cur;
+        size--;
+    }
 }
 
 template<typename T>
