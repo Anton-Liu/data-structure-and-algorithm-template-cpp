@@ -264,22 +264,69 @@ void BinarySearchTree<T>::postOrder(const BinarySearchTree::Node *node, std::fun
 template<typename T>
 void
 BinarySearchTree<T>::levelOrder(const BinarySearchTree::Node *node, std::function<void(const Node *)> visit) const {
+    if (!root)
+        return;
 
+    std::queue<Node *> que;
+    que.push(root);
+    while (!que.empty()) {
+        auto cur = que.front();
+        if (cur -> left)
+            que.push(cur -> left);
+        if (cur -> right)
+            que.push(cur -> right);
+        visit(cur);
+        que.pop();
+    }
 }
 
 template<typename T>
 T BinarySearchTree<T>::minimum() const {
-    return nullptr;
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    auto cur = root;
+    while (cur -> left)
+        cur = cur -> left;
+    return cur -> val;
 }
 
 template<typename T>
 T BinarySearchTree<T>::maximum() const {
-    return nullptr;
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    auto cur = root;
+    while (cur -> right)
+        cur = cur -> right;
+    return cur -> val;
 }
 
 template<typename T>
 void BinarySearchTree<T>::removeMin() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
 
+    if (!root -> left) {
+        auto rightNode = root -> right;
+        delete root;
+        size--;
+        root = rightNode;
+    }
+    else {  // root -> left != nullptr
+        auto pre = root;
+        auto cur = root -> left;
+        while (cur -> left) {
+            pre = pre -> left;
+            cur = cur -> left;
+        }
+        if (cur -> right)
+            pre -> left = cur -> right;
+        else
+            pre -> left = nullptr;
+        delete cur;
+        size--;
+    }
 }
 
 template<typename T>
