@@ -187,11 +187,11 @@ void BinarySearchTreeRecursion<T>::levelOrder() const {
 template<typename T>
 void BinarySearchTreeRecursion<T>::levelOrder(const BinarySearchTreeRecursion::Node *node,
                                               std::function<void(const Node *)> visit) const {
-    if (!root)
+    if (!node)
         return;
 
     std::queue<Node *> que;
-    que.push(root);
+    que.push(node);
     while (!que.empty()) {
         auto cur = que.front();
         if (cur -> left)
