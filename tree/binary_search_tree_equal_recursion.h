@@ -372,10 +372,15 @@ void BinarySearchTreeEqualRecursion<T>::removeAllMax() {
 
 template<typename T>
 void BinarySearchTreeEqualRecursion<T>::removeAll(const T &e) {
-    auto tmp = remove(root, e);
-    while (tmp) {
-        root = tmp;
-        tmp = remove(root, e);
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    auto curSize = size;
+    root = remove(root, e);
+    while (curSize != size) {
+        curSize = size;
+        root = remove(root, e);  // 若成功删除，size--，导致curSize继续不等于size
+                                 // 否则，size无变化，curSize == size，跳出循环
     }
 }
 
