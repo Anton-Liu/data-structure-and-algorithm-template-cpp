@@ -294,6 +294,9 @@ typename BinarySearchTreeRecursion<T>::Node *BinarySearchTreeRecursion<T>::remov
 
 template<typename T>
 void BinarySearchTreeRecursion<T>::remove(const T &e) {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+    
     root = remove(root, e);
 }
 
