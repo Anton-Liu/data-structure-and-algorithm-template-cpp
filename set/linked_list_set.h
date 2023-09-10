@@ -15,31 +15,31 @@ class LinkedListSet : public Set<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const LinkedListSet<T> &rhs);
 public:
     LinkedListSet():
-            bst(new SinglyLinkedList<T>()) { }
+            list(new SinglyLinkedList<T>()) { }
     LinkedListSet(const LinkedListSet<T> &rhs):
-            bst(new SinglyLinkedList<T>(rhs)) { }
+            list(new SinglyLinkedList<T>(*rhs.list)) { }
     LinkedListSet<T> &operator=(const LinkedListSet<T> &rhs);
 
-    int getSize() const override { return bst -> getSize(); };
-    bool isEmpty() const override { return bst -> isEmpty(); };
-    bool contains(const T &e) const override { return bst -> contains(e); };
+    int getSize() const override { return list -> getSize(); };
+    bool isEmpty() const override { return list -> isEmpty(); };
+    bool contains(const T &e) const override { return list -> contains(e); };
 
     void add(const T &e) override {
-        if (!bst -> contains(e))
-            bst -> addFirst(e);
+        if (!list -> contains(e))
+            list -> addFirst(e);
     };
-    void remove(const T &e) override { bst -> removeElements(e); };
+    void remove(const T &e) override { list -> removeElements(e); };
     void swap(LinkedListSet<T> &rhs);
 
-    ~LinkedListSet() { delete bst; }
+    ~LinkedListSet() { delete list; }
 
 private:
-    SinglyLinkedList<T> *bst;
+    SinglyLinkedList<T> *list;
 };
 
 template<typename T>
 void LinkedListSet<T>::swap(LinkedListSet<T> &rhs) {
-    std::swap(bst, rhs.bst);
+    std::swap(list, rhs.list);
 }
 
 template<typename T>
@@ -63,7 +63,7 @@ std::ostream &operator<<(std::ostream &os, const LinkedListSet<T> &rhs) {
        << "Set的内容：\n";
 
     os << "{";
-    auto tmp = *rhs.bst;
+    auto tmp = *rhs.list;
     for (int i = 0; i < size; i++) {
         if (i != size - 1)
             os << tmp.getFirst() << ", ";
