@@ -40,6 +40,7 @@ public:
     T remove(const int &idx) override;  //  删除数组idx位置的元素，返回被删除的元素
     T removeFirst() override { return remove(0); }  // 删除数组第一个元素并返回
     T removeLast() override { return remove(size - 1); }  // 删除数组最后一个元素并返回
+    void swap(int i, int j);  // 交换数组i、j位置的元素
 
     ~StaticArray() = default;
 
@@ -58,6 +59,13 @@ private:
     std::vector<T> data;
     int size;  // 数组的长度(也可以理解为指向尾后的位置)
 };
+
+template<typename T>
+void StaticArray<T>::swap(int i, int j) {
+    T tmp = data[i];
+    data[i] = data[j];
+    data[j] = tmp;
+}
 
 template<typename T>
 StaticArray<T> &StaticArray<T>::operator=(const StaticArray<T> &rhs) {
