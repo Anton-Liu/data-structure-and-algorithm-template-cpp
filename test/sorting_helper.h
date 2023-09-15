@@ -12,6 +12,7 @@
 #include "../sort/randomized_quicksort.h"
 #include "../sort/two_way_randomized_quicksort.h"
 #include "../sort/three_way_randomized_quicksort.h"
+#include "../sort/heapsort.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -52,6 +53,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         TwoWayRandomizedQuicksort<T>::sort(arr);
     else if (sortName == "ThreeWayRandomizedQuicksort")
         ThreeWayRandomizedQuicksort<T>::sort(arr);
+    else if (sortName == "Heapsort")
+        Heapsort<T>::sort(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
