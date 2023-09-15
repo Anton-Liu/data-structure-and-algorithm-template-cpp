@@ -29,7 +29,7 @@ public:
     T extractTop() override;
     T replace(const T &e) override;
 
-    ~MaxHeap() override;
+    ~MaxHeap() override { delete data; }
 private:
     int parent(int idx) const override;
     int leftChild(int idx) const override { return idx * 2 + 1; };
@@ -41,11 +41,6 @@ private:
 private:
     std::vector<T> *data;
 };
-
-template<typename T>
-MaxHeap<T>::~MaxHeap() {
-    delete data;
-}
 
 // heapify
 template<typename T>
