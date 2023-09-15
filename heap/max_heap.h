@@ -57,9 +57,10 @@ MaxHeap<T>::MaxHeap(const std::vector<T> &arr) {
 
 template<typename T>
 MaxHeap<T>::MaxHeap(const MaxHeap<T> &rhs) {
-    data = new std::vector<T>(rhs.size());
-    for (int i = 0; i < rhs.size(); i++)
-        data[i] = rhs.data[i];
+    int size = rhs.data -> size();
+    data = new std::vector<T>(size);
+    for (int i = 0; i < size; i++)
+        (*data)[i] = (*rhs.data)[i];
 }
 
 template<typename T>
