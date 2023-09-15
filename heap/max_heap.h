@@ -48,6 +48,7 @@ MaxHeap<T>::~MaxHeap() {
     delete data;
 }
 
+// heapify
 template<typename T>
 MaxHeap<T>::MaxHeap(const LazyDynamicArray<T> &arr) {
     data = new LazyDynamicArray<T>(arr);
