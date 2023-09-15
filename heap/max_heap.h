@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include "heap.h"
-#include "../array/lazy_dynamic_array.h"
 
 template <typename T> class MaxHeap;
 
@@ -15,15 +14,15 @@ class MaxHeap : public Heap<T> {
     friend std::ostream &operator<<<T>(std::ostream &, const MaxHeap<T> &);
 public:
     MaxHeap():
-        data(new LazyDynamicArray<T>()) { };
+        data(new std::vector<T>()) { };
     explicit MaxHeap(int capacity):
-        data(new LazyDynamicArray<T>(10)) { };
-    MaxHeap(const LazyDynamicArray<T> &arr);  // heapify
+        data(new std::vector<T>(10)) { };
+    MaxHeap(const std::vector<T> &arr);  // heapify
     MaxHeap(const MaxHeap<T> &rhs);
     MaxHeap &operator=(const MaxHeap<T> &rhs);
 
-    bool isEmpty() const override { return data -> isEmpty(); }
-    int getSize() const override { return data -> getSize(); };
+    bool isEmpty() const override { return data -> empty(); }
+    int getSize() const override { return data -> size(); };
     T findMax() const override;
 
     void add(const T &e) override;
@@ -40,7 +39,7 @@ private:
     void swap(MaxHeap<T> &rhs);
 
 private:
-    LazyDynamicArray<T> *data;
+    std::vector<T> *data;
 };
 
 template<typename T>
@@ -50,16 +49,16 @@ MaxHeap<T>::~MaxHeap() {
 
 // heapify
 template<typename T>
-MaxHeap<T>::MaxHeap(const LazyDynamicArray<T> &arr) {
-    data = new LazyDynamicArray<T>(arr);
-    for (int i = parent(arr.getSize() - 1); i >= 0; i--)
+MaxHeap<T>::MaxHeap(const std::vector<T> &arr) {
+    data = new std::vector<T>(arr);
+    for (int i = parent(arr.size() - 1); i >= 0; i--)
         siftDown(i);
 }
 
 template<typename T>
 MaxHeap<T>::MaxHeap(const MaxHeap<T> &rhs) {
-    data = new LazyDynamicArray<T>(rhs.getSize());
-    for (int i = 0; i < rhs.getSize(); i++)
+    data = new std::vector<T>(rhs.size());
+    for (int i = 0; i < rhs.size(); i++)
         data[i] = rhs.data[i];
 }
 
@@ -74,21 +73,20 @@ MaxHeap<T> &MaxHeap<T>::operator=(const MaxHeap<T> &rhs) {
     return *this;
 }
 
-
 template<typename T>
 T MaxHeap<T>::findMax() const {
-    if (data -> getSize() == 0)
+    if (data -> size() == 0)
         throw std::runtime_error("当前堆为空！");
 
-    return data -> get(0);
+    return (*data)[0];
 }
 
 template<typename T>
 void MaxHeap<T>::siftUp(int idx) {
     while (idx > 0) {
         int pi = parent(idx);
-        if (data -> get(idx) > data -> get(pi)) {
-            data -> swap(idx, pi);
+        if ((*data)[idx] > (*data)[pi]) {
+            std::swap((*data)[idx], (*data)[pi]);
             idx = pi;
         }
         else
@@ -98,19 +96,19 @@ void MaxHeap<T>::siftUp(int idx) {
 
 template<typename T>
 void MaxHeap<T>::add(const T &e) {
-    data -> addLast(e);
-    siftUp(data -> getSize() - 1);
+    data -> push_back(e);
+    siftUp(data -> size() - 1);
 }
 
 template<typename T>
 void MaxHeap<T>::siftDown(int idx) {
-    while (leftChild(idx) < data -> getSize()) {
+    while (leftChild(idx) < data -> size()) {
         int j = leftChild(idx);
-        if (j + 1 < data -> getSize() && data -> get(j + 1) > data -> get(j))  // 比较左右孩子
+        if (j + 1 < data -> size() && (*data)[j + 1] > (*data)[j])  // 比较左右孩子
             j++;  // 指向右孩子
-        if (data -> get(idx) > data -> get(j))  // 比较当前结点和其较大的孩子
+        if ((*data)[idx] > (*data)[j])  // 比较当前结点和其较大的孩子
             break;
-        data -> swap(idx, j);
+        std::swap((*data)[idx], (*data)[j]);
         idx = j;
     }
 }
@@ -118,8 +116,8 @@ void MaxHeap<T>::siftDown(int idx) {
 template<typename T>
 T MaxHeap<T>::extractMax() {
     T ret = findMax();
-    data -> swap(0, data -> getSize() - 1);
-    data -> removeLast();
+    std::swap((*data)[0], (*data)[data -> size() - 1]);
+    data -> pop_back();
     siftDown(0);
 
     return ret;
@@ -128,7 +126,7 @@ T MaxHeap<T>::extractMax() {
 template<typename T>
 T MaxHeap<T>::replace(const T &e) {
     T ret = findMax();
-    data -> set(0, e);
+    (*data)[0] = e;
     siftDown(0);
 
     return ret;
@@ -154,22 +152,24 @@ std::ostream &operator<<(std::ostream &os, const MaxHeap<T> &rhs) {
     // 数组信息
     os << "堆的大小：" << size << "\n"
        << "堆的内容(数组表示)：" << "\nindex: [";
-
+    if (size == 0) {
+        os << "]\n";
+    }
     for (int i = 0; i < size; i++) {
         if (i != size - 1)
             os << i << ", ";
         else
             os << i << "]\n";
     }
-    os << "value: [";
 
+    os << "value: [";
     if (size == 0) {
         os << "]\n";
     }
     else {
-        os << rhs.data -> get(0);
+        os << (*rhs.data)[0];
         for (int i = 1; i < size; i++)
-            os << ", " << rhs.data -> get(i);
+            os << ", " << (*rhs.data)[i];
         os << "]\n";
     }
 
