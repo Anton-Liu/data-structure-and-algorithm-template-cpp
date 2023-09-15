@@ -17,7 +17,7 @@ public:
         data(new std::vector<T>()) { };
     explicit MaxHeap(int capacity):
         data(new std::vector<T>(10)) { };
-    MaxHeap(const std::vector<T> &arr);  // heapify
+    explicit MaxHeap(const std::vector<T> &arr);  // heapify
     MaxHeap(const MaxHeap<T> &rhs);
     MaxHeap &operator=(const MaxHeap<T> &rhs);
 
