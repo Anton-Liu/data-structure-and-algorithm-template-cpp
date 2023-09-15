@@ -98,11 +98,12 @@ void MaxHeap<T>::add(const T &e) {
 
 template<typename T>
 void MaxHeap<T>::siftDown(int idx) {
-    while (leftChild(idx) < data -> size()) {
+    int size = data -> size();
+    while (leftChild(idx) < size) {
         int j = leftChild(idx);
-        if (j + 1 < data -> size() && (*data)[j + 1] > (*data)[j])  // 比较左右孩子
+        if (j + 1 < size && (*data)[j + 1] > (*data)[j])  // 比较左右孩子
             j++;  // 指向右孩子
-        if ((*data)[idx] > (*data)[j])  // 比较当前结点和其较大的孩子
+        if ((*data)[idx] >= (*data)[j])  // 比较当前结点和其较大的孩子
             break;
         std::swap((*data)[idx], (*data)[j]);
         idx = j;
