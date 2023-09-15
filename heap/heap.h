@@ -6,10 +6,10 @@ class Heap {
 public:
     virtual bool isEmpty() const = 0;
     virtual int getSize() const = 0;
-    virtual T findMax() const = 0;
+    virtual T getTop() const = 0;
 
     virtual void add(const T &e) = 0;
-    virtual T extractMax() = 0;
+    virtual T extractTop() = 0;
     virtual T replace(const T &e) = 0;
 
     virtual ~Heap() = default;

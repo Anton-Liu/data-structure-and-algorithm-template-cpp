@@ -23,10 +23,10 @@ public:
 
     bool isEmpty() const override { return data -> empty(); }
     int getSize() const override { return data -> size(); };
-    T findMax() const override;
+    T getTop() const override;
 
     void add(const T &e) override;
-    T extractMax() override;
+    T extractTop() override;
     T replace(const T &e) override;
 
     ~MaxHeap() override;
@@ -75,7 +75,7 @@ MaxHeap<T> &MaxHeap<T>::operator=(const MaxHeap<T> &rhs) {
 }
 
 template<typename T>
-T MaxHeap<T>::findMax() const {
+T MaxHeap<T>::getTop() const {
     if (data -> size() == 0)
         throw std::runtime_error("当前堆为空！");
 
@@ -115,8 +115,8 @@ void MaxHeap<T>::siftDown(int idx) {
 }
 
 template<typename T>
-T MaxHeap<T>::extractMax() {
-    T ret = findMax();
+T MaxHeap<T>::extractTop() {
+    T ret = getTop();
     std::swap((*data)[0], (*data)[data -> size() - 1]);
     data -> pop_back();
     siftDown(0);
@@ -126,7 +126,7 @@ T MaxHeap<T>::extractMax() {
 
 template<typename T>
 T MaxHeap<T>::replace(const T &e) {
-    T ret = findMax();
+    T ret = getTop();
     (*data)[0] = e;
     siftDown(0);
 
