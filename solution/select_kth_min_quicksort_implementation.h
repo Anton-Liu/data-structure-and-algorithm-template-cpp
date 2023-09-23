@@ -1,12 +1,13 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
-#define ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
+#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
+#define ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
 
 #include <vector>
 #include <random>
 
 /**
- * 查找数组中第k小的元素
- * 利用快排每次确定一个元素正确位置的性质
+ * SelectK问题：
+ *     查找数组中第K小的元素
+ *     利用快排每次确定一个元素正确位置的性质
  */
 
 template <typename T>
@@ -63,4 +64,4 @@ int SelectKRecursion<T>::partition(std::vector<T> &arr, int l, int r, std::defau
     return j;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_SELECT_K_RECURSION_H
+#endif //ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
