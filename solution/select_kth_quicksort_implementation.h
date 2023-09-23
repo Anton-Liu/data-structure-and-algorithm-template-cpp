@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
-#define ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
+#ifndef ALGORITHM_TEMPLATE_CPP_SELECT_KTH_QUICKSORT_IMPLEMENTATION_H
+#define ALGORITHM_TEMPLATE_CPP_SELECT_KTH_QUICKSORT_IMPLEMENTATION_H
 
 #include <vector>
 #include <random>
@@ -11,9 +11,9 @@
  */
 
 template <typename T>
-class SelectKRecursion {
+class SelectKthQuicksortImplementation {
 public:
-    SelectKRecursion() = delete;
+    SelectKthQuicksortImplementation() = delete;
 
     static T getKthNum(std::vector<T> &arr, int k);  // 获取第k小的元素
 private:
@@ -23,13 +23,13 @@ private:
 };
 
 template<typename T>
-T SelectKRecursion<T>::getKthNum(std::vector<T> &arr, int k) {
+T SelectKthQuicksortImplementation<T>::getKthNum(std::vector<T> &arr, int k) {
     std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
     return sort(arr, 0, arr.size() - 1, k, e);
 }
 
 template<typename T>
-T SelectKRecursion<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random_engine &e) {
+T SelectKthQuicksortImplementation<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random_engine &e) {
     int pivot = partition(arr, l, r, e);
     if (pivot == k)
         return arr[k];
@@ -40,7 +40,7 @@ T SelectKRecursion<T>::sort(std::vector<T> &arr, int l, int r, int k, std::defau
 }
 
 template<typename T>
-int SelectKRecursion<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
+int SelectKthQuicksortImplementation<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
     int p = u(e);
     std::swap(arr[p], arr[l]);
@@ -64,4 +64,4 @@ int SelectKRecursion<T>::partition(std::vector<T> &arr, int l, int r, std::defau
     return j;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_SELECT_KTH_MIN_QUICKSORT_IMPLEMENTATION_H
+#endif //ALGORITHM_TEMPLATE_CPP_SELECT_KTH_QUICKSORT_IMPLEMENTATION_H

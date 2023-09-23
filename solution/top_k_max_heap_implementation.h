@@ -14,14 +14,14 @@
  *    非常适合处理数据流、极大规模的数据
  */
 template <typename T>
-class TopKMax {
+class TopKMaxHeapImplementation {
 public:
-    TopKMax() = delete;
+    TopKMaxHeapImplementation() = delete;
     static std::vector<T> getTopK(const std::vector<T> &arr, int k);
 };
 
 template<typename T>
-std::vector<T> TopKMax<T>::getTopK(const std::vector<T> &arr, int k)
+std::vector<T> TopKMaxHeapImplementation<T>::getTopK(const std::vector<T> &arr, int k)
 {
     if (arr.size() < k)
         throw std::runtime_error("k取值需小于数组长度！");
