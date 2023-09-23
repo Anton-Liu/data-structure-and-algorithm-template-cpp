@@ -6,7 +6,7 @@
 
 /**
  * SelectK问题：
- *     查找数组中第K小的元素
+ *     查找数组中第K(1-base)小的元素
  *     利用快排每次确定一个元素正确位置的性质
  */
 
@@ -24,6 +24,11 @@ private:
 
 template<typename T>
 T SelectKthQuicksortImplementation<T>::getKthNum(std::vector<T> &arr, int k) {
+    if (arr.size() < k)
+        throw std::runtime_error("k取值需小于等于数组长度！");
+    if (k <= 0)
+        throw std::runtime_error("k必须大于0！");
+    k--;  // 1-base
     std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
     return sort(arr, 0, arr.size() - 1, k, e);
 }
