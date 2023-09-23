@@ -1,13 +1,17 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
-#define ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
+#ifndef ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_HEAP_IMPLEMENTATION_H
+#define ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_HEAP_IMPLEMENTATION_H
 
-#include "max_heap.h"
+#include "../heap/max_heap.h"
 #include <vector>
 
 /**
  * TopK问题：
  *     选出N个元素中最小的K个元素
  *     维护一个大根堆
+ * 注：
+ *    使用快排解决性能更优，但必须读入所有数据才能求解；
+ *    堆实现的优势在于不需要一次性知道所有数据就能求解，
+ *    非常适合处理数据流、极大规模的数据
  */
 template <typename T>
 class TopKMin {
@@ -37,4 +41,4 @@ std::vector<T> TopKMin<T>::getTopK(const std::vector<T> &arr, int k)
     return ret;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
+#endif //ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_HEAP_IMPLEMENTATION_H
