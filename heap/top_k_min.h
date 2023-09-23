@@ -1,5 +1,5 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_TOP_K_H
-#define ALGORITHM_TEMPLATE_CPP_TOP_K_H
+#ifndef ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
+#define ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
 
 #include "max_heap.h"
 #include <vector>
@@ -7,16 +7,17 @@
 /**
  * TopK问题：
  *     选出N个元素中最小的K个元素
+ *     维护一个大根堆
  */
 template <typename T>
-class TopK {
+class TopKMin {
 public:
-    TopK() = delete;
+    TopKMin() = delete;
     static std::vector<T> getTopK(const std::vector<T> &arr, int k);
 };
 
 template<typename T>
-std::vector<T> TopK<T>::getTopK(const std::vector<T> &arr, int k)
+std::vector<T> TopKMin<T>::getTopK(const std::vector<T> &arr, int k)
 {
     if (arr.size() < k)
         throw std::runtime_error("k取值需小于数组长度！");
@@ -36,4 +37,4 @@ std::vector<T> TopK<T>::getTopK(const std::vector<T> &arr, int k)
     return ret;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_TOP_K_H
+#endif //ALGORITHM_TEMPLATE_CPP_TOP_K_MIN_H
