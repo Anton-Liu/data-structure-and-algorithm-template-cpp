@@ -13,11 +13,8 @@ public:
     virtual T replace(const T &e) = 0;
 
     virtual ~Heap() = default;
-private:
-    virtual int parent(int idx) const = 0;
-    virtual int leftChild(int idx) const = 0;
-    virtual int rightChild(int idx) const = 0;
 
+private:
     virtual void siftUp(int idx) = 0;
     virtual void siftDown(int idx) = 0;
 };

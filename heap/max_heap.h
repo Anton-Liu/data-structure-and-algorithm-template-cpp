@@ -29,9 +29,9 @@ public:
 
     ~MaxHeap() override { delete data; }
 private:
-    int parent(int idx) const override;
-    int leftChild(int idx) const override { return idx * 2 + 1; };
-    int rightChild(int idx) const override { return idx * 2 + 2; };
+    int parent(int idx) const;
+    int leftChild(int idx) const { return idx * 2 + 1; };
+    int rightChild(int idx) const { return idx * 2 + 2; };
     void siftUp(int idx) override;
     void siftDown(int idx) override;
     void swap(MaxHeap<T> &rhs);
