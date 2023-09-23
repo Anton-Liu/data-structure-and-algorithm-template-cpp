@@ -15,8 +15,6 @@ class MinHeap : public Heap<T> {
 public:
     MinHeap():
             data(new std::vector<T>()) { };
-    explicit MinHeap(int capacity):
-            data(new std::vector<T>(10)) { };
     explicit MinHeap(const std::vector<T> &arr);  // heapify
     MinHeap(const MinHeap<T> &rhs);
     MinHeap &operator=(const MinHeap<T> &rhs);
