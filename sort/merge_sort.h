@@ -27,7 +27,8 @@ void MergeSort<T>::sort(std::vector<T> &arr, int l, int r) {
     int mid = l + (r - l) / 2;
     sort(arr, l, mid);
     sort(arr, mid + 1, r);
-    merge(arr, l, mid, r);
+    if (arr[mid] > arr[mid + 1])  // 优化：若arr[mid] <= arr[mid + 1]，没必要进行merge
+        merge(arr, l, mid, r);
 }
 
 template<typename T>
