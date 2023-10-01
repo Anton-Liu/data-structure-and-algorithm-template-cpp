@@ -14,6 +14,7 @@
 #include "../sort/three_way_randomized_quicksort.h"
 #include "../sort/heapsort.h"
 #include "../sort/bubble_sort.h"
+#include "../sort/shellsort.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -62,6 +63,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         BubbleSort<T>::sort1(arr);
     else if (sortName == "BubbleSort2")
         BubbleSort<T>::sort2(arr);
+    else if (sortName == "Shellsort")
+        Shellsort<T>::sort(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
