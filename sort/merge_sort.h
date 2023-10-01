@@ -27,7 +27,11 @@ void MergeSort<T>::sort(std::vector<T> &arr, int l, int r) {
     int mid = l + (r - l) / 2;
     sort(arr, l, mid);
     sort(arr, mid + 1, r);
-    if (arr[mid] > arr[mid + 1])  // 优化：若arr[mid] <= arr[mid + 1]，没必要进行merge
+
+    // 优化：增加if判断
+    // 若arr[mid] <= arr[mid + 1]，没必要进行merge
+    // 优化后，对于有序数组，归并排序时间复杂度为O(n)
+    if (arr[mid] > arr[mid + 1])
         merge(arr, l, mid, r);
 }
 
