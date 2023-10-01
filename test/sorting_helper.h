@@ -65,6 +65,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         BubbleSort<T>::sort2(arr);
     else if (sortName == "Shellsort")
         Shellsort<T>::sort(arr);
+    else if (sortName == "Shellsort2")
+        Shellsort<T>::sort2(arr);
     else
         throw std::runtime_error("排序名称不存在，检查排序名称是否正确！");
     clock_t endTime = clock();
