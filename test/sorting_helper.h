@@ -7,6 +7,7 @@
 #include "../sort/selection_sort.h"
 #include "../sort/merge_sort.h"
 #include "../sort/merge_sort_with_optimization.h"
+#include "../sort/merge_sort_bottom_up.h"
 #include "../sort/quicksort.h"
 #include "../sort/quicksort_with_insertion_sort_optimization.h"
 #include "../sort/randomized_quicksort.h"
@@ -45,6 +46,8 @@ void SortingHelper::sortTest(const std::string &sortName, std::vector<T> &arr) {
         MergeSort<T>::sort(arr);
     else if (sortName == "MergeSortWithOptimization")
         MergeSortWithOptimization<T>::sort(arr);
+    else if (sortName == "MergeSortBottomUp")
+        MergeSortBottomUp<T>::sort(arr);
     else if (sortName == "Quicksort")
         Quicksort<T>::sort(arr);
     else if (sortName == "QuicksortWithInsertionSortOptimization")
