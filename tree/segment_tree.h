@@ -32,6 +32,8 @@ public:
     // 返回区间[queryL, queryR]的合并值
     T query(int queryL, int queryR) const;
 
+    void set(int idx, const T &e);  // 将idx位置的值更新为e
+
     void swap(SegmentTree<T> &rhs);
 
     ~SegmentTree() { delete data; delete tree; delete flag; }
@@ -46,6 +48,7 @@ private:
     int rightChild(int treeIndex) const { return treeIndex * 2 + 2; }
     T query(int treeIndex, int l, int r, int queryL, int queryR) const;
     void buildSegmentTree(int treeIndex, int l, int r);
+    void set(int treeIndex, int l, int r, int idx, const T &e);
 };
 
 template<typename T>
@@ -56,6 +59,32 @@ int SegmentTree<T>::get(int idx) const {
         throw std::runtime_error("访问结点不存在！");
 
     return (*data)[idx];
+}
+
+template<typename T>
+void SegmentTree<T>::set(int idx, const T &e) {
+    if (idx < 0 || idx >= data -> size())
+        throw std::runtime_error("数组下标超过范围！");
+
+    (*data)[idx] = e;
+    set(0, 0, data -> size() - 1, idx, e);
+}
+
+template<typename T>
+void SegmentTree<T>::set(int treeIndex, int l, int r, int idx, const T &e) {
+    if (l == r) {
+        (*tree)[treeIndex] = e;
+        return;
+    }
+
+    int mid = l + (r - l) / 2;
+    int leftChildIndex = leftChild(treeIndex);
+    int rightChildIndex = rightChild(treeIndex);
+    if (idx >= mid + 1)
+        set(rightChildIndex, mid + 1, r, idx, e);
+    else  // idx <= mid
+        set(leftChildIndex, l, mid, idx, e);
+    (*tree)[treeIndex] = merger((*tree)[leftChildIndex], (*tree)[rightChildIndex]);
 }
 
 template<typename T>
