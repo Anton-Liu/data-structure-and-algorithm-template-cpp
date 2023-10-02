@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <algorithm>
+#include "insertion_sort.h"
 
 template <typename T>
 class MergeSortBottomUp {
@@ -19,8 +20,13 @@ void MergeSortBottomUp<T>::sort(std::vector<T> &arr) {
     int n = arr.size();
     std::vector<T> tmp(n);
 
+    // 优化：插入排序
+    // 先对所有[i, MIN(i + 15, n - 1)]区间内的元素进行插入排序
+    for (int i = 0; i < n; i += 16)
+        InsertionSort<T>::sort(arr, i, std::min(i + 15, n - 1));
+
     // sz表示合并的区间长度
-    for (int sz = 1; sz < n; sz += sz) {
+    for (int sz = 16; sz < n; sz += sz) {
         // 遍历两个合并区间的起始位置i
         // 合并arr[i, i + sz - 1]和arr[i + sz, MIN(i + sz + sz - 1, n - 1)]
         for (int i = 0; i + sz < n; i += sz + sz)
