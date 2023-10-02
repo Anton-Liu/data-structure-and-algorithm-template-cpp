@@ -30,9 +30,9 @@ public:
     int get(int idx) const;
 
     // 返回区间[queryL, queryR]的合并值
-    T query(int queryL, int queryR) const;
+    T query(int queryL, int queryR) const;  // O(logn)
 
-    void set(int idx, const T &e);  // 将idx位置的值更新为e
+    void set(int idx, const T &e);  // 将idx位置的值更新为e，O(logn)
 
     void swap(SegmentTree<T> &rhs);
 
