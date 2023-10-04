@@ -10,9 +10,11 @@ public:
     Trie():
         root(new Node()), size(0) { }
 
-    int getSize() { return size; }
+    int getSize() const { return size; }
     bool contains(const std::string &word) const;  // 查询Trie中是否含有单词word
+    bool isPrefix(const std::string &prefix) const;  // 查询Trie中是否含有单词以prefix为前缀
     void add(const std::string &word);  // 向Trie中添加单词word
+
 private:
     class Node {
     public:

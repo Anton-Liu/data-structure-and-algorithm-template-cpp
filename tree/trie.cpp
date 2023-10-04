@@ -25,3 +25,14 @@ bool Trie::contains(const std::string &word) const {
     return cur -> isWord;
 }
 
+bool Trie::isPrefix(const std::string &prefix) const {
+    auto cur = root;
+    for (const auto &c : prefix) {
+        if (cur -> next -> find(c) == cur -> next -> end())
+            return false;
+        cur = cur -> next -> at(c);
+    }
+    
+    return true;
+}
+
