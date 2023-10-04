@@ -28,6 +28,7 @@ public:
     void add(const K &key, const V &value) override;
     void remove(const K &key) override;
 
+    ~LinkedListMap() { delete dummyHead; }
 private:
     class Node {
     public:
