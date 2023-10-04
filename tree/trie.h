@@ -16,7 +16,8 @@ public:
     bool contains(const std::string &word) const;  // 查询Trie中是否含有单词word
     bool contains(const std::string &word, char wildcard) const;  // 查询Trie中是否含有单词(允许使用word通配符)
     void add(const std::string &word);  // 向Trie中添加单词word
-    
+    void remove(const std::string &word);  // 从Trie中删除单词word
+
     ~Trie() { delete root; }
 private:
     class Node {
@@ -37,6 +38,9 @@ private:
     // 如果存在字符串与word匹配，则返回true；否则，返回false
     // word中可能包含一些通配符，每个通配符都可以表示任何一个字母。
     bool match(const Node *node, const std::string &word, char wildcard, int idx) const;
+
+    // 递归函数，完成Trie中的单词删除
+    void removeRecursion(Node *node, const std::string &word, int idx);
 };
 
 // std::ostream &operator<<(std::ostream &, const Trie &);

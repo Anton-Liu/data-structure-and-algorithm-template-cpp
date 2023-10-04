@@ -85,3 +85,27 @@ int TrieWithWeight::getWeight(const std::string &word) const {
 
     return cur -> weight;
 }
+
+
+void TrieWithWeight::remove(const std::string &word) {
+    removeRecursion(root, word, 0);
+}
+
+void TrieWithWeight::removeRecursion(TrieWithWeight::Node *node, const std::string &word, int idx) {
+    if (idx == word.size()) {
+        if (!node -> isWord)
+            throw std::runtime_error("单词不存在！");
+        node -> isWord = false;
+        size--;
+        return;
+    }
+
+    if (node -> next -> find(word[idx]) == node -> next -> end())
+        throw std::runtime_error("单词不存在！");
+
+    removeRecursion(node -> next -> at(word[idx]), word, idx + 1);
+
+    auto nextNode = node -> next -> at(word[idx]);
+    if (!nextNode -> isWord && nextNode -> next -> empty())
+        node -> next -> erase(word[idx]);
+}

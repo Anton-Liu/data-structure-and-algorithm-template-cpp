@@ -18,6 +18,7 @@ public:
     int getWeight(const std::string &word) const;  // 查询Trie中某个单词的权重
     void setWeight(const std::string &word, int weight);  // 更新Trie中单词word的权重
     void add(const std::string &word, int weight);  // 向Trie中添加单词word(需要给出权重)
+    void remove(const std::string &word);  // 从Trie中删除单词word
 
     ~TrieWithWeight() { delete root; }
 private:
@@ -40,6 +41,10 @@ private:
     // 如果存在字符串与word匹配，则返回true；否则，返回false
     // word中可能包含一些通配符，每个通配符都可以表示任何一个字母。
     bool match(const Node *node, const std::string &word, char wildcard, int idx) const;
+
+    // 递归函数，完成Trie中的单词删除
+    void removeRecursion(Node *node, const std::string &word, int idx);
+
 };
 
 // std::ostream &operator<<(std::ostream &, const Trie &);
