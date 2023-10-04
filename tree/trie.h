@@ -10,7 +10,8 @@ public:
     Trie():
         root(new Node()), size(0) { }
 
-    int getSize() const { return size; }
+    int getSize() const { return size; }  // 获取当前trie中含有的单词数量
+    bool isEmpty() const { return size == 0; }  // 判断trie中是否存在单词
     bool isPrefix(const std::string &prefix) const;  // 查询Trie中是否含有单词以prefix为前缀
     bool contains(const std::string &word) const;  // 查询Trie中是否含有单词word
     bool contains(const std::string &word, char wildcard) const;  // 查询Trie中是否含有单词(允许使用word通配符)
