@@ -15,8 +15,8 @@ public:
     bool isPrefix(const std::string &prefix) const;  // 查询Trie中是否含有单词以prefix为前缀
     bool contains(const std::string &word) const;  // 查询Trie中是否含有单词word
     bool contains(const std::string &word, char wildcard) const;  // 查询Trie中是否含有单词(允许使用word通配符)
-
     void add(const std::string &word);  // 向Trie中添加单词word
+    
     ~Trie() { delete root; }
 private:
     class Node {
