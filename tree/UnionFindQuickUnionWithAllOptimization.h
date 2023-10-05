@@ -39,6 +39,7 @@ private:
                              // 但仍具有参考意义，rank值高的结点在上方，值低的结点在下方
 
     int find(int p);   // 查找元素p所对应的集合编号
+    int findRecursion(int p);  // find路径压缩的递归写法，一次就能压缩成两层
 };
 
 std::ostream &operator<<(std::ostream &, const UnionFindQuickUnionWithAllOptimization &);

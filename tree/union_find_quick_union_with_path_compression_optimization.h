@@ -35,6 +35,7 @@ private:
     std::vector<int> *parent;
 
     int find(int p);   // 查找元素p所对应的集合编号
+    int findRecursion(int p);  // find路径压缩的递归写法，一次就能压缩成两层
 };
 
 std::ostream &operator<<(std::ostream &, const UnionFindQuickUnionWithPathCompressionOptimization &);

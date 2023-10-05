@@ -31,6 +31,17 @@ int UnionFindQuickUnionWithAllOptimization::find(int p) {
     return p;
 }
 
+int UnionFindQuickUnionWithAllOptimization::findRecursion(int p) {
+    if (p < 0 || p >= parent -> size())
+        throw std::runtime_error("索引非法！");
+
+    if (p != (*parent)[p]) {
+        (*parent)[p] = findRecursion((*parent)[p]);
+    }
+
+    return (*parent)[p];
+}
+
 std::ostream &operator<<(std::ostream &os, const UnionFindQuickUnionWithAllOptimization &uf) {
     // 自适应边框
     int size = uf.getSize();
