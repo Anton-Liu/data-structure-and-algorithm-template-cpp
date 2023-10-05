@@ -15,6 +15,7 @@
  *      find: O(h)
  *      unionElements: O(h)
  *      h是树的高度
+ *      实际上各操作时间复杂度为：O(log*n)
  */
 
 class UnionFindQuickUnionWithAllOptimization : UnionFind {
