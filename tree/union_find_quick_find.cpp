@@ -1,7 +1,7 @@
 #include "union_find_quick_find.h"
 
 int UnionFindQuickFind::find(int p) {
-    if (p < 0 || p > id -> size())
+    if (p < 0 || p >= id -> size())
         throw std::runtime_error("索引非法！");
     return (*id)[p];
 }
