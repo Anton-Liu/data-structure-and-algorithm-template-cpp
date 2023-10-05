@@ -8,7 +8,7 @@
 /**
  * 最简单的并查集Quick Find
  * 特点：
- *      查询很快，合并慢
+ *      查询很快，合并很慢
  * 各操作时间复杂度：
  *      isConnected: O(1)
  *      find: O(1)
@@ -29,6 +29,7 @@ public:
         { return find(p) == find(q); }
     void unionElements(int p, int q) override;  // 合并元素p和q所属的集合，时间复杂度：O(n)
 
+    ~UnionFindQuickFind() { delete id; }
 private:
     std::vector<int> *id;
 
