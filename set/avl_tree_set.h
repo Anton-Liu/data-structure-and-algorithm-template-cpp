@@ -1,24 +1,24 @@
-#ifndef ALGORITHM_TEMPLATE_CPP_AVL_SET_H
-#define ALGORITHM_TEMPLATE_CPP_AVL_SET_H
+#ifndef ALGORITHM_TEMPLATE_CPP_AVL_TREE_SET_H
+#define ALGORITHM_TEMPLATE_CPP_AVL_TREE_SET_H
 
 #include <iostream>
 #include "set.h"
 #include "../tree/avl_tree.h"
 
-template <typename T> class AVLSet;
+template <typename T> class AVLTreeSet;
 
 template <typename T>
-std::ostream &operator<<(std::ostream &, const AVLSet<T> &);
+std::ostream &operator<<(std::ostream &, const AVLTreeSet<T> &);
 
 template <typename T>
-class AVLSet : public Set<T> {
-    friend std::ostream &operator<<<T>(std::ostream &os, const AVLSet<T> &rhs);
+class AVLTreeSet : public Set<T> {
+    friend std::ostream &operator<<<T>(std::ostream &os, const AVLTreeSet<T> &rhs);
 public:
-    AVLSet():
+    AVLTreeSet():
             avlTree(new AVLTree<T>()) { }
-    AVLSet(const AVLSet<T> &rhs):
+    AVLTreeSet(const AVLTreeSet<T> &rhs):
             avlTree(new AVLTree<T>(rhs)) { }
-    AVLSet<T> &operator=(const AVLSet<T> &rhs);
+    AVLTreeSet<T> &operator=(const AVLTreeSet<T> &rhs);
 
     int getSize() const override { return avlTree -> getSize(); };
     bool isEmpty() const override { return avlTree -> isEmpty(); };
@@ -26,27 +26,27 @@ public:
 
     void add(const T &e) override { avlTree -> add(e); };
     void remove(const T &e) override { avlTree -> remove(e); };
-    void swap(AVLSet<T> &rhs);
+    void swap(AVLTreeSet<T> &rhs);
 
-    ~AVLSet() { delete avlTree; }
+    ~AVLTreeSet() { delete avlTree; }
 
 private:
     AVLTree<T> *avlTree;
 };
 
 template<typename T>
-void AVLSet<T>::swap(AVLSet<T> &rhs) {
+void AVLTreeSet<T>::swap(AVLTreeSet<T> &rhs) {
     std::swap(avlTree, rhs.avlTree);
 }
 
 template<typename T>
-AVLSet<T> &AVLSet<T>::operator=(const AVLSet<T> &rhs) {
-    AVLSet<T>(rhs).swap(*this);
+AVLTreeSet<T> &AVLTreeSet<T>::operator=(const AVLTreeSet<T> &rhs) {
+    AVLTreeSet<T>(rhs).swap(*this);
     return *this;
 }
 
 template<typename T>
-std::ostream &operator<<(std::ostream &os, const AVLSet<T> &rhs) {
+std::ostream &operator<<(std::ostream &os, const AVLTreeSet<T> &rhs) {
     int size = rhs.getSize();
 
     // 自适应边框
@@ -79,4 +79,4 @@ std::ostream &operator<<(std::ostream &os, const AVLSet<T> &rhs) {
     return os;
 }
 
-#endif //ALGORITHM_TEMPLATE_CPP_AVL_SET_H
+#endif //ALGORITHM_TEMPLATE_CPP_AVL_TREE_SET_H
