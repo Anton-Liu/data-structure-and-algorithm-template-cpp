@@ -442,6 +442,48 @@ AVLTree<T>::remove(AVLTree::Node *node, const T &e) {
 }
 
 
+template<typename T>
+void AVLTree<T>::removeMin() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    root = removeMin(root);
+}
+
+template<typename T>
+typename AVLTree<T>::Node *AVLTree<T>::removeMin(AVLTree::Node *node) {
+    if (!node -> left) {
+        auto rightNode = node -> right;
+        delete node;
+        size--;
+        return rightNode;
+    }
+
+    node -> left = removeMin(node -> left);
+    return node;
+}
+
+template<typename T>
+void AVLTree<T>::removeMax() {
+    if (size == 0)
+        throw std::runtime_error("当前二分搜索树为空！");
+
+    root = removeMax(root);
+}
+
+template<typename T>
+typename AVLTree<T>::Node *AVLTree<T>::removeMax(AVLTree::Node *node) {
+    if (!node -> right) {
+        auto leftNode = node -> left;
+        delete node;
+        size--;
+        return leftNode;
+    }
+
+    node -> right = removeMax(node -> right);
+    return node;
+}
+
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const AVLTree<T> &rhs) {
     int size = rhs.getSize();
