@@ -74,6 +74,26 @@ private:
     Node *removeMax(Node *node);
     Node *remove(Node *node, const T &e);
     Node *copyTree(const Node *rhsNode);
+
+    // 对结点y进行向右旋转操作，返回旋转后新的根结点x
+    //        y                              x
+    //       / \                           /   \
+    //      x   T4     向右旋转 (y)        z     y
+    //     / \         --------->       / \   / \
+    //    z   T3                       T1  T2 T3 T4
+    //   / \
+    // T1   T2
+    Node *rightRotate(Node *y);
+
+    // 对结点y进行向左旋转操作，返回旋转后新的根结点x
+    //    y                             x
+    //  /  \                          /   \
+    // T1   x      向左旋转 (y)       y     z
+    //     / \     -------->       / \   / \
+    //   T2  z                    T1 T2 T3 T4
+    //      / \
+    //     T3 T4
+    Node *leftRotate(Node *y);
 };
 
 template<typename T>
@@ -253,6 +273,32 @@ void AVLTree<T>::levelOrder(const AVLTree::Node *node, std::function<void(const 
 }
 
 template<typename T>
+typename AVLTree<T>::Node *AVLTree<T>::rightRotate(Node *y) {
+    auto x = y -> left;
+    y -> left = x -> right;
+    x -> right = y;
+
+    // 更新height
+    y -> height = 1 + std::max(getHeight(y -> left), getHeight(y -> right));
+    x -> height = 1 + std::max(getHeight(x -> left), getHeight(x -> right));
+
+    return x;
+}
+
+template<typename T>
+typename AVLTree<T>::Node *AVLTree<T>::leftRotate(Node *y) {
+    auto x = y -> right;
+    y -> right = x -> left;
+    x -> left = y;
+
+    // 更新height
+    y -> height = 1 + std::max(getHeight(y -> left), getHeight(y -> right));
+    x -> height = 1 + std::max(getHeight(x -> left), getHeight(x -> right));
+
+    return x;
+}
+
+template<typename T>
 typename AVLTree<T>::Node *AVLTree<T>::add(Node *node, const T &e) {
     if (!node) {
         size++;
@@ -267,10 +313,24 @@ typename AVLTree<T>::Node *AVLTree<T>::add(Node *node, const T &e) {
     // 更新node的height值(重新计算即可)
     node -> height = 1 + std::max(getHeight(node -> left), getHeight(node -> right));
 
-    // 计算平衡因子
+    // 计算平衡因子并进行平衡维护
     int bf = getBalanceFactor(node);
-    if (std::abs(bf) > 1)
-        // TODO: ..
+    // LL
+    if (bf > 1 && getBalanceFactor(node -> left) > 0)
+        return rightRotate(node);
+    // RR
+    if (bf < -1 && getBalanceFactor(node -> right) < 0)
+        return leftRotate(node);
+    // LR
+    if (bf > 1 && getBalanceFactor(node -> left) < 0) {
+        node -> left = leftRotate(node -> left);
+        return rightRotate(node);
+    }
+    // RL
+    if (bf < -1 && getBalanceFactor(node -> right) > 0) {
+        node -> right = rightRotate(node -> right);
+        return leftRotate(node);
+    }
 
     return node;
 }
@@ -308,48 +368,6 @@ typename AVLTree<T>::Node *AVLTree<T>::maximum(AVLTree::Node *node) const {
 }
 
 template<typename T>
-void AVLTree<T>::removeMin() {
-    if (size == 0)
-        throw std::runtime_error("当前二分搜索树为空！");
-
-    root = removeMin(root);
-}
-
-template<typename T>
-typename AVLTree<T>::Node *AVLTree<T>::removeMin(AVLTree::Node *node) {
-    if (!node -> left) {
-        auto rightNode = node -> right;
-        delete node;
-        size--;
-        return rightNode;
-    }
-
-    node -> left = removeMin(node -> left);
-    return node;
-}
-
-template<typename T>
-void AVLTree<T>::removeMax() {
-    if (size == 0)
-        throw std::runtime_error("当前二分搜索树为空！");
-
-    root = removeMax(root);
-}
-
-template<typename T>
-typename AVLTree<T>::Node *AVLTree<T>::removeMax(AVLTree::Node *node) {
-    if (!node -> right) {
-        auto leftNode = node -> left;
-        delete node;
-        size--;
-        return leftNode;
-    }
-
-    node -> right = removeMax(node -> right);
-    return node;
-}
-
-template<typename T>
 void AVLTree<T>::remove(const T &e) {
     if (size == 0)
         throw std::runtime_error("当前二分搜索树为空！");
@@ -363,35 +381,64 @@ AVLTree<T>::remove(AVLTree::Node *node, const T &e) {
     if (!node)
         return nullptr;
 
+    Node *retNode;
     if (e < node -> val) {
         node -> left = remove(node -> left, e);
-        return node;
+        retNode = node;
     }
-    if (e > node -> val) {
+    else if (e > node -> val) {
         node -> right = remove(node -> right, e);
-        return node;
+        retNode = node;
+    }
+    else {  // e == node -> val
+        if (!node -> left) {
+            auto rightNode = node -> right;
+            delete node;
+            size--;
+            retNode = rightNode;
+        }
+        else if (!node -> right) {
+            auto leftNode = node -> left;
+            delete node;
+            size--;
+            retNode = leftNode;
+        }
+        else {
+            auto successor = new Node(minimum(node -> right) -> val);  // 后继结点
+            successor -> left = node -> left;
+            successor -> right = remove(node -> right, successor -> val);
+
+            delete node;
+            retNode = successor;
+        }
     }
 
-    // e == node -> val
-    if (!node -> left) {
-        auto rightNode = node -> right;
-        delete node;
-        size--;
-        return rightNode;
+    if (!retNode)
+        return nullptr;
+
+    // 更新retNode的height值(重新计算即可)
+    retNode -> height = 1 + std::max(getHeight(retNode -> left), getHeight(retNode -> right));
+
+    // 计算平衡因子并进行平衡维护
+    int bf = getBalanceFactor(retNode);
+    // LL
+    if (bf > 1 && getBalanceFactor(retNode -> left) > 0)
+        return rightRotate(retNode);
+    // RR
+    if (bf < -1 && getBalanceFactor(retNode -> right) < 0)
+        return leftRotate(retNode);
+    // LR
+    if (bf > 1 && getBalanceFactor(retNode -> left) < 0) {
+        retNode -> left = leftRotate(retNode -> left);
+        return rightRotate(retNode);
     }
-    if (!node -> right) {
-        auto leftNode = node -> left;
-        delete node;
-        size--;
-        return leftNode;
+    // RL
+    if (bf < -1 && getBalanceFactor(retNode -> right) > 0) {
+        retNode->right = rightRotate(retNode->right);
+        return leftRotate(retNode);
     }
 
-    auto successor = new Node(minimum(node -> right) -> val);  // 后继结点
-    successor -> left = node -> left;
-    successor -> right = removeMin(node -> right);  // removeMin已经size--
-
-    delete node;
-    return successor;
+    return retNode;
 }
 
 
@@ -406,8 +453,8 @@ std::ostream &operator<<(std::ostream &os, const AVLTree<T> &rhs) {
     os << '\n';
 
     // 链表的信息
-    os << "BST的长度：" << size << "\n"
-       << "BST的内容(层序遍历)：\n";
+    os << "AVL树的长度：" << size << "\n"
+       << "AVL树的内容(层序遍历)：\n";
 
     if (rhs.root == nullptr)
         os << "NULL\n";
