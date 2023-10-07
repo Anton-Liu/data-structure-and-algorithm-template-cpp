@@ -16,7 +16,6 @@ class CircularSinglyLinkedList : public LinkedList<T> {
 public:
     CircularSinglyLinkedList():
             dummyHead(new Node()), size(0) { dummyHead -> next = dummyHead; }
-
     CircularSinglyLinkedList(const CircularSinglyLinkedList<T> &rhs);
     CircularSinglyLinkedList<T> &operator=(const CircularSinglyLinkedList<T> &rhs);
 
@@ -32,7 +31,6 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(CircularSinglyLinkedList<T> &rhs);
 
     ~CircularSinglyLinkedList() override;
@@ -60,11 +58,11 @@ private:
 
 template<typename T>
 void CircularSinglyLinkedList<T>::reverseList() {
-    Node *pre = dummyHead;
-    Node *cur = dummyHead -> next;
+    auto pre = dummyHead;
+    auto cur = dummyHead -> next;
 
     while (cur != dummyHead) {
-        Node *r = cur -> next;  // 防断链
+        auto r = cur -> next;  // 防断链
         cur -> next = pre;
         pre = cur;
         cur = r;
@@ -99,6 +97,7 @@ template<typename T>
 void CircularSinglyLinkedList<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(size - 1);
 }
 
@@ -106,6 +105,7 @@ template<typename T>
 void CircularSinglyLinkedList<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(0);
 }
 
@@ -113,6 +113,7 @@ template<typename T>
 T CircularSinglyLinkedList<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(size - 1);
 }
 
@@ -120,6 +121,7 @@ template<typename T>
 T CircularSinglyLinkedList<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(0);
 }
 
@@ -205,7 +207,7 @@ bool CircularSinglyLinkedList<T>::contains(const T &e) const {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const CircularSinglyLinkedList<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

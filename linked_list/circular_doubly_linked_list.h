@@ -234,7 +234,7 @@ void CircularDoublyLinkedList<T>::add(int idx, const T &e) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const CircularDoublyLinkedList<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

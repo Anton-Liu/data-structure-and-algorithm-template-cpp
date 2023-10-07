@@ -16,7 +16,6 @@ class DoublyLinkedList : public LinkedList<T> {
 public:
     DoublyLinkedList():
             dummyHead(new Node()), size(0) { }
-
     DoublyLinkedList(const DoublyLinkedList<T> &rhs);
     DoublyLinkedList<T> &operator=(const DoublyLinkedList<T> &rhs);
 
@@ -32,7 +31,6 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(DoublyLinkedList<T> &rhs);
 
     ~DoublyLinkedList() override;
@@ -128,6 +126,7 @@ template<typename T>
 T DoublyLinkedList<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("当前链表为空！");
+
     return get(0);
 }
 
@@ -135,6 +134,7 @@ template<typename T>
 T DoublyLinkedList<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("当前链表为空！");
+
     return get(size  - 1);
 }
 
@@ -163,6 +163,7 @@ template<typename T>
 void DoublyLinkedList<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("当前链表为空！");
+
     remove(0);
 }
 
@@ -170,6 +171,7 @@ template<typename T>
 void DoublyLinkedList<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("当前链表为空！");
+
     remove(size - 1);
 }
 
@@ -217,7 +219,7 @@ void DoublyLinkedList<T>::add(int idx, const T &e) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const DoublyLinkedList<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

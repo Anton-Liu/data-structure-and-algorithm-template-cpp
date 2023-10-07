@@ -16,7 +16,6 @@ class SinglyLinkedListRecursion : public LinkedList<T> {
 public:
     SinglyLinkedListRecursion():
             dummyHead(new Node()), size(0) { }
-
     SinglyLinkedListRecursion(const SinglyLinkedListRecursion<T> &rhs);
     SinglyLinkedListRecursion<T> &operator=(const SinglyLinkedListRecursion<T> &rhs);
 
@@ -30,9 +29,8 @@ public:
     void addLast(const T &e) override { add(size, e); };
     void removeFirst() override;
     void removeLast() override;
-    void removeElements(const T &e);
+    void removeElements(const T &e) { dummyHead -> next = removeElementsRecursion(dummyHead -> next, e); };
     void reverseList();
-
     void swap(SinglyLinkedListRecursion<T> &rhs);
 
     ~SinglyLinkedListRecursion() override;
@@ -68,6 +66,7 @@ template<typename T>
 void SinglyLinkedListRecursion<T>::reverseList() {
     if (size <= 1)
         return;
+
     reverseListRecursion(dummyHead -> next);
 }
 
@@ -79,6 +78,7 @@ typename SinglyLinkedListRecursion<T>::Node* SinglyLinkedListRecursion<T>::rever
         return node;
     }
     reverseListRecursion(node -> next) -> next = node;
+
     return node;
 }
 
@@ -102,12 +102,6 @@ void SinglyLinkedListRecursion<T>::addRecursion(Node *pre, int idx, const T &e) 
 }
 
 template<typename T>
-void SinglyLinkedListRecursion<T>::removeElements(const T &e) {
-    dummyHead -> next = removeElementsRecursion(dummyHead -> next, e);
-}
-
-
-template<typename T>
 typename SinglyLinkedListRecursion<T>::Node *
 SinglyLinkedListRecursion<T>::removeElementsRecursion(SinglyLinkedListRecursion::Node *node, const T &e) {
     if (!node)
@@ -122,6 +116,7 @@ SinglyLinkedListRecursion<T>::removeElementsRecursion(SinglyLinkedListRecursion:
         size--;
         return node;
     }
+
     return node;
 }
 
@@ -136,6 +131,7 @@ template<typename T>
 void SinglyLinkedListRecursion<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(size - 1);
 }
 
@@ -143,6 +139,7 @@ template<typename T>
 void SinglyLinkedListRecursion<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(0);
 }
 
@@ -150,6 +147,7 @@ template<typename T>
 T SinglyLinkedListRecursion<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(size - 1);
 }
 
@@ -157,6 +155,7 @@ template<typename T>
 T SinglyLinkedListRecursion<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(0);
 }
 
@@ -240,7 +239,7 @@ bool SinglyLinkedListRecursion<T>::contains(const T &e) const {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const SinglyLinkedListRecursion<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

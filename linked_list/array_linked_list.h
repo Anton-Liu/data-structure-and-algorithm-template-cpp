@@ -20,7 +20,6 @@ class ArrayLinkedList : public LinkedList<T> {
 public:
     ArrayLinkedList():
             data(new std::vector<std::pair<T, int>>()), size(0), headIdx(-1), delSet(new std::set<int>()) { }
-
     ArrayLinkedList(const ArrayLinkedList<T> &rhs);
     ArrayLinkedList<T> &operator=(const ArrayLinkedList<T> &rhs);
 
@@ -36,11 +35,9 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(ArrayLinkedList<T> &rhs);
 
     ~ArrayLinkedList() override;
-    void add(int idx, const T &e);
 
 private:
     static const int END = -1;
@@ -50,6 +47,7 @@ private:
     int headIdx;  // 记录头结点位置，空表为-1
     std::set<int> *delSet;  // 记录被删除的索引
 
+    void add(int idx, const T &e);
     T get(int idx) const;
     void remove(int idx);
 };
@@ -60,7 +58,7 @@ void ArrayLinkedList<T>::reverseList() {
         return;
 
     std::stack<int> s;
-    int curIdx = headIdx;
+    auto curIdx = headIdx;
     while (curIdx != END) {
         s.push(curIdx);
         curIdx = (*data)[curIdx].second;
@@ -70,7 +68,7 @@ void ArrayLinkedList<T>::reverseList() {
 
     s.pop();
     while (!s.empty()) {
-        int nextIdx = s.top();
+        auto nextIdx = s.top();
         s.pop();
         (*data)[curIdx].second = nextIdx;
         curIdx = nextIdx;
@@ -81,17 +79,17 @@ void ArrayLinkedList<T>::reverseList() {
 template<typename T>
 void ArrayLinkedList<T>::removeElements(const T &e) {
     while (headIdx >= 0 && (*data)[headIdx].first == e && (*data)[headIdx].second != DELETED) {
-        int delIdx = headIdx;
+        auto delIdx = headIdx;
         headIdx = (*data)[headIdx].second;
         (*data)[delIdx].second = DELETED;
         delSet -> insert(delIdx);
         size--;
     }
 
-    int preIdx = headIdx;
+    auto preIdx = headIdx;
     while (preIdx >= 0 && (*data)[preIdx].second != END) {
         if ((*data)[(*data)[preIdx].second].first == e) {
-            int delIdx = (*data)[preIdx].second;
+            auto delIdx = (*data)[preIdx].second;
             (*data)[preIdx].second = (*data)[delIdx].second;
             (*data)[delIdx].second = DELETED;
             delSet -> insert(delIdx);
@@ -155,7 +153,7 @@ void ArrayLinkedList<T>::add(int idx, const T &e) {
 
     if (idx == 0) {
         if (!delSet -> empty()) {
-            int insertIndex = *(delSet -> begin());
+            auto insertIndex = *(delSet -> begin());
             delSet -> erase(insertIndex);
 
             (*data)[insertIndex].first = e;
@@ -170,12 +168,12 @@ void ArrayLinkedList<T>::add(int idx, const T &e) {
         return;
     }
 
-    int preIdx = headIdx;
+    auto preIdx = headIdx;
     for (int i = 0; i < idx - 1; i++)
         preIdx = (*data)[preIdx].second;
 
     if (!delSet -> empty()) {
-        int insertIndex = *(delSet -> begin());
+        auto insertIndex = *(delSet -> begin());
         delSet -> erase(insertIndex);
 
         (*data)[insertIndex].first = e;
@@ -206,7 +204,7 @@ void ArrayLinkedList<T>::remove(int idx) {
         throw std::runtime_error("超过链表范围！");
 
     if (idx == 0) {
-        int delIdx = headIdx;
+        auto delIdx = headIdx;
         headIdx = (*data)[delIdx].second;
         (*data)[delIdx].second = DELETED;
         delSet -> insert(delIdx);
@@ -214,11 +212,11 @@ void ArrayLinkedList<T>::remove(int idx) {
         return;
     }
 
-    int preIdx = headIdx;
+    auto preIdx = headIdx;
     for (int i = 0; i < idx - 1; i++)
         preIdx = (*data)[headIdx].second;
 
-    int delIdx = (*data)[preIdx].second;
+    auto delIdx = (*data)[preIdx].second;
     (*data)[preIdx].second = (*data)[delIdx].second;
 
     (*data)[delIdx].second = DELETED;
@@ -260,7 +258,7 @@ void ArrayLinkedList<T>::removeLast() {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayLinkedList<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

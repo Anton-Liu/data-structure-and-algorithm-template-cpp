@@ -55,7 +55,7 @@ DAryMaxHeap<T>::DAryMaxHeap(const DAryMaxHeap<T> &rhs) {
     auto size = rhs.data -> size();
     d = rhs.d;
     data = new std::vector<T>(size);
-    for (auto i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
         (*data)[i] = (*rhs.data)[i];
 }
 
@@ -84,7 +84,7 @@ T DAryMaxHeap<T>::getTop() const {
 template<typename T>
 void DAryMaxHeap<T>::siftUp(int idx) {
     while (idx > 0) {
-        int pi = parent(idx);
+        auto pi = parent(idx);
         if ((*data)[idx] > (*data)[pi]) {
             std::swap((*data)[idx], (*data)[pi]);
             idx = pi;
@@ -174,7 +174,7 @@ std::ostream &operator<<(std::ostream &os, const DAryMaxHeap<T> &rhs) {
     }
     else {
         os << (*rhs.data)[0];
-        for (int i = 1; i < size; i++)
+        for (auto i = 1; i < size; i++)
             os << ", " << (*rhs.data)[i];
         os << "]\n";
     }

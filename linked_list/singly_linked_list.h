@@ -16,7 +16,6 @@ class SinglyLinkedList : public LinkedList<T> {
 public:
     SinglyLinkedList():
         dummyHead(new Node()), size(0) { }
-
     SinglyLinkedList(const SinglyLinkedList<T> &rhs);
     SinglyLinkedList<T> &operator=(const SinglyLinkedList<T> &rhs);
 
@@ -32,7 +31,6 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(SinglyLinkedList<T> &rhs);
 
     ~SinglyLinkedList() override;
@@ -60,10 +58,10 @@ private:
 template<typename T>
 void SinglyLinkedList<T>::reverseList() {
     Node *pre = nullptr;
-    Node *cur = dummyHead -> next;
+    auto cur = dummyHead -> next;
 
     while (cur) {
-        Node *r = cur -> next;  // 防断链
+        auto r = cur -> next;  // 防断链
         cur -> next = pre;
         pre = cur;
         cur = r;
@@ -97,6 +95,7 @@ template<typename T>
 void SinglyLinkedList<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(size - 1);
 }
 
@@ -104,6 +103,7 @@ template<typename T>
 void SinglyLinkedList<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(0);
 }
 
@@ -111,6 +111,7 @@ template<typename T>
 T SinglyLinkedList<T>::getLast() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(size - 1);
 }
 
@@ -118,6 +119,7 @@ template<typename T>
 T SinglyLinkedList<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(0);
 }
 
@@ -201,7 +203,7 @@ bool SinglyLinkedList<T>::contains(const T &e) const {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const SinglyLinkedList<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

@@ -55,7 +55,7 @@ DAryMinHeap<T>::DAryMinHeap(const DAryMinHeap<T> &rhs) {
     auto size = rhs.data -> size();
     d = rhs.d;
     data = new std::vector<T>(size);
-    for (auto i = 0; i < size; i++)
+    for (int i = 0; i < size; i++)
         (*data)[i] = (*rhs.data)[i];
 }
 

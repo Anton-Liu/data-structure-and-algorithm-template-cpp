@@ -16,7 +16,6 @@ class DoublyLinkedListWithTailPointer : public LinkedList<T>{
 public:
     DoublyLinkedListWithTailPointer():
             dummyHead(new Node()), size(0) { tail = dummyHead; }
-
     DoublyLinkedListWithTailPointer(const DoublyLinkedListWithTailPointer<T> &rhs);
     DoublyLinkedListWithTailPointer<T> &operator=(const DoublyLinkedListWithTailPointer<T> &rhs);
 
@@ -32,7 +31,6 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(DoublyLinkedListWithTailPointer<T> &rhs);
 
     ~DoublyLinkedListWithTailPointer() override;
@@ -132,6 +130,7 @@ template<typename T>
 T DoublyLinkedListWithTailPointer<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("当前链表为空！");
+
     return get(0);
 }
 
@@ -234,7 +233,7 @@ void DoublyLinkedListWithTailPointer<T>::addLast(const T &e) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const DoublyLinkedListWithTailPointer<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

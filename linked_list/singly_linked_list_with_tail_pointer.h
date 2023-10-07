@@ -16,7 +16,6 @@ class SinglyLinkedListWithTailPointer : public LinkedList<T> {
 public:
     SinglyLinkedListWithTailPointer():
             dummyHead(new Node()), size(0) { tail = dummyHead; }
-
     SinglyLinkedListWithTailPointer(const SinglyLinkedListWithTailPointer<T> &rhs);
     SinglyLinkedListWithTailPointer<T> &operator=(const SinglyLinkedListWithTailPointer<T> &rhs);
 
@@ -32,7 +31,6 @@ public:
     void removeLast() override;
     void removeElements(const T &e);
     void reverseList();
-
     void swap(SinglyLinkedListWithTailPointer<T> &rhs);
 
     ~SinglyLinkedListWithTailPointer() override;
@@ -60,13 +58,13 @@ private:
 
 template<typename T>
 void SinglyLinkedListWithTailPointer<T>::reverseList() {
-    Node *cur = dummyHead -> next;
+    auto cur = dummyHead -> next;
     Node *pre = nullptr;
 
     tail = cur;
 
     while (cur) {
-        Node *r = cur -> next;
+        auto r = cur -> next;
         cur -> next = pre;
         pre = cur;
         cur = r;
@@ -134,6 +132,7 @@ template<typename T>
 T SinglyLinkedListWithTailPointer<T>::getFirst() const {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     return get(0);
 }
 
@@ -156,6 +155,7 @@ template<typename T>
 void SinglyLinkedListWithTailPointer<T>::removeFirst() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(0);
 }
 
@@ -163,6 +163,7 @@ template<typename T>
 void SinglyLinkedListWithTailPointer<T>::removeLast() {
     if (size == 0)
         throw std::runtime_error("链表为空！");
+
     remove(size - 1);
 }
 
@@ -200,6 +201,7 @@ T SinglyLinkedListWithTailPointer<T>::get(int idx) const {
     auto cur = dummyHead -> next;
     for (int i = 0; i < idx; i++)
         cur = cur -> next;
+
     return cur -> val;
 }
 
@@ -224,7 +226,7 @@ void SinglyLinkedListWithTailPointer<T>::remove(int idx) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const SinglyLinkedListWithTailPointer<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";
