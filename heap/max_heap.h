@@ -29,15 +29,15 @@ public:
 
     ~MaxHeap() override { delete data; }
 private:
+    std::vector<T> *data;
+
     int parent(int idx) const;
     int leftChild(int idx) const { return idx * 2 + 1; };
     int rightChild(int idx) const { return idx * 2 + 2; };
+
     void siftUp(int idx) override;
     void siftDown(int idx) override;
     void swap(MaxHeap<T> &rhs);
-
-private:
-    std::vector<T> *data;
 };
 
 // heapify
@@ -50,9 +50,9 @@ MaxHeap<T>::MaxHeap(const std::vector<T> &arr) {
 
 template<typename T>
 MaxHeap<T>::MaxHeap(const MaxHeap<T> &rhs) {
-    int size = rhs.data -> size();
+    auto size = rhs.data -> size();
     data = new std::vector<T>(size);
-    for (int i = 0; i < size; i++)
+    for (auto i = 0; i < size; i++)
         (*data)[i] = (*rhs.data)[i];
 }
 
@@ -78,7 +78,7 @@ T MaxHeap<T>::getTop() const {
 template<typename T>
 void MaxHeap<T>::siftUp(int idx) {
     while (idx > 0) {
-        int pi = parent(idx);
+        auto pi = parent(idx);
         if ((*data)[idx] > (*data)[pi]) {
             std::swap((*data)[idx], (*data)[pi]);
             idx = pi;
@@ -96,9 +96,9 @@ void MaxHeap<T>::add(const T &e) {
 
 template<typename T>
 void MaxHeap<T>::siftDown(int idx) {
-    int size = data -> size();
+    auto size = data -> size();
     while (leftChild(idx) < size) {
-        int j = leftChild(idx);
+        auto j = leftChild(idx);
         if (j + 1 < size && (*data)[j + 1] > (*data)[j])  // 比较左右孩子
             j++;  // 指向右孩子
         if ((*data)[idx] >= (*data)[j])  // 比较当前结点和其较大的孩子
@@ -110,7 +110,7 @@ void MaxHeap<T>::siftDown(int idx) {
 
 template<typename T>
 T MaxHeap<T>::extractTop() {
-    T ret = getTop();
+    auto ret = getTop();
     std::swap((*data)[0], (*data)[data -> size() - 1]);
     data -> pop_back();
     siftDown(0);
@@ -120,7 +120,7 @@ T MaxHeap<T>::extractTop() {
 
 template<typename T>
 T MaxHeap<T>::replace(const T &e) {
-    T ret = getTop();
+    auto ret = getTop();
     (*data)[0] = e;
     siftDown(0);
 
@@ -137,7 +137,7 @@ int MaxHeap<T>::parent(int idx) const {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const MaxHeap<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
