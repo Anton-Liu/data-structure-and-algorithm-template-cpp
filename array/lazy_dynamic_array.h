@@ -42,7 +42,7 @@ T LazyDynamicArray<T>::remove(const int &idx) {
     if (idx < 0 || idx >= DynamicArray<T>::size)
         throw std::runtime_error("访问索引超过当前数组范围！");
 
-    T ret = DynamicArray<T>::data[idx];
+    auto ret = DynamicArray<T>::data[idx];
     for (int i = idx; i < DynamicArray<T>::size - 1; i++)
         DynamicArray<T>::data[i] = DynamicArray<T>::data[i + 1];
     DynamicArray<T>::size--;

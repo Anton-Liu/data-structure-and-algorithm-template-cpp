@@ -48,11 +48,13 @@ public:
     T &operator[](int idx) override {
         if (idx >= size)
             throw std::runtime_error("访问索引超过当前数组范围！");
+
         return data[idx];
     }
     const T &operator[](int idx) const override {
         if (idx >= size)
             throw std::runtime_error("访问索引超过当前数组范围！");
+
         return data[idx];
     }
 
@@ -63,7 +65,7 @@ protected:
 
 template<typename T>
 void DynamicArray<T>::swap(int i, int j) {
-    T tmp = data[i];
+    auto tmp = data[i];
     data[i] = data[j];
     data[j] = tmp;
 }
@@ -72,6 +74,7 @@ template<typename T>
 DynamicArray<T> &DynamicArray<T>::operator=(const DynamicArray<T> &rhs) {
     data = rhs.data;
     size = rhs.size;
+
     return *this;
 }
 
@@ -80,6 +83,7 @@ bool DynamicArray<T>::contains(const T &e) const {
     for (const auto &d : data)
         if (d == e)
             return true;
+
     return false;
 }
 
@@ -88,6 +92,7 @@ int DynamicArray<T>::getIndex(const T &e) const {
     for (int i = 0; i < size; i++)
         if (data[i] == e)
             return i;
+
     return -1;
 }
 
@@ -95,6 +100,7 @@ template<typename T>
 T DynamicArray<T>::get(const int &idx) const {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
+
     return data[idx];
 }
 
@@ -102,6 +108,7 @@ template<typename T>
 void DynamicArray<T>::set(const int &idx, const T &e) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
+
     data[idx] = e;
 }
 
@@ -109,6 +116,7 @@ template<typename T>
 void DynamicArray<T>::add(const int &idx, const T &e) {
     if (idx < 0 || idx > size)
         throw std::runtime_error("访问索引超过当前数组可插入范围！");
+
     if (size == data.size())
         data.resize(2 * data.size());  // 元素满，则扩容两倍
 
@@ -123,10 +131,11 @@ T DynamicArray<T>::remove(const int &idx) {
     if (idx < 0 || idx >= size)
         throw std::runtime_error("访问索引超过当前数组范围！");
 
-    T ret = data[idx];
+    auto ret = data[idx];
     for (int i = idx; i < size - 1; i++)
         data[i] = data[i + 1];
     size--;
+
     return ret;
 }
 
@@ -157,6 +166,5 @@ std::ostream &operator<<(std::ostream &os, const DynamicArray<T> &arr) {
         os << "---";
     return os;
 }
-
 
 #endif //ALGORITHM_TEMPLATE_CPP_DYNAMIC_ARRAY_H
