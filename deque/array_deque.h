@@ -18,24 +18,25 @@ public:
     ArrayDeque():
         data(std::make_shared<std::vector<T>>(10)),
         front(0), tail(0), size(0) { }
-
     explicit ArrayDeque(int capacity):
         data(std::make_shared<std::vector<T>>(capacity)),
         front(0), tail(0), size(0) { }
 
     bool isEmpty() const override { return size == 0; }
-
     int getSize() const override { return size; }
-
     int getCapacity() const override { return data -> size(); }
 
     T getFront() const override {
-        if (size == 0) throw std::runtime_error("当前双端队列为空！");
+        if (size == 0)
+            throw std::runtime_error("当前双端队列为空！");
+
         return (*data)[front];
     }
 
     T getLast() const override {
-        if (size == 0) throw std::runtime_error("当前双端队列为空！");
+        if (size == 0)
+            throw std::runtime_error("当前双端队列为空！");
+
         return (*data)[tail == 0 ? data -> size() - 1 : tail - 1];
     }
 
@@ -43,6 +44,7 @@ public:
     void addLast(const T &e) override;
     void removeFront() override;
     void removeLast() override;
+
 private:
     std::shared_ptr<std::vector<T>> data;
     int front;
@@ -86,6 +88,7 @@ template<typename T>
 void ArrayDeque<T>::removeFront() {
     if (size == 0)
         throw std::runtime_error("当前双端队列为空，不能删除元素！");
+
     front = (front + 1) % data -> size();
     size--;
 

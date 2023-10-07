@@ -14,6 +14,7 @@ public:
     virtual void addLast(const T &e) = 0;
     virtual void removeFront() = 0;
     virtual void removeLast() = 0;
+
     virtual ~Deque() = default;
 };
 
