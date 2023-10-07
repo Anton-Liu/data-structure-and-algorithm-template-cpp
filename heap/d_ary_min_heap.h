@@ -46,16 +46,16 @@ template<typename T>
 DAryMinHeap<T>::DAryMinHeap(const std::vector<T> &arr, int d) {
     this -> d = d;
     data = new std::vector<T>(arr);
-    for (int i = parent(arr.size() - 1); i >= 0; i--)
+    for (auto i = parent(arr.size() - 1); i >= 0; i--)
         siftDown(i);
 }
 
 template<typename T>
 DAryMinHeap<T>::DAryMinHeap(const DAryMinHeap<T> &rhs) {
-    int size = rhs.data -> size();
+    auto size = rhs.data -> size();
     d = rhs.d;
     data = new std::vector<T>(size);
-    for (int i = 0; i < size; i++)
+    for (auto i = 0; i < size; i++)
         (*data)[i] = (*rhs.data)[i];
 }
 
@@ -83,7 +83,7 @@ T DAryMinHeap<T>::getTop() const {
 template<typename T>
 void DAryMinHeap<T>::siftUp(int idx) {
     while (idx > 0) {
-        int pi = parent(idx);
+        auto pi = parent(idx);
         if ((*data)[idx] < (*data)[pi]) {
             std::swap((*data)[idx], (*data)[pi]);
             idx = pi;
@@ -101,12 +101,12 @@ void DAryMinHeap<T>::add(const T &e) {
 
 template<typename T>
 void DAryMinHeap<T>::siftDown(int idx) {
-    int size = data -> size();
-    int leftmostChild = idx * d + 1;
-    int rightmostChild = idx * d + d;
+    auto size = data -> size();
+    auto leftmostChild = idx * d + 1;
+    auto rightmostChild = idx * d + d;
     while (leftmostChild < size) {
-        int minChild = leftmostChild;
-        for (int i = leftmostChild + 1; i <= rightmostChild; i++)
+        auto minChild = leftmostChild;
+        for (auto i = leftmostChild + 1; i <= rightmostChild; i++)
             if (i < size && (*data)[i] < (*data)[minChild])
                 minChild = i;  // 指向值最小的孩子
         if ((*data)[idx] <= (*data)[minChild])  // 比较当前结点和最小的孩子
@@ -120,7 +120,7 @@ void DAryMinHeap<T>::siftDown(int idx) {
 
 template<typename T>
 T DAryMinHeap<T>::extractTop() {
-    T ret = getTop();
+    auto ret = getTop();
     std::swap((*data)[0], (*data)[data -> size() - 1]);
     data -> pop_back();
     siftDown(0);
@@ -130,7 +130,7 @@ T DAryMinHeap<T>::extractTop() {
 
 template<typename T>
 T DAryMinHeap<T>::replace(const T &e) {
-    T ret = getTop();
+    auto ret = getTop();
     (*data)[0] = e;
     siftDown(0);
 
@@ -147,7 +147,7 @@ int DAryMinHeap<T>::parent(int idx) const {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const DAryMinHeap<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
