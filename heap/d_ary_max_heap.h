@@ -30,15 +30,15 @@ public:
     T replace(const T &e) override;
 
     ~DAryMaxHeap() override { delete data; }
-private:
-    int parent(int idx) const;
-    void siftUp(int idx) override;
-    void siftDown(int idx) override;
-    void swap(DAryMaxHeap<T> &rhs);
 
 private:
     std::vector<T> *data;
     int d;
+
+    int parent(int idx) const;
+    void siftUp(int idx) override;
+    void siftDown(int idx) override;
+    void swap(DAryMaxHeap<T> &rhs);
 };
 
 // heapify
@@ -46,16 +46,16 @@ template<typename T>
 DAryMaxHeap<T>::DAryMaxHeap(const std::vector<T> &arr, int d) {
     this -> d = d;
     data = new std::vector<T>(arr);
-    for (int i = parent(arr.size() - 1); i >= 0; i--)
+    for (auto i = parent(arr.size() - 1); i >= 0; i--)
         siftDown(i);
 }
 
 template<typename T>
 DAryMaxHeap<T>::DAryMaxHeap(const DAryMaxHeap<T> &rhs) {
-    int size = rhs.data -> size();
+    auto size = rhs.data -> size();
     d = rhs.d;
     data = new std::vector<T>(size);
-    for (int i = 0; i < size; i++)
+    for (auto i = 0; i < size; i++)
         (*data)[i] = (*rhs.data)[i];
 }
 
@@ -69,6 +69,7 @@ void DAryMaxHeap<T>::swap(DAryMaxHeap<T> &rhs) {
 template<typename T>
 DAryMaxHeap<T> &DAryMaxHeap<T>::operator=(const DAryMaxHeap<T> &rhs) {
     DAryMaxHeap<T>(rhs).swap(*this);
+
     return *this;
 }
 
@@ -101,12 +102,12 @@ void DAryMaxHeap<T>::add(const T &e) {
 
 template<typename T>
 void DAryMaxHeap<T>::siftDown(int idx) {
-    int size = data -> size();
-    int leftmostChild = idx * d + 1;
-    int rightmostChild = idx * d + d;
+    auto size = data -> size();
+    auto leftmostChild = idx * d + 1;
+    auto rightmostChild = idx * d + d;
     while (leftmostChild < size) {
-        int maxChild = leftmostChild;
-        for (int i = leftmostChild + 1; i <= rightmostChild; i++)
+        auto maxChild = leftmostChild;
+        for (auto i = leftmostChild + 1; i <= rightmostChild; i++)
             if (i < size && (*data)[i] > (*data)[maxChild])
                 maxChild = i;  // 指向值最大的孩子
         if ((*data)[idx] >= (*data)[maxChild])  // 比较当前结点和最大的孩子
@@ -120,7 +121,7 @@ void DAryMaxHeap<T>::siftDown(int idx) {
 
 template<typename T>
 T DAryMaxHeap<T>::extractTop() {
-    T ret = getTop();
+    auto ret = getTop();
     std::swap((*data)[0], (*data)[data -> size() - 1]);
     data -> pop_back();
     siftDown(0);
@@ -130,7 +131,7 @@ T DAryMaxHeap<T>::extractTop() {
 
 template<typename T>
 T DAryMaxHeap<T>::replace(const T &e) {
-    T ret = getTop();
+    auto ret = getTop();
     (*data)[0] = e;
     siftDown(0);
 
@@ -147,7 +148,7 @@ int DAryMaxHeap<T>::parent(int idx) const {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const DAryMaxHeap<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)
