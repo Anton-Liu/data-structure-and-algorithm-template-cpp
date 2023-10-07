@@ -56,10 +56,10 @@ template<typename T>
 std::pair<int, int>
 ThreeWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
-    int p = u(e);
+    auto p = u(e);
     std::swap(arr[p], arr[l]);
 
-    int lt = l, i = l + 1, gt = r + 1;
+    auto lt = l, i = l + 1, gt = r + 1;
     while (i < gt) {
         if (arr[i] < arr[l]) {
             lt++;

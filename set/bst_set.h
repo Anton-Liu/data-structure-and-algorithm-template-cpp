@@ -26,18 +26,13 @@ public:
 
     void add(const T &e) override { bst -> add(e); };
     void remove(const T &e) override { bst -> remove(e); };
-    void swap(BSTSet<T> &rhs);
+    void swap(BSTSet<T> &rhs) { std::swap(bst, rhs.bst); }
 
     ~BSTSet() { delete bst; }
 
 private:
     BinarySearchTreeRecursion<T> *bst;
 };
-
-template<typename T>
-void BSTSet<T>::swap(BSTSet<T> &rhs) {
-    std::swap(bst, rhs.bst);
-}
 
 template<typename T>
 BSTSet<T> &BSTSet<T>::operator=(const BSTSet<T> &rhs) {
@@ -47,7 +42,7 @@ BSTSet<T> &BSTSet<T>::operator=(const BSTSet<T> &rhs) {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const BSTSet<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

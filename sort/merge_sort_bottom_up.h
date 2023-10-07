@@ -11,13 +11,14 @@ public:
     MergeSortBottomUp() = delete;
 
     static void sort(std::vector<T> &arr);
+
 private:
     static void merge(std::vector<T> &arr, int l, int mid, int r, std::vector<T> &tmp);
 };
 
 template<typename T>
 void MergeSortBottomUp<T>::sort(std::vector<T> &arr) {
-    int n = arr.size();
+    auto n = arr.size();
     std::vector<T> tmp(n);
 
     // 优化：插入排序
@@ -40,10 +41,10 @@ void MergeSortBottomUp<T>::merge(std::vector<T> &arr, int l, int mid, int r, std
     // 把arr[l..r]拷贝到tmp[l..r]上
     std::copy(arr.begin() + l, arr.begin() + r + 1, tmp.begin() + l);
 
-    int i = l;
-    int j = mid + 1;
+    auto i = l;
+    auto j = mid + 1;
 
-    for (int k = l; k <= r; k++) {
+    for (auto k = l; k <= r; k++) {
         if (i > mid) {
             arr[k] = tmp[j];
             j++;

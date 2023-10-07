@@ -19,6 +19,7 @@ public:
     void remove(const std::string &key) override { trie -> remove(key); };
 
     ~TrieMap() override { delete trie; };
+
 private:
     TrieWithWeight *trie;
 };

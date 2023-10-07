@@ -1,8 +1,8 @@
 #include "UnionFindQuickUnionWithAllOptimization.h"
 
 void UnionFindQuickUnionWithAllOptimization::unionElements(int p, int q) {
-    int pRoot = find(p);
-    int qRoot = find(q);
+    auto pRoot = find(p);
+    auto qRoot = find(q);
 
     if (pRoot == qRoot)
         return;
@@ -44,7 +44,7 @@ int UnionFindQuickUnionWithAllOptimization::findRecursion(int p) {
 
 std::ostream &operator<<(std::ostream &os, const UnionFindQuickUnionWithAllOptimization &uf) {
     // 自适应边框
-    int size = uf.getSize();
+    auto size = uf.getSize();
     os << "-----------------";
     for (int i = 0; i < size; i++)
         os << "---";

@@ -16,6 +16,7 @@ public:
     TwoWayRandomizedQuicksort() = delete;
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
+
 private:
     static void sort(std::vector<T> &arr, int l, int r, std::default_random_engine &e);
 
@@ -41,7 +42,7 @@ void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, std::
     if (l >= r)
         return;
 
-    int pivot = partition(arr, l, r, e);
+    auto pivot = partition(arr, l, r, e);
     sort(arr, l, pivot - 1, e);
     sort(arr, pivot + 1, r, e);
 }
@@ -49,10 +50,10 @@ void TwoWayRandomizedQuicksort<T>::sort(std::vector<T> &arr, int l, int r, std::
 template<typename T>
 int TwoWayRandomizedQuicksort<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
-    int p = u(e);
+    auto p = u(e);
     std::swap(arr[p], arr[l]);
 
-    int i = l + 1, j = r;
+    auto i = l + 1, j = r;
     while (true) {
         while (i <= j && arr[i] < arr[l])
             i++;

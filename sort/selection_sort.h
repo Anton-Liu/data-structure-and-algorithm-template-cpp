@@ -14,7 +14,7 @@ public:
 template<typename T>
 void SelectionSort<T>::sort(std::vector<T> &arr) {
     for (int i = 0; i < arr.size(); i++) {
-        int minIndex = i;
+        auto minIndex = i;
         for (int j = i + 1; j < arr.size(); j++)
             if (arr[j] < arr[minIndex])
                 minIndex = j;

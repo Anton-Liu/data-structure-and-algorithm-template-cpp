@@ -19,6 +19,7 @@ public:
     void remove(const std::string &word);  // 从Trie中删除单词word
 
     ~Trie() { delete root; }
+
 private:
     class Node {
     public:

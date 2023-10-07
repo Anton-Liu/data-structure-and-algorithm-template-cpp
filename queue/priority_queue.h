@@ -41,7 +41,7 @@ PriorityQueue<T> &PriorityQueue<T>::operator=(const PriorityQueue<T> &rhs) {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const PriorityQueue<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

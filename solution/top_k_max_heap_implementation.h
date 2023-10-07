@@ -19,6 +19,7 @@ template <typename T>
 class TopKMaxHeapImplementation {
 public:
     TopKMaxHeapImplementation() = delete;
+
     static std::vector<T> getTopK(const std::vector<T> &arr, int k);
 };
 

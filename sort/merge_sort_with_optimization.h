@@ -34,7 +34,7 @@ void MergeSortWithOptimization<T>::sort(std::vector<T> &arr, int l, int r, std::
         return;
     }
 
-    int mid = l + (r - l) / 2;
+    auto mid = l + (r - l) / 2;
     sort(arr, l, mid, tmp);
     sort(arr, mid + 1, r, tmp);
 
@@ -50,8 +50,8 @@ void MergeSortWithOptimization<T>::merge(std::vector<T> &arr, int l, int mid, in
     // 把arr[l..r]拷贝到tmp[l..r]上
     std::copy(arr.begin() + l, arr.begin() + r + 1, tmp.begin() + l);
 
-    int i = l;
-    int j = mid + 1;
+    auto i = l;
+    auto j = mid + 1;
 
     for (int k = l; k <= r; k++) {
         if (i > mid) {

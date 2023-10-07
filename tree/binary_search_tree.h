@@ -33,7 +33,7 @@ public:
     void add(const T &e);
     void removeMin();
     void removeMax();
-    void remove(const T &e);
+    void remove(const T &e);  // 未实现
     void swap(BinarySearchTree<T> &rhs);
 
     ~BinarySearchTree();
@@ -59,7 +59,6 @@ private:
     void inOrder(const Node *node, std::function<void(const Node *)> visit) const;
     void postOrder(const Node *node, std::function<void(const Node *)> visit) const;
     void levelOrder(const Node *node, std::function<void(const Node *)> visit) const;
-
 };
 
 template<typename T>
@@ -357,14 +356,8 @@ void BinarySearchTree<T>::removeMax() {
 }
 
 template<typename T>
-void BinarySearchTree<T>::remove(const T &e) {
-
-}
-
-
-template<typename T>
 std::ostream &operator<<(std::ostream &os, const BinarySearchTree<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

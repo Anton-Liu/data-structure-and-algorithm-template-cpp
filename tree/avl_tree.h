@@ -486,7 +486,7 @@ typename AVLTree<T>::Node *AVLTree<T>::removeMax(AVLTree::Node *node) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const AVLTree<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

@@ -21,6 +21,7 @@ public:
     void remove(const std::string &word);  // 从Trie中删除单词word
 
     ~TrieWithWeight() { delete root; }
+
 private:
     class Node {
     public:
@@ -44,7 +45,6 @@ private:
 
     // 递归函数，完成Trie中的单词删除
     void removeRecursion(Node *node, const std::string &word, int idx);
-
 };
 
 // std::ostream &operator<<(std::ostream &, const Trie &);

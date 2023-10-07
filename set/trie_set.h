@@ -16,6 +16,7 @@ public:
     void remove(const std::string &e) override { trie -> remove(e); };
 
     ~TrieSet() override { delete trie; }
+
 private:
     Trie *trie;
 };

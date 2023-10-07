@@ -7,6 +7,7 @@ template <typename T>
 class InsertionSort {
 public:
     InsertionSort() = delete;  // 删除默认构造函数，该类不需要构造对象
+
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
     static void sort(std::vector<T> &arr, int l, int r);
 };
@@ -14,7 +15,7 @@ public:
 template<typename T>
 void InsertionSort<T>::sort(std::vector<T> &arr) {
     for (int i = 1; i < arr.size(); i++) {
-        T e = arr[i];
+        auto e = arr[i];
         int j;
         for (j = i - 1; j >= 0 && arr[j] > e; j--)
             arr[j + 1] = arr[j];
@@ -30,7 +31,7 @@ void InsertionSort<T>::sort(std::vector<T> &arr, int l, int r) {
         throw std::runtime_error("索引超过数组范围！");
 
     for (int i = l + 1; i <= r; i++) {
-        T e = arr[i];
+        auto e = arr[i];
         int j;
         for (j = i - 1; j >= l && arr[j] > e; j--)
             arr[j + 1] = arr[j];

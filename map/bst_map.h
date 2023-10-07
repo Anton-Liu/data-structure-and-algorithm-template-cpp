@@ -101,8 +101,10 @@ typename BSTMap<K, V>::Node *BSTMap<K, V>::get(BSTMap::Node *node, const K &key)
 template<typename K, typename V>
 V BSTMap<K, V>::get(const K &key) const {
     auto node = get(root, key);
+
     if (!node)
         throw std::runtime_error("键值不存在！");
+
     return node -> value;
 }
 
@@ -114,8 +116,10 @@ bool BSTMap<K, V>::contains(const K &key) const {
 template<typename K, typename V>
 void BSTMap<K, V>::set(const K &key, const V &newValue) {
     auto node = get(root, key);
+
     if (!node)
         throw std::runtime_error("键值不存在！");
+
     node -> value = newValue;
 }
 
@@ -205,7 +209,7 @@ void BSTMap<K, V>::remove(const K &key) {
 
 template<typename K, typename V>
 std::ostream &operator<<(std::ostream &os, const BSTMap<K, V> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

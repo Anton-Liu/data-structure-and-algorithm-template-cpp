@@ -25,11 +25,13 @@ public:
     T getFront() const override {
         if (isEmpty())
             throw std::runtime_error("当前队列为空！");
+
         return (*data)[front];
     };
 
     void enqueue(const T &e) override;
     void dequeue() override;
+
 private:
     int front;
     int tail;

@@ -1,8 +1,8 @@
 #ifndef ALGORITHM_TEMPLATE_CPP_LINKED_LIST_QUEUE_H
 #define ALGORITHM_TEMPLATE_CPP_LINKED_LIST_QUEUE_H
 
-#include "../linked_list/singly_linked_list_with_tail_pointer.h"
 #include "queue.h"
+#include "../linked_list/singly_linked_list_with_tail_pointer.h"
 #include <iostream>
 
 /**
@@ -20,10 +20,9 @@ class LinkedListQueue : public Queue<T> {
     friend std::ostream &operator<<<T>(std::ostream &os, const LinkedListQueue<T> &arrayQueue);
 public:
     LinkedListQueue():
-            data(new SinglyLinkedListWithTailPointer<T>()) { }
-
+        data(new SinglyLinkedListWithTailPointer<T>()) { }
     LinkedListQueue(const LinkedListQueue<T> &rhs):
-            data(new SinglyLinkedListWithTailPointer<T>(*rhs.data)) { }
+        data(new SinglyLinkedListWithTailPointer<T>(*rhs.data)) { }
     LinkedListQueue<T> &operator=(const LinkedListQueue &rhs);
 
     int getSize() const override { return data -> getSize(); }
@@ -32,10 +31,10 @@ public:
 
     void enqueue(const T &e) override { data -> addLast(e); };
     void dequeue() override { data -> removeFirst(); };
-
     void swap(LinkedListQueue<T> &rhs);
 
     virtual ~LinkedListQueue() { delete data; };
+
 private:
     SinglyLinkedListWithTailPointer<T> *data;
 };
@@ -54,7 +53,7 @@ LinkedListQueue<T> &LinkedListQueue<T>::operator=(const LinkedListQueue &rhs) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const LinkedListQueue<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

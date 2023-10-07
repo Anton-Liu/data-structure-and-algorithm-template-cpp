@@ -25,13 +25,12 @@ int BinarySearchRecursion::search(const std::vector<T> &data, int l, int r, cons
     if (l > r)
         return -1;
 
-    int mid = l + (r - l) / 2;
+    auto mid = l + (r - l) / 2;
     if (data[mid] == target)
         return mid;
     if (data[mid] < target)
         return search(data, mid + 1, r, target);
     return search(data, l, mid - 1, target);  // data[mid] > target
 }
-
 
 #endif //ALGORITHM_TEMPLATE_CPP_BINARY_SEARCH_RECURSION_H

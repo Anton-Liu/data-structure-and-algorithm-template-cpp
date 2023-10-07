@@ -18,7 +18,6 @@ public:
             stack{} { }
     explicit StackQueue(int capacity):
             stack{capacity} { }
-
     StackQueue(const StackQueue<T> &rhs):
             stack(rhs.stack) { };
     StackQueue<T> &operator=(const StackQueue<T> &rhs);
@@ -62,7 +61,7 @@ void StackQueue<T>::dequeue() {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const StackQueue<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

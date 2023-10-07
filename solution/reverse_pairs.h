@@ -48,8 +48,8 @@ int ReversePairs<T>::sort(std::vector<T> &arr, int l, int r, std::vector<T> &tmp
     if (l >= r)
         return 0;
 
-    int res = 0;
-    int mid = l + (r - l) / 2;
+    auto res = 0;
+    auto mid = l + (r - l) / 2;
     res += sort(arr, l, mid, tmp);
     res += sort(arr, mid + 1, r, tmp);
 
@@ -61,9 +61,9 @@ template<typename T>
 int ReversePairs<T>::merge(std::vector<T> &arr, int l, int mid, int r, std::vector<T> &tmp) {
     std::copy(arr.begin() + l, arr.begin() + r + 1, tmp.begin() + l);
 
-    int i = l;
-    int j = mid + 1;
-    int res = 0;
+    auto i = l;
+    auto j = mid + 1;
+    auto res = 0;
 
     for (int k = l; k <= r; k++) {
         if (i > mid) {

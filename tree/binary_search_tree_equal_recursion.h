@@ -72,7 +72,6 @@ private:
     Node *copyTree(const Node *rhsNode);
 };
 
-
 template<typename T>
 void BinarySearchTreeEqualRecursion<T>::swap(BinarySearchTreeEqualRecursion<T> &rhs) {
     using std::swap;
@@ -386,7 +385,7 @@ void BinarySearchTreeEqualRecursion<T>::removeAll(const T &e) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const BinarySearchTreeEqualRecursion<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

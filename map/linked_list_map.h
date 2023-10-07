@@ -29,6 +29,7 @@ public:
     void remove(const K &key) override;
 
     ~LinkedListMap() { delete dummyHead; }
+
 private:
     class Node {
     public:
@@ -45,6 +46,7 @@ private:
     };
     Node *dummyHead;
     int size;
+
     void swap(LinkedListMap<K, V> &rhs);
     Node *getNode(const K &key) const;
 };
@@ -93,8 +95,10 @@ bool LinkedListMap<K, V>::contains(const K &key) const {
 template<typename K, typename V>
 V LinkedListMap<K, V>::get(const K &key) const {
     auto node = getNode(key);
+
     if (!node)
         throw std::runtime_error("键值不存在！");
+
     return node -> value;
 }
 
@@ -105,6 +109,7 @@ void LinkedListMap<K, V>::set(const K &key, const V &newValue) {
         node -> value = newValue;
         return;
     }
+
     throw std::runtime_error("键值不存在！");
 }
 
@@ -136,7 +141,7 @@ void LinkedListMap<K, V>::remove(const K &key) {
 
 template<typename K, typename V>
 std::ostream &operator<<(std::ostream &os, const LinkedListMap<K, V> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

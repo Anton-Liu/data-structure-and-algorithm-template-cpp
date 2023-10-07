@@ -20,7 +20,6 @@ public:
             data(LazyDynamicArray<T>()) { }
     explicit ArrayStack(int capacity):
             data(LazyDynamicArray<T>(capacity)) { }
-
     ArrayStack(const ArrayStack<T> &rhs):
             data(rhs.data) { }
     ArrayStack<T> &operator=(const ArrayStack<T> &rhs);
@@ -32,6 +31,7 @@ public:
 
     void push(const T &e) override { data.addLast(e); };
     void pop() override { data.removeLast(); }
+
 private:
     LazyDynamicArray<T> data;
 };
@@ -44,7 +44,7 @@ ArrayStack<T> &ArrayStack<T>::operator=(const ArrayStack<T> &rhs) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayStack<T> &arrayStack) {
-    int size = arrayStack.data.getSize();
+    auto size = arrayStack.data.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

@@ -18,7 +18,6 @@ public:
             stackIn{}, stackOut{} { }
     explicit StackQueue2(int capacity):
             stackIn{capacity}, stackOut{capacity} { }
-
     StackQueue2(const StackQueue2<T> &rhs):
             stackIn(rhs.stackIn), stackOut(rhs.stackOut) { };
     StackQueue2<T> &operator=(const StackQueue2<T> &rhs);
@@ -41,6 +40,7 @@ template<typename T>
 StackQueue2<T> &StackQueue2<T>::operator=(const StackQueue2<T> &rhs) {
     stackIn = rhs.stackIn;
     stackOut = rhs.stackOut;
+
     return *this;
 }
 
@@ -48,6 +48,7 @@ template<typename T>
 T StackQueue2<T>::getFront() {
     if (!stackOut.isEmpty())
         return stackOut.top();
+
     return front;
 }
 
@@ -73,7 +74,7 @@ void StackQueue2<T>::dequeue() {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const StackQueue2<T> &que) {
-    int size = que.getSize();
+    auto size = que.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

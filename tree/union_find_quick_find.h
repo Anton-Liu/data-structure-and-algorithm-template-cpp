@@ -25,11 +25,13 @@ public:
     }
 
     int getSize() const override { return id -> size(); };
+
     bool isConnected(int p, int q) override  // 查看元素p和q是否同属于一个集合
         { return find(p) == find(q); }
     void unionElements(int p, int q) override;  // 合并元素p和q所属的集合
 
     ~UnionFindQuickFind() { delete id; }
+
 private:
     std::vector<int> *id;
 

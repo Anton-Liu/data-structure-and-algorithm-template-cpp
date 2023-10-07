@@ -1,9 +1,9 @@
 #ifndef ALGORITHM_TEMPLATE_CPP_LINKED_LIST_MULTISET_H
 #define ALGORITHM_TEMPLATE_CPP_LINKED_LIST_MULTISET_H
 
-#include <iostream>
 #include "set.h"
 #include "../linked_list/singly_linked_list.h"
+#include <iostream>
 
 template <typename T> class LinkedListMultiset;
 
@@ -48,7 +48,7 @@ LinkedListMultiset<T> &LinkedListMultiset<T>::operator=(const LinkedListMultiset
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const LinkedListMultiset<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

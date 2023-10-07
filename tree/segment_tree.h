@@ -24,19 +24,17 @@ public:
             tree(new std::vector<T>(rhs.tree)),
             flag(new std::vector<bool>(rhs.flag)),
             merger(rhs.merger) { }
-
     SegmentTree<T> &operator=(const SegmentTree<T> &rhs);
+
     int getSize() const { return data -> size(); }
     int get(int idx) const;
-
-    // 返回区间[queryL, queryR]的合并值
-    T query(int queryL, int queryR) const;  // O(logn)
+    T query(int queryL, int queryR) const;  // 返回区间[queryL, queryR]的合并值，O(logn)
 
     void set(int idx, const T &e);  // 将idx位置的值更新为e，O(logn)
-
     void swap(SegmentTree<T> &rhs);
 
     ~SegmentTree() { delete data; delete tree; delete flag; }
+
 private:
     std::vector<T> *data;
     std::vector<T> *tree;
@@ -47,6 +45,7 @@ private:
     int leftChild(int treeIndex) const { return treeIndex * 2 + 1; }
     int rightChild(int treeIndex) const { return treeIndex * 2 + 2; }
     T query(int treeIndex, int l, int r, int queryL, int queryR) const;
+
     void buildSegmentTree(int treeIndex, int l, int r);
     void set(int treeIndex, int l, int r, int idx, const T &e);
 };
@@ -77,9 +76,9 @@ void SegmentTree<T>::set(int treeIndex, int l, int r, int idx, const T &e) {
         return;
     }
 
-    int mid = l + (r - l) / 2;
-    int leftChildIndex = leftChild(treeIndex);
-    int rightChildIndex = rightChild(treeIndex);
+    auto mid = l + (r - l) / 2;
+    auto leftChildIndex = leftChild(treeIndex);
+    auto rightChildIndex = rightChild(treeIndex);
     if (idx >= mid + 1)
         set(rightChildIndex, mid + 1, r, idx, e);
     else  // idx <= mid
@@ -99,6 +98,7 @@ void SegmentTree<T>::swap(SegmentTree<T> &rhs) {
 template<typename T>
 SegmentTree<T> &SegmentTree<T>::operator=(const SegmentTree<T> &rhs) {
     SegmentTree<T>(rhs).swap(*this);
+
     return *this;
 }
 
@@ -110,10 +110,10 @@ void SegmentTree<T>::buildSegmentTree(int treeIndex, int l, int r) {
         return;
     }
 
-    int leftChildIndex = leftChild(treeIndex);
-    int rightChildIndex = rightChild(treeIndex);
+    auto leftChildIndex = leftChild(treeIndex);
+    auto rightChildIndex = rightChild(treeIndex);
 
-    int mid = l + (r - l) / 2;
+    auto mid = l + (r - l) / 2;
     buildSegmentTree(leftChildIndex, l, mid);
     buildSegmentTree(rightChildIndex, mid + 1, r);
     (*tree)[treeIndex] = merger((*tree)[leftChildIndex], (*tree)[rightChildIndex]);
@@ -130,23 +130,23 @@ T SegmentTree<T>::query(int treeIndex, int l, int r, int queryL, int queryR) con
     if (l == queryL && r == queryR)
         return (*tree)[treeIndex];
 
-    int leftChildIndex = leftChild(treeIndex);
-    int rightChildIndex = rightChild(treeIndex);
-    int mid = l + (r - l) / 2;
+    auto leftChildIndex = leftChild(treeIndex);
+    auto rightChildIndex = rightChild(treeIndex);
+    auto mid = l + (r - l) / 2;
     if (queryL > mid)
         return query(rightChildIndex, mid + 1, r, queryL, queryR);
     if (queryR <= mid)
         return query(leftChildIndex, l, mid, queryL, queryR);
 
     // [queryL, queryR]在区间[l, mid]和[mid + 1, r]中都有部分包含
-    T leftResult = query(leftChildIndex, l, mid, queryL, mid);
-    T rightResult = query(rightChildIndex, mid + 1, r, mid + 1, queryR);
+    auto leftResult = query(leftChildIndex, l, mid, queryL, mid);
+    auto rightResult = query(rightChildIndex, mid + 1, r, mid + 1, queryR);
     return merger(leftResult, rightResult);
 }
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const SegmentTree<T> &rhs) {
-    int size = rhs.tree -> size();
+    auto size = rhs.tree -> size();
 
     // 自适应边框
     os << "--------------------------";

@@ -3,6 +3,7 @@
 int UnionFindQuickFind::find(int p) {
     if (p < 0 || p >= id -> size())
         throw std::runtime_error("索引非法！");
+
     return (*id)[p];
 }
 
@@ -20,7 +21,7 @@ void UnionFindQuickFind::unionElements(int p, int q) {
 
 std::ostream &operator<<(std::ostream &os, const UnionFindQuickFind &uf) {
     // 自适应边框
-    int size = uf.getSize();
+    auto size = uf.getSize();
     os << "-----------------";
     for (int i = 0; i < size; i++)
         os << "---";

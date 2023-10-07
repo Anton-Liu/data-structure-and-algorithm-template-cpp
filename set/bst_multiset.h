@@ -46,7 +46,7 @@ BSTMultiset<T> &BSTMultiset<T>::operator=(const BSTMultiset<T> &rhs) {
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const BSTMultiset<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

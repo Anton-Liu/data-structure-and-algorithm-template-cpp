@@ -1,7 +1,3 @@
-//
-// Created by Anton Liu on 2023/8/13.
-//
-
 #ifndef ALGORITHM_TEMPLATE_CPP_QUEUE_STACK_H
 #define ALGORITHM_TEMPLATE_CPP_QUEUE_STACK_H
 
@@ -27,22 +23,18 @@ public:
             que(ArrayQueue<T>()) { }
     explicit QueueStack(int capacity):
             que(ArrayQueue<T>(capacity)) { }
-
     QueueStack(const QueueStack<T> &rhs):
             que(rhs.que) { }
     QueueStack<T> &operator=(const QueueStack<T> &rhs);
 
     bool isEmpty() const override { return que.isEmpty(); }
-
     int getSize() const override { return que.getSize(); }
-
     int getCapacity() const { return que.getCapacity(); }
-
     T top() const override { return que.getFront(); };  // O(1)
 
     void push(const T &e) override;  // O(n)
-
     void pop() override { que.dequeue(); };  // O(1)
+
 private:
     ArrayQueue<T> que;
 };
@@ -72,12 +64,13 @@ void QueueStack<T>::push(const T &e) {
 template<typename T>
 QueueStack<T> &QueueStack<T>::operator=(const QueueStack<T> &rhs) {
     que = rhs.que;
+
     return *this;
 }
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const QueueStack<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

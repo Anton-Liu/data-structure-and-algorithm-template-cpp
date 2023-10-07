@@ -19,7 +19,6 @@ public:
             data(LazyDynamicArray<T>()) { }
     explicit ArrayQueue(int capacity):
             data(LazyDynamicArray<T>(capacity)) { }
-
     ArrayQueue(const ArrayQueue<T> &rhs):
             data(rhs.data) { }
     ArrayQueue<T> &operator=(const ArrayQueue<T> &rhs);
@@ -31,6 +30,7 @@ public:
 
     void enqueue(const T &e) override { data.addLast(e); };
     void dequeue() override { data.removeFirst(); };
+
 protected:
     LazyDynamicArray<T> data;
 };
@@ -43,7 +43,7 @@ ArrayQueue<T> &ArrayQueue<T>::operator=(const ArrayQueue<T> &rhs) {
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const ArrayQueue<T> &arrayQueue) {
-    int size = arrayQueue.data.getSize();
+    auto size = arrayQueue.data.getSize();
     // 自适应边框
     os << "-----------------";
     for (int i = 0; i < size; i++)

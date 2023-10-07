@@ -24,6 +24,7 @@ private:
 template<typename T>
 T SelectK<T>::getKthNum(std::vector<T> &arr, int k) {
     std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
+
     return sort(arr, 0, arr.size() - 1, k, e);
 }
 
@@ -40,16 +41,17 @@ T SelectK<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random
         else
             r = pivot - 1;
     }
+
     throw std::runtime_error("无解！");
 }
 
 template<typename T>
 int SelectK<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
-    int p = u(e);
+    auto p = u(e);
     std::swap(arr[p], arr[l]);
 
-    int i = l + 1, j = r;
+    auto i = l + 1, j = r;
     while (true) {
         while (i <= j && arr[i] < arr[l])
             i++;

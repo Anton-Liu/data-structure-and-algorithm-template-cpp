@@ -340,7 +340,7 @@ BinarySearchTreeRecursion<T>::remove(BinarySearchTreeRecursion::Node *node, cons
 
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const BinarySearchTreeRecursion<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

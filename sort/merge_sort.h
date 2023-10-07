@@ -25,7 +25,7 @@ void MergeSort<T>::sort(std::vector<T> &arr, int l, int r) {
     if (l >= r)
         return;
 
-    int mid = l + (r - l) / 2;
+    auto mid = l + (r - l) / 2;
     sort(arr, l, mid);
     sort(arr, mid + 1, r);
     merge(arr, l, mid, r);
@@ -35,8 +35,8 @@ template<typename T>
 void MergeSort<T>::merge(std::vector<T> &arr, int l, int mid, int r) {
     std::vector<T> tmp(arr.begin() + l, arr.begin() + r + 1);  // 拷贝未合并前的arr
 
-    int i = l;
-    int j = mid + 1;
+    auto i = l;
+    auto j = mid + 1;
 
     for (int k = l; k <= r; k++) {
         if (i > mid) {

@@ -10,6 +10,7 @@ public:
     QuicksortWithInsertionSortOptimization() = delete;
 
     static void sort(std::vector<T> &arr);  // 排序(默认升序)
+
 private:
     static void sort(std::vector<T> &arr, int l, int r);
 
@@ -36,14 +37,14 @@ void QuicksortWithInsertionSortOptimization<T>::sort(std::vector<T> &arr, int l,
         return;
     }
 
-    int pivot = partition(arr, l, r);
+    auto pivot = partition(arr, l, r);
     sort(arr, l, pivot - 1);
     sort(arr, pivot + 1, r);
 }
 
 template<typename T>
 int QuicksortWithInsertionSortOptimization<T>::partition(std::vector<T> &arr, int l, int r) {
-    int j = l;
+    auto j = l;
     for (int i = l + 1; i <= r; i++) {
         if (arr[i] < arr[l]) {
             j++;

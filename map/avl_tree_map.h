@@ -124,8 +124,10 @@ typename AVLTreeMap<K, V>::Node *AVLTreeMap<K, V>::get(AVLTreeMap::Node *node, c
 template<typename K, typename V>
 V AVLTreeMap<K, V>::get(const K &key) const {
     auto node = get(root, key);
+
     if (!node)
         throw std::runtime_error("键值不存在！");
+
     return node -> value;
 }
 
@@ -137,8 +139,10 @@ bool AVLTreeMap<K, V>::contains(const K &key) const {
 template<typename K, typename V>
 void AVLTreeMap<K, V>::set(const K &key, const V &newValue) {
     auto node = get(root, key);
+
     if (!node)
         throw std::runtime_error("键值不存在！");
+
     node -> value = newValue;
 }
 
@@ -317,7 +321,7 @@ void AVLTreeMap<K, V>::remove(const K &key) {
 
 template<typename K, typename V>
 std::ostream &operator<<(std::ostream &os, const AVLTreeMap<K, V> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

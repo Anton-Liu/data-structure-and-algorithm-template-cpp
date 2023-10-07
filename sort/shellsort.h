@@ -14,11 +14,11 @@ public:
 
 template<typename T>
 void Shellsort<T>::sort(std::vector<T> &arr) {
-    int h = arr.size() / 2;
+    auto h = arr.size() / 2;
     while (h > 0) {
         // 对arr[h, n)进行插入排序
         for (int i = h; i < arr.size(); i ++) {
-            T tmp = arr[i];
+            auto tmp = arr[i];
             int j;
             for (j = i; j - h >= 0 && tmp < arr[j - h]; j -= h)
                 arr[j] = arr[j - h];
@@ -30,13 +30,13 @@ void Shellsort<T>::sort(std::vector<T> &arr) {
 
 template<typename T>
 void Shellsort<T>::sort2(std::vector<T> &arr) {
-    int h = 1;
+    auto h = 1;
     while (h < arr.size())
         h = h * 3 + 1;
     while (h > 0) {
         // 对arr[h, n)进行插入排序
         for (int i = h; i < arr.size(); i++) {
-            T tmp = arr[i];
+            auto tmp = arr[i];
             int j;
             for (j = i; j - h >= 0 && tmp < arr[j - h]; j -= h)
                 arr[j] = arr[j - h];

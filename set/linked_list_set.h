@@ -45,12 +45,13 @@ void LinkedListSet<T>::swap(LinkedListSet<T> &rhs) {
 template<typename T>
 LinkedListSet<T> &LinkedListSet<T>::operator=(const LinkedListSet<T> &rhs) {
     LinkedListSet<T>(rhs).swap(*this);
+
     return *this;
 }
 
 template<typename T>
 std::ostream &operator<<(std::ostream &os, const LinkedListSet<T> &rhs) {
-    int size = rhs.getSize();
+    auto size = rhs.getSize();
 
     // 自适应边框
     os << "--------------------------";

@@ -1,8 +1,8 @@
 #include "union_find_quick_union_with_path_compression_optimization.h"
 
 void UnionFindQuickUnionWithPathCompressionOptimization::unionElements(int p, int q) {
-    int pRoot = find(p);
-    int qRoot = find(q);
+    auto pRoot = find(p);
+    auto qRoot = find(q);
 
     if (pRoot == qRoot)
         return;
@@ -26,16 +26,15 @@ int UnionFindQuickUnionWithPathCompressionOptimization::findRecursion(int p) {
     if (p < 0 || p >= parent -> size())
         throw std::runtime_error("索引非法！");
 
-    if (p != (*parent)[p]) {
+    if (p != (*parent)[p])
         (*parent)[p] = findRecursion((*parent)[p]);
-    }
 
     return (*parent)[p];
 }
 
 std::ostream &operator<<(std::ostream &os, const UnionFindQuickUnionWithPathCompressionOptimization &uf) {
     // 自适应边框
-    int size = uf.getSize();
+    auto size = uf.getSize();
     os << "-----------------";
     for (int i = 0; i < size; i++)
         os << "---";

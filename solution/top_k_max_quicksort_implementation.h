@@ -38,7 +38,7 @@ std::vector<T> TopKMaxQuicksortImplementation<T>::getTopK(std::vector<T> &arr, i
     k--;  // 1-base
     std::default_random_engine e;  // 每次排序使用同一个随机数引擎对象，避免每次partition都创建
 
-    int r = sort(arr, 0, arr.size() - 1, k, e);
+    auto r = sort(arr, 0, arr.size() - 1, k, e);
     std::vector<T> ret(k + 1);  // 1-base
     for (int i = 0; i <= r; i++)
         ret[i] = arr[i];
@@ -48,7 +48,7 @@ std::vector<T> TopKMaxQuicksortImplementation<T>::getTopK(std::vector<T> &arr, i
 
 template<typename T>
 int TopKMaxQuicksortImplementation<T>::sort(std::vector<T> &arr, int l, int r, int k, std::default_random_engine &e) {
-    int pivot = partition(arr, l, r, e);
+    auto pivot = partition(arr, l, r, e);
     if (pivot == k)
       return pivot;
     else if (pivot < k)
@@ -60,10 +60,10 @@ int TopKMaxQuicksortImplementation<T>::sort(std::vector<T> &arr, int l, int r, i
 template<typename T>
 int TopKMaxQuicksortImplementation<T>::partition(std::vector<T> &arr, int l, int r, std::default_random_engine &e) {
     std::uniform_int_distribution<int> u(l, r);
-    int p = u(e);
+    auto p = u(e);
     std::swap(arr[p], arr[l]);
 
-    int i = l + 1, j = r;
+    auto i = l + 1, j = r;
     while (true) {
         while (i <= j && arr[i] > arr[l])
             i++;
