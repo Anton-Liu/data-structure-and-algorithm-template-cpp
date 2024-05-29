@@ -4,6 +4,10 @@
 #include <iostream>
 #include <queue>
 
+/**
+ * 红黑树，不支持删除操作
+ */
+ 
 enum class rbColor { RED, BLACK };
 
 template <typename K, typename V>
@@ -27,6 +31,14 @@ public:
     }
 
     int size() const { return m_size; }
+
+    bool empty() const { return m_size == 0; }
+
+    bool contains(const K &key) const;
+
+    V get(const K &key) const;
+
+    bool update(const K &key, const V &val);
 
     void insert(const K &key, const V &val);
 
@@ -253,6 +265,53 @@ void RBTree<K, V>::insertFixup(RBTree::RBTreeNode *node) {
             }
         }
     }
+}
+
+template<typename K, typename V>
+bool RBTree<K, V>::contains(const K &key) const {
+    auto cur = m_root;
+    while (cur != m_nil) {
+        if (key == cur -> kv_.first)
+            return true;
+        if (key < cur -> kv_.first)
+            cur = cur -> left_;
+        else
+            cur = cur -> right_;
+    }
+
+    return false;
+}
+
+template<typename K, typename V>
+V RBTree<K, V>::get(const K &key) const {
+    auto cur = m_root;
+    while (cur != m_nil) {
+        if (key == cur -> kv_.first)
+            return cur -> kv_.second;
+        if (key < cur -> kv_.first)
+            cur = cur -> left_;
+        else
+            cur = cur -> right_;
+    }
+
+    throw std::runtime_error("访问key不存在");
+}
+
+template<typename K, typename V>
+bool RBTree<K, V>::update(const K &key, const V &val) {
+    auto cur = m_root;
+    while (cur != m_nil) {
+        if (key == cur -> kv_.first) {
+            cur -> kv_.second = val;
+            return true;
+        }
+        if (key < cur -> kv_.first)
+            cur = cur -> left_;
+        else
+            cur = cur -> right_;
+    }
+
+    return false;
 }
 
 #endif //ALGORITHM_TEMPLATE_CPP_RB_TREE_H
