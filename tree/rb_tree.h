@@ -21,32 +21,35 @@ class RBTree {
     };
 
 public:
-    RBTree(): nil(new RBTreeNode({})) {
-        nil -> color_ = rbColor::BLACK;
-        root = nil;
+    RBTree(): m_nil(new RBTreeNode({})), m_size(0) {
+        m_nil -> color_ = rbColor::BLACK;
+        m_root = m_nil;
     }
+
+    int size() const { return m_size; }
 
     void insert(const K &key, const V &val);
 
     ~RBTree() {
         std::queue<RBTreeNode*> que;
-        if (root != nil)
-            que.push(root);
+        if (m_root != m_nil)
+            que.push(m_root);
         while (!que.empty()) {
             auto cur = que.front();
             que.pop();
-            if (cur -> left_ != nil)
+            if (cur -> left_ != m_nil)
                 que.push(cur -> left_);
-            if (cur -> right_ != nil)
+            if (cur -> right_ != m_nil)
                 que.push(cur -> right_);
             delete cur;
         }
-        delete nil;
+        delete m_nil;
     }
 
 private:
-    RBTreeNode *root;  // 根结点
-    RBTreeNode *nil;  // 虚拟叶结点(黑色结点，所有实际叶结点都指向该结点)，注意nil只能被指向
+    RBTreeNode *m_root;  // 根结点
+    RBTreeNode *m_nil;  // 虚拟叶结点(黑色结点，所有实际叶结点的left、right指针和根结点的parent指针都指向该结点)，注意nil只能被指向
+    int m_size;  // 红黑树的当前大小(不含虚拟叶结点)
 
     // 对结点y进行向左旋转操作，返回旋转后新的根结点x
     //    y                             x
@@ -76,12 +79,12 @@ template<typename K, typename V>
 void RBTree<K, V>::leftRotate(RBTree::RBTreeNode *y) {
     auto x = y -> right_;
     y -> right_ = x -> left_;
-    if (x -> left_ != nil)
+    if (x -> left_ != m_nil)
         x -> left_ -> parent_ = y;
 
     x -> parent_ = y -> parent_;
-    if (y -> parent_ == nil)
-        root = x;
+    if (y -> parent_ == m_nil)
+        m_root = x;
     else if (y == y -> parent_ -> left_)
         y -> parent_ -> left_ = x;
     else  // y == y -> parent_ -> right_
@@ -96,12 +99,12 @@ template<typename K, typename V>
 void RBTree<K, V>::rightRotate(RBTree::RBTreeNode *y) {
     auto x = y -> left_;
     y -> left_ = x -> right_;
-    if (x -> right_ != nil)
+    if (x -> right_ != m_nil)
         x -> right_ -> parent_ = y;
 
     x -> parent_ = y -> parent_;
-    if (y -> parent_ == nil)
-        root = x;
+    if (y -> parent_ == m_nil)
+        m_root = x;
     else if (y == y -> parent_ -> left_)
         y -> parent_ -> left_ = x;
     else
@@ -115,11 +118,11 @@ template<typename K, typename V>
 void RBTree<K, V>::insert(const K &key, const V &val) {
     // 构造插入结点
     RBTreeNode *insertNode = new RBTreeNode({key, val});
-    insertNode -> left_ = insertNode -> right_ = insertNode -> parent_ = nil;
+    insertNode -> left_ = insertNode -> right_ = insertNode -> parent_ = m_nil;
 
-    RBTreeNode *cur = root;
-    RBTreeNode *pre = nil;  // 指向当前结点的上一个结点
-    while (cur != nil) {
+    RBTreeNode *cur = m_root;
+    RBTreeNode *pre = m_nil;  // 指向当前结点的上一个结点
+    while (cur != m_nil) {
         pre = cur;
         if (insertNode -> kv_.first < cur -> kv_.first)
             cur = cur -> left_;
@@ -130,9 +133,9 @@ void RBTree<K, V>::insert(const K &key, const V &val) {
     }
 
     // 若当前红黑树无实际结点，让insertNode成为黑色根结点
-    if (root == nil) {
+    if (m_root == m_nil) {
         insertNode -> color_ = rbColor::BLACK;
-        root = insertNode;
+        m_root = insertNode;
     }
     else {
         // 当前红黑树有实际结点
@@ -146,6 +149,7 @@ void RBTree<K, V>::insert(const K &key, const V &val) {
     }
 
     insertFixup(insertNode);  // 对插入的红结点进行调整
+    m_size++;
 }
 
 template<typename K, typename V>
@@ -154,11 +158,11 @@ void RBTree<K, V>::insertFixup(RBTree::RBTreeNode *node) {
     //      node的叔父结点颜色不确定，需要分类讨论
     while (node -> color_ == rbColor::RED) {
         // 若不存在祖父结点，无需调整
-        if (node -> parent_ -> parent_ == nil)
+        if (node -> parent_ -> parent_ == m_nil)
             return;
 
         // 若为根结点，变黑即可
-        if (node == root) {
+        if (node == m_root) {
             node -> color_ = rbColor::BLACK;
             break;
         }

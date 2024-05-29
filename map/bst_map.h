@@ -226,8 +226,8 @@ std::ostream &operator<<(std::ostream &os, const BSTMap<K, V> &rhs) {
     auto tmp(rhs);
     std::queue<typename BSTMap<K, V>::Node *> que;
 
-    if (tmp.root)
-        que.push(tmp.root);
+    if (tmp.m_root)
+        que.push(tmp.m_root);
     while (tmp.size > 1) {
         auto cur = que.front();
         que.pop();
